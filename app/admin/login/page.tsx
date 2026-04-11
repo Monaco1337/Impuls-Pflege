@@ -1,0 +1,116 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { Logo } from '@/components/ui/logo'
+import { Button } from '@/components/ui/button'
+
+export default function AdminLoginPage() {
+  const router = useRouter()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      })
+
+      if (result?.error) {
+        setError('Ungültige Anmeldedaten')
+        setLoading(false)
+        return
+      }
+
+      router.push('/admin/dashboard')
+    } catch {
+      setError('Ein Fehler ist aufgetreten')
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-warm-50 px-4">
+      <div className="w-full max-w-sm">
+        <div className="mb-10 text-center">
+          <Logo size="lg" className="inline-flex" />
+        </div>
+
+        <div className="rounded-xl border border-warm-200 bg-white p-8 shadow-sm">
+          <h1 className="mb-1 text-xl font-semibold text-warm-900">Anmeldung</h1>
+          <p className="mb-6 text-sm text-warm-500">
+            Melden Sie sich mit Ihrem Konto an
+          </p>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="email"
+                className="mb-1.5 block text-sm font-medium text-warm-700"
+              >
+                E-Mail-Adresse
+              </label>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="block w-full rounded-lg border border-warm-300 bg-white px-3.5 py-2.5 text-sm text-warm-900 placeholder:text-warm-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors"
+                placeholder="name@impuls-pflege.de"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="mb-1.5 block text-sm font-medium text-warm-700"
+              >
+                Passwort
+              </label>
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-lg border border-warm-300 bg-white px-3.5 py-2.5 text-sm text-warm-900 placeholder:text-warm-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors"
+                placeholder="••••••••"
+              />
+            </div>
+
+            {error && (
+              <div className="rounded-lg bg-error-50 px-3.5 py-2.5 text-sm font-medium text-error-700">
+                {error}
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              loading={loading}
+              className="w-full"
+              size="lg"
+            >
+              Anmelden
+            </Button>
+          </form>
+        </div>
+
+        <p className="mt-6 text-center text-xs text-warm-400">
+          &copy; {new Date().getFullYear()} IMPULS Ambulanter Pflegedienst
+        </p>
+      </div>
+    </div>
+  )
+}
