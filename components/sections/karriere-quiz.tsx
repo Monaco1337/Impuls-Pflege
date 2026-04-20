@@ -243,7 +243,7 @@ export function KarriereQuiz() {
     nachricht: '',
     datenschutz: false,
   })
-  const [errors, setErrors] = useState<Partial<typeof form & { datenschutz: string }>>({})
+  const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({})
 
   const quizResult =
     answers.length === steps.length ? getResult(answers) : 'pflegefachkraft'
@@ -280,7 +280,7 @@ export function KarriereQuiz() {
   // ── Form submit ──
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const newErrors: Partial<typeof form & { datenschutz: string }> = {}
+    const newErrors: Partial<Record<keyof typeof form, string>> = {}
     if (!form.vorname.trim()) newErrors.vorname = 'Pflichtfeld'
     if (!form.nachname.trim()) newErrors.nachname = 'Pflichtfeld'
     if (!form.email.trim() || !form.email.includes('@')) newErrors.email = 'Gültige E-Mail erforderlich'
