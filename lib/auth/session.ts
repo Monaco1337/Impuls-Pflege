@@ -1,5 +1,5 @@
 import { auth } from './config'
-import { RoleName } from '@prisma/client'
+import type { RoleName } from '@/lib/types/enums'
 import type { SessionUser } from './types'
 
 export async function getSession() {

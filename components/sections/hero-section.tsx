@@ -80,9 +80,9 @@ export function HeroSection() {
       <div className="absolute inset-0 -z-10">
         {/* Desktop */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1.01 }}
-          style={{ y: imageY }}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          style={{ y: imageY, backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
           transition={{
             opacity: { duration: 1.2, ease: 'easeOut' },
             scale:   { duration: 2.8, ease: [0.16, 1, 0.3, 1] },
@@ -95,6 +95,7 @@ export function HeroSection() {
             fill
             className="object-cover object-center"
             priority
+            quality={100}
             sizes="100vw"
           />
         </motion.div>
@@ -105,6 +106,7 @@ export function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.0, ease: 'easeOut' }}
           className="absolute inset-0 lg:hidden"
+          style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
         >
           <Image
             src="/images/hero-care-mobile.jpg"
@@ -112,6 +114,7 @@ export function HeroSection() {
             fill
             className="object-cover object-[center_30%]"
             priority
+            quality={100}
             sizes="100vw"
           />
         </motion.div>

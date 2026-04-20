@@ -17,7 +17,7 @@ import {
   Menu,
   X,
 } from 'lucide-react'
-import { RoleName } from '@prisma/client'
+import type { RoleName } from '@/lib/types/enums'
 import { cn } from '@/lib/utils'
 import { Logo } from '@/components/ui/logo'
 import { Avatar } from '@/components/ui/avatar'

@@ -1,10 +1,13 @@
 'use server'
 
-import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { revalidatePath } from 'next/cache'
 import { logServerError } from '@/lib/error-handling'
+import { newId, nowIso, repoLoadApplicantTags, repoLoadTags } from '@/lib/data/json-repository'
+import { DATA_FILES } from '@/lib/data/schema'
+import type { JsonTag } from '@/lib/data/schema'
+import { writeJsonFile } from '@/lib/storage/json-data-layer'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -16,12 +19,10 @@ export async function getTags(): Promise<ActionResult> {
   try {
     await requireAccess('applicants', 'view')
 
-    const tags = await prisma.tag.findMany({
-      include: { _count: { select: { applicants: true } } },
-      orderBy: { name: 'asc' },
-    })
+    const tags = await repoLoadTags()
+    const sorted = [...tags].sort((a, b) => a.name.localeCompare(b.name))
 
-    return { success: true, data: tags }
+    return { success: true, data: sorted }
   } catch (error) {
     logServerError('getTags error', error)
     return { success: false, error: 'Tags konnten nicht geladen werden' }
@@ -32,21 +33,26 @@ export async function createTag(name: string, color?: string): Promise<ActionRes
   try {
     const user = await requireAccess('applicants', 'edit')
 
-    if (!name.trim()) return { success: false, error: 'Tag-Name ist erforderlich' }
-
-    const existing = await prisma.tag.findUnique({ where: { name: name.trim() } })
+    const tags = await repoLoadTags()
+    const existing = tags.find((t) => t.name.toLowerCase() === name.trim().toLowerCase())
     if (existing) return { success: false, error: 'Tag existiert bereits' }
 
-    const tag = await prisma.tag.create({
-      data: { name: name.trim(), color: color || null },
-    })
+    const tag: JsonTag = {
+      id: newId(),
+      name: name.trim(),
+      color: color?.trim() || null,
+      createdAt: nowIso(),
+    }
+    tags.push(tag)
+
+    await writeJsonFile(DATA_FILES.tags, tags, `Data update tags create: ${nowIso()}`)
 
     await logAudit({
       userId: user.id,
       action: 'create',
       entityType: 'applicant',
       entityId: tag.id,
-      metadata: { type: 'tag', name: tag.name },
+      metadata: { tagName: tag.name },
     })
 
     revalidatePath('/admin/applicants')
@@ -59,19 +65,28 @@ export async function createTag(name: string, color?: string): Promise<ActionRes
 
 export async function deleteTag(id: string): Promise<ActionResult> {
   try {
-    const user = await requireAccess('applicants', 'delete')
+    const user = await requireAccess('applicants', 'edit')
 
-    const tag = await prisma.tag.findUnique({ where: { id }, select: { name: true } })
+    const tags = await repoLoadTags()
+    const tag = tags.find((t) => t.id === id)
     if (!tag) return { success: false, error: 'Tag nicht gefunden' }
 
-    await prisma.tag.delete({ where: { id } })
+    const nextTags = tags.filter((t) => t.id !== id)
+    const applicantTags = (await repoLoadApplicantTags()).filter((r) => r.tagId !== id)
+
+    await writeJsonFile(DATA_FILES.tags, nextTags, `Data update tags delete: ${nowIso()}`)
+    await writeJsonFile(
+      DATA_FILES.applicantTags,
+      applicantTags,
+      `Data update applicant-tags after tag delete: ${nowIso()}`,
+    )
 
     await logAudit({
       userId: user.id,
       action: 'delete',
       entityType: 'applicant',
       entityId: id,
-      metadata: { type: 'tag', name: tag.name },
+      metadata: { tagName: tag.name },
     })
 
     revalidatePath('/admin/applicants')

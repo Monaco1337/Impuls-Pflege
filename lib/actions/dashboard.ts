@@ -1,8 +1,14 @@
 'use server'
 
-import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
 import { logServerError } from '@/lib/error-handling'
+import {
+  repoJoinUserBriefNoEmail,
+  repoLoadApplicants,
+  repoLoadAuditLogs,
+  repoLoadInquiries,
+  repoLoadJobs,
+} from '@/lib/data/json-repository'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -14,23 +20,17 @@ export async function getDashboardStats(): Promise<ActionResult> {
   try {
     await requireAccess('dashboard', 'view')
 
-    const [
-      newInquiries,
-      openInquiries,
-      newApplicants,
-      inReview,
-      interviewsPlanned,
-      totalApplicants,
-      activeJobs,
-    ] = await Promise.all([
-      prisma.inquiry.count({ where: { status: 'NEU' } }),
-      prisma.inquiry.count({ where: { status: { notIn: ['ERLEDIGT', 'ARCHIVIERT'] } } }),
-      prisma.applicant.count({ where: { status: 'NEU_EINGEGANGEN' } }),
-      prisma.applicant.count({ where: { status: 'IN_PRUEFUNG' } }),
-      prisma.applicant.count({ where: { status: 'GESPRAECH_GEPLANT' } }),
-      prisma.applicant.count(),
-      prisma.jobPosting.count({ where: { active: true } }),
-    ])
+    const inquiries = await repoLoadInquiries()
+    const applicants = await repoLoadApplicants()
+    const jobs = await repoLoadJobs()
+
+    const newInquiries = inquiries.inquiries.filter((i) => i.status === 'NEU').length
+    const openInquiries = inquiries.inquiries.filter((i) => !['ERLEDIGT', 'ARCHIVIERT'].includes(i.status)).length
+    const newApplicants = applicants.applicants.filter((a) => a.status === 'NEU_EINGEGANGEN').length
+    const inReview = applicants.applicants.filter((a) => a.status === 'IN_PRUEFUNG').length
+    const interviewsPlanned = applicants.applicants.filter((a) => a.status === 'GESPRAECH_GEPLANT').length
+    const totalApplicants = applicants.applicants.length
+    const activeJobs = jobs.filter((j) => j.active).length
 
     return {
       success: true,
@@ -54,18 +54,18 @@ export async function getRecentInquiries(): Promise<ActionResult> {
   try {
     await requireAccess('dashboard', 'view')
 
-    const inquiries = await prisma.inquiry.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        fullName: true,
-        inquiryType: true,
-        status: true,
-        priority: true,
-        createdAt: true,
-      },
-    })
+    const bundle = await repoLoadInquiries()
+    const inquiries = [...bundle.inquiries]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 5)
+      .map((i) => ({
+        id: i.id,
+        fullName: i.fullName,
+        inquiryType: i.inquiryType,
+        status: i.status,
+        priority: i.priority,
+        createdAt: new Date(i.createdAt),
+      }))
 
     return { success: true, data: inquiries }
   } catch (error) {
@@ -78,18 +78,18 @@ export async function getRecentApplicants(): Promise<ActionResult> {
   try {
     await requireAccess('dashboard', 'view')
 
-    const applicants = await prisma.applicant.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        positionApplied: true,
-        status: true,
-        createdAt: true,
-      },
-    })
+    const bundle = await repoLoadApplicants()
+    const applicants = [...bundle.applicants]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 5)
+      .map((a) => ({
+        id: a.id,
+        firstName: a.firstName,
+        lastName: a.lastName,
+        positionApplied: a.positionApplied,
+        status: a.status,
+        createdAt: new Date(a.createdAt),
+      }))
 
     return { success: true, data: applicants }
   } catch (error) {
@@ -102,13 +102,17 @@ export async function getRecentActivity(): Promise<ActionResult> {
   try {
     await requireAccess('dashboard', 'view')
 
-    const logs = await prisma.auditLog.findMany({
-      take: 10,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        user: { select: { id: true, firstName: true, lastName: true } },
-      },
-    })
+    const logsRaw = await repoLoadAuditLogs()
+    const logs = await Promise.all(
+      [...logsRaw]
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 10)
+        .map(async (log) => ({
+          ...log,
+          createdAt: new Date(log.createdAt),
+          user: await repoJoinUserBriefNoEmail(log.userId),
+        })),
+    )
 
     return { success: true, data: logs }
   } catch (error) {
@@ -121,17 +125,13 @@ export async function getPipelineSummary(): Promise<ActionResult> {
   try {
     await requireAccess('dashboard', 'view')
 
-    const counts = await prisma.applicant.groupBy({
-      by: ['status'],
-      _count: { _all: true },
-    })
-
-    const pipeline = counts.reduce(
-      (acc, item) => {
-        acc[item.status] = item._count._all
+    const bundle = await repoLoadApplicants()
+    const pipeline = bundle.applicants.reduce(
+      (acc, a) => {
+        acc[a.status] = (acc[a.status] ?? 0) + 1
         return acc
       },
-      {} as Record<string, number>
+      {} as Record<string, number>,
     )
 
     return { success: true, data: pipeline }
@@ -145,10 +145,9 @@ export async function getJobStatusSummary(): Promise<ActionResult> {
   try {
     await requireAccess('dashboard', 'view')
 
-    const [active, inactive] = await Promise.all([
-      prisma.jobPosting.count({ where: { active: true } }),
-      prisma.jobPosting.count({ where: { active: false } }),
-    ])
+    const jobs = await repoLoadJobs()
+    const active = jobs.filter((j) => j.active).length
+    const inactive = jobs.filter((j) => !j.active).length
 
     return { success: true, data: { active, inactive, total: active + inactive } }
   } catch (error) {

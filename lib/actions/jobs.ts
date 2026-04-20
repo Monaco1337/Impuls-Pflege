@@ -1,11 +1,20 @@
 'use server'
 
-import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { jobPostingSchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
 import { logServerError } from '@/lib/error-handling'
+import {
+  newId,
+  nowIso,
+  repoJoinUserBrief,
+  repoLoadApplicants,
+  repoLoadJobs,
+} from '@/lib/data/json-repository'
+import type { JsonJobPosting } from '@/lib/data/schema'
+import { DATA_FILES } from '@/lib/data/schema'
+import { writeJsonFile } from '@/lib/storage/json-data-layer'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -13,25 +22,44 @@ type ActionResult<T = unknown> = {
   error?: string
 }
 
+function mapJobPublic(j: JsonJobPosting) {
+  return {
+    id: j.id,
+    title: j.title,
+    slug: j.slug,
+    department: j.department,
+    location: j.location,
+    employmentType: j.employmentType,
+    workload: j.workload,
+    shortIntro: j.shortIntro,
+    publishDate: new Date(j.publishDate),
+  }
+}
+
+async function mapJobWithContact(j: JsonJobPosting) {
+  const contactPerson = await repoJoinUserBrief(j.contactPersonId)
+  const applicants = await repoLoadApplicants()
+  const applicantCount = applicants.applicants.filter((a) => a.jobPostingId === j.id).length
+  return {
+    ...j,
+    publishDate: new Date(j.publishDate),
+    createdAt: new Date(j.createdAt),
+    updatedAt: new Date(j.updatedAt),
+    contactPerson,
+    _count: { applicants: applicantCount },
+  }
+}
+
 export async function getPublicJobs(): Promise<ActionResult> {
   try {
-    const jobs = await prisma.jobPosting.findMany({
-      where: { active: true, publishDate: { lte: new Date() } },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        department: true,
-        location: true,
-        employmentType: true,
-        workload: true,
-        shortIntro: true,
-        publishDate: true,
-      },
-      orderBy: [{ sortOrder: 'asc' }, { publishDate: 'desc' }],
-    })
+    const jobs = await repoLoadJobs()
+    const now = Date.now()
+    const list = jobs
+      .filter((j) => j.active && new Date(j.publishDate).getTime() <= now)
+      .sort((a, b) => a.sortOrder - b.sortOrder || new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+      .map(mapJobPublic)
 
-    return { success: true, data: jobs }
+    return { success: true, data: list }
   } catch (error) {
     logServerError('getPublicJobs error', error)
     return { success: false, error: 'Stellenanzeigen konnten nicht geladen werden' }
@@ -40,27 +68,29 @@ export async function getPublicJobs(): Promise<ActionResult> {
 
 export async function getPublicJob(slug: string): Promise<ActionResult> {
   try {
-    const job = await prisma.jobPosting.findUnique({
-      where: { slug, active: true },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        department: true,
-        location: true,
-        employmentType: true,
-        workload: true,
-        shortIntro: true,
-        description: true,
-        requirements: true,
-        benefits: true,
-        contactPerson: { select: { firstName: true, lastName: true, email: true } },
-        publishDate: true,
-      },
-    })
+    const jobs = await repoLoadJobs()
+    const j = jobs.find((x) => x.slug === slug && x.active)
+    if (!j) return { success: false, error: 'Stelle nicht gefunden' }
 
-    if (!job) return { success: false, error: 'Stelle nicht gefunden' }
-    return { success: true, data: job }
+    const contactPerson = await repoJoinUserBrief(j.contactPersonId)
+    return {
+      success: true,
+      data: {
+        id: j.id,
+        title: j.title,
+        slug: j.slug,
+        department: j.department,
+        location: j.location,
+        employmentType: j.employmentType,
+        workload: j.workload,
+        shortIntro: j.shortIntro,
+        description: j.description,
+        requirements: j.requirements,
+        benefits: j.benefits,
+        contactPerson,
+        publishDate: new Date(j.publishDate),
+      },
+    }
   } catch (error) {
     logServerError('getPublicJob error', error)
     return { success: false, error: 'Stelle konnte nicht geladen werden' }
@@ -80,30 +110,25 @@ export async function getJobs(filters?: {
     const pageSize = filters?.pageSize ?? 20
     const skip = (page - 1) * pageSize
 
-    const where: Record<string, unknown> = {}
+    let list = await repoLoadJobs()
 
-    if (filters?.active !== undefined) where.active = filters.active
+    if (filters?.active !== undefined) {
+      list = list.filter((j) => j.active === filters.active)
+    }
     if (filters?.search) {
-      where.OR = [
-        { title: { contains: filters.search, mode: 'insensitive' } },
-        { department: { contains: filters.search, mode: 'insensitive' } },
-        { location: { contains: filters.search, mode: 'insensitive' } },
-      ]
+      const q = filters.search.toLowerCase()
+      list = list.filter(
+        (j) =>
+          j.title.toLowerCase().includes(q) ||
+          (j.department?.toLowerCase().includes(q) ?? false) ||
+          j.location.toLowerCase().includes(q),
+      )
     }
 
-    const [jobs, total] = await Promise.all([
-      prisma.jobPosting.findMany({
-        where,
-        include: {
-          contactPerson: { select: { id: true, firstName: true, lastName: true } },
-          _count: { select: { applicants: true } },
-        },
-        orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
-        skip,
-        take: pageSize,
-      }),
-      prisma.jobPosting.count({ where }),
-    ])
+    list.sort((a, b) => a.sortOrder - b.sortOrder || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    const total = list.length
+    const pageRows = list.slice(skip, skip + pageSize)
+    const jobs = await Promise.all(pageRows.map((j) => mapJobWithContact(j)))
 
     return {
       success: true,
@@ -119,16 +144,12 @@ export async function getJob(id: string): Promise<ActionResult> {
   try {
     await requireAccess('jobs', 'view')
 
-    const job = await prisma.jobPosting.findUnique({
-      where: { id },
-      include: {
-        contactPerson: { select: { id: true, firstName: true, lastName: true, email: true } },
-        _count: { select: { applicants: true } },
-      },
-    })
+    const jobs = await repoLoadJobs()
+    const j = jobs.find((x) => x.id === id)
+    if (!j) return { success: false, error: 'Stelle nicht gefunden' }
 
-    if (!job) return { success: false, error: 'Stelle nicht gefunden' }
-    return { success: true, data: job }
+    const data = await mapJobWithContact(j)
+    return { success: true, data }
   } catch (error) {
     logServerError('getJob error', error)
     return { success: false, error: 'Stelle konnte nicht geladen werden' }
@@ -144,15 +165,34 @@ export async function createJob(data: unknown): Promise<ActionResult> {
       return { success: false, error: parsed.error.errors[0]?.message ?? 'Ungültige Eingabe' }
     }
 
-    const existing = await prisma.jobPosting.findUnique({ where: { slug: parsed.data.slug } })
-    if (existing) return { success: false, error: 'Slug wird bereits verwendet' }
+    const jobs = await repoLoadJobs()
+    if (jobs.some((j) => j.slug === parsed.data.slug)) {
+      return { success: false, error: 'Slug wird bereits verwendet' }
+    }
 
-    const job = await prisma.jobPosting.create({
-      data: {
-        ...parsed.data,
-        publishDate: parsed.data.publishDate ? new Date(parsed.data.publishDate) : new Date(),
-      },
-    })
+    const t = nowIso()
+    const job: JsonJobPosting = {
+      id: newId(),
+      title: parsed.data.title,
+      slug: parsed.data.slug,
+      department: parsed.data.department ?? null,
+      location: parsed.data.location,
+      employmentType: parsed.data.employmentType,
+      workload: parsed.data.workload ?? null,
+      shortIntro: parsed.data.shortIntro,
+      description: parsed.data.description,
+      requirements: parsed.data.requirements ?? null,
+      benefits: parsed.data.benefits ?? null,
+      contactPersonId: parsed.data.contactPersonId?.trim() || null,
+      active: parsed.data.active,
+      publishDate: parsed.data.publishDate ? new Date(parsed.data.publishDate).toISOString() : t,
+      sortOrder: parsed.data.sortOrder,
+      createdAt: t,
+      updatedAt: t,
+    }
+    jobs.push(job)
+
+    await writeJsonFile(DATA_FILES.jobs, jobs, `Data update jobs create: ${t}`)
 
     await logAudit({
       userId: user.id,
@@ -180,31 +220,50 @@ export async function updateJob(id: string, data: unknown): Promise<ActionResult
       return { success: false, error: parsed.error.errors[0]?.message ?? 'Ungültige Eingabe' }
     }
 
-    const existing = await prisma.jobPosting.findFirst({
-      where: { slug: parsed.data.slug, NOT: { id } },
-    })
-    if (existing) return { success: false, error: 'Slug wird bereits verwendet' }
+    const jobs = await repoLoadJobs()
+    const idx = jobs.findIndex((j) => j.id === id)
+    if (idx === -1) return { success: false, error: 'Stelle nicht gefunden' }
 
-    const job = await prisma.jobPosting.update({
-      where: { id },
-      data: {
-        ...parsed.data,
-        publishDate: parsed.data.publishDate ? new Date(parsed.data.publishDate) : undefined,
-      },
-    })
+    if (jobs.some((j) => j.slug === parsed.data.slug && j.id !== id)) {
+      return { success: false, error: 'Slug wird bereits verwendet' }
+    }
+
+    const t = nowIso()
+    jobs[idx] = {
+      ...jobs[idx],
+      title: parsed.data.title,
+      slug: parsed.data.slug,
+      department: parsed.data.department ?? null,
+      location: parsed.data.location,
+      employmentType: parsed.data.employmentType,
+      workload: parsed.data.workload ?? null,
+      shortIntro: parsed.data.shortIntro,
+      description: parsed.data.description,
+      requirements: parsed.data.requirements ?? null,
+      benefits: parsed.data.benefits ?? null,
+      contactPersonId: parsed.data.contactPersonId?.trim() || null,
+      active: parsed.data.active,
+      publishDate: parsed.data.publishDate
+        ? new Date(parsed.data.publishDate).toISOString()
+        : jobs[idx].publishDate,
+      sortOrder: parsed.data.sortOrder,
+      updatedAt: t,
+    }
+
+    await writeJsonFile(DATA_FILES.jobs, jobs, `Data update jobs ${id}: ${t}`)
 
     await logAudit({
       userId: user.id,
       action: 'update',
       entityType: 'job_posting',
       entityId: id,
-      metadata: { title: job.title },
+      metadata: { title: jobs[idx].title },
     })
 
     revalidatePath('/admin/jobs')
     revalidatePath(`/admin/jobs/${id}`)
-    revalidatePath(`/jobs/${job.slug}`)
-    return { success: true, data: job }
+    revalidatePath(`/jobs/${jobs[idx].slug}`)
+    return { success: true, data: jobs[idx] }
   } catch (error) {
     logServerError('updateJob error', error)
     return { success: false, error: 'Stelle konnte nicht aktualisiert werden' }
@@ -215,25 +274,26 @@ export async function toggleJobActive(id: string): Promise<ActionResult> {
   try {
     const user = await requireAccess('jobs', 'edit')
 
-    const current = await prisma.jobPosting.findUnique({ where: { id }, select: { active: true, title: true } })
-    if (!current) return { success: false, error: 'Stelle nicht gefunden' }
+    const jobs = await repoLoadJobs()
+    const idx = jobs.findIndex((j) => j.id === id)
+    if (idx === -1) return { success: false, error: 'Stelle nicht gefunden' }
 
-    const job = await prisma.jobPosting.update({
-      where: { id },
-      data: { active: !current.active },
-    })
+    const t = nowIso()
+    jobs[idx] = { ...jobs[idx], active: !jobs[idx].active, updatedAt: t }
+
+    await writeJsonFile(DATA_FILES.jobs, jobs, `Data update jobs toggle ${id}: ${t}`)
 
     await logAudit({
       userId: user.id,
       action: 'update',
       entityType: 'job_posting',
       entityId: id,
-      metadata: { title: current.title, active: job.active },
+      metadata: { title: jobs[idx].title, active: jobs[idx].active },
     })
 
     revalidatePath('/admin/jobs')
     revalidatePath('/jobs')
-    return { success: true, data: job }
+    return { success: true, data: jobs[idx] }
   } catch (error) {
     logServerError('toggleJobActive error', error)
     return { success: false, error: 'Status konnte nicht geändert werden' }
@@ -244,33 +304,40 @@ export async function duplicateJob(id: string): Promise<ActionResult> {
   try {
     const user = await requireAccess('jobs', 'create')
 
-    const original = await prisma.jobPosting.findUnique({ where: { id } })
+    const jobs = await repoLoadJobs()
+    const original = jobs.find((j) => j.id === id)
     if (!original) return { success: false, error: 'Stelle nicht gefunden' }
 
     const baseSlug = `${original.slug}-kopie`
     let slug = baseSlug
     let counter = 1
-    while (await prisma.jobPosting.findUnique({ where: { slug } })) {
+    while (jobs.some((j) => j.slug === slug)) {
       slug = `${baseSlug}-${counter++}`
     }
 
-    const duplicate = await prisma.jobPosting.create({
-      data: {
-        title: `${original.title} (Kopie)`,
-        slug,
-        department: original.department,
-        location: original.location,
-        employmentType: original.employmentType,
-        workload: original.workload,
-        shortIntro: original.shortIntro,
-        description: original.description,
-        requirements: original.requirements,
-        benefits: original.benefits,
-        contactPersonId: original.contactPersonId,
-        active: false,
-        sortOrder: original.sortOrder,
-      },
-    })
+    const t = nowIso()
+    const duplicate: JsonJobPosting = {
+      id: newId(),
+      title: `${original.title} (Kopie)`,
+      slug,
+      department: original.department,
+      location: original.location,
+      employmentType: original.employmentType,
+      workload: original.workload,
+      shortIntro: original.shortIntro,
+      description: original.description,
+      requirements: original.requirements,
+      benefits: original.benefits,
+      contactPersonId: original.contactPersonId,
+      active: false,
+      sortOrder: original.sortOrder,
+      publishDate: original.publishDate,
+      createdAt: t,
+      updatedAt: t,
+    }
+    jobs.push(duplicate)
+
+    await writeJsonFile(DATA_FILES.jobs, jobs, `Data update jobs duplicate: ${t}`)
 
     await logAudit({
       userId: user.id,
@@ -292,17 +359,21 @@ export async function deleteJob(id: string): Promise<ActionResult> {
   try {
     const user = await requireAccess('jobs', 'delete')
 
-    const job = await prisma.jobPosting.findUnique({ where: { id }, select: { title: true } })
-    if (!job) return { success: false, error: 'Stelle nicht gefunden' }
+    const jobs = await repoLoadJobs()
+    const idx = jobs.findIndex((j) => j.id === id)
+    if (idx === -1) return { success: false, error: 'Stelle nicht gefunden' }
 
-    await prisma.jobPosting.delete({ where: { id } })
+    const title = jobs[idx].title
+    const next = jobs.filter((j) => j.id !== id)
+
+    await writeJsonFile(DATA_FILES.jobs, next, `Data update jobs delete ${id}: ${nowIso()}`)
 
     await logAudit({
       userId: user.id,
       action: 'delete',
       entityType: 'job_posting',
       entityId: id,
-      metadata: { title: job.title },
+      metadata: { title },
     })
 
     revalidatePath('/admin/jobs')

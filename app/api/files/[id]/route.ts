@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth/config'
 import { hasPermission } from '@/lib/rbac/permissions'
-import { prisma } from '@/lib/db'
-import { getFile } from '@/lib/storage'
-import { RoleName } from '@prisma/client'
+import { repoApplicantDocumentToBuffer } from '@/lib/data/json-repository'
+import type { RoleName } from '@/lib/types/enums'
 
 export async function GET(
   _request: NextRequest,
@@ -21,23 +20,18 @@ export async function GET(
 
     const { id } = await params
 
-    const document = await prisma.applicantDocument.findUnique({
-      where: { id },
-      select: { fileName: true, fileType: true, filePath: true },
-    })
-
-    if (!document) {
+    const hit = await repoApplicantDocumentToBuffer(id)
+    if (!hit) {
       return NextResponse.json({ error: 'Dokument nicht gefunden' }, { status: 404 })
     }
 
-    const buffer = await getFile(document.filePath)
-    const uint8 = new Uint8Array(buffer)
+    const uint8 = new Uint8Array(hit.buffer)
 
     return new Response(uint8, {
       headers: {
-        'Content-Type': document.fileType,
-        'Content-Disposition': `attachment; filename="${encodeURIComponent(document.fileName)}"`,
-        'Content-Length': String(buffer.length),
+        'Content-Type': hit.fileType,
+        'Content-Disposition': `attachment; filename="${encodeURIComponent(hit.fileName)}"`,
+        'Content-Length': String(hit.buffer.length),
       },
     })
   } catch (error) {

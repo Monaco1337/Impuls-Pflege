@@ -1,0 +1,44 @@
+[
+  {
+    "id": "blk_hero",
+    "key": "hero",
+    "title": "Hero Section",
+    "content": {
+      "headline": "Herzlich willkommen beim Impuls Ambulanten Pflegedienst in Unna",
+      "subheadline": "Ihr vertrauensvoller Partner für Betreuung, Pflege und Unterstützung in den eigenen vier Wänden.",
+      "body": "Unser erfahrenes und einfühlsames Team begleitet Menschen im vertrauten Zuhause – mit fachlicher Kompetenz, Respekt und echter Menschlichkeit."
+    },
+    "imageUrl": null,
+    "sortOrder": 1,
+    "updatedById": null,
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "blk_intro",
+    "key": "intro",
+    "title": "Intro Section",
+    "content": {
+      "headline": "Pflege, die Vertrauen schafft",
+      "body": "Wir bei IMPULS verstehen, dass die Entscheidung für einen ambulanten Pflegedienst ein Schritt ist, der Vertrauen erfordert."
+    },
+    "imageUrl": null,
+    "sortOrder": 2,
+    "updatedById": null,
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "blk_contact",
+    "key": "contact-info",
+    "title": "Kontaktdaten",
+    "content": {
+      "phone": "02303 2920589",
+      "email": "info@impuls-pflege.de",
+      "address": "Massener Str. 147, 59423 Unna",
+      "hours": "Mo–Fr: 08:00–16:00 Uhr\nTelefonische Erreichbarkeit: Rund um die Uhr"
+    },
+    "imageUrl": null,
+    "sortOrder": 10,
+    "updatedById": null,
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  }
+]

@@ -7,21 +7,14 @@
     "dev": "next dev --turbopack",
     "dev:webpack": "next dev",
     "dev:clean": "npm run clean && next dev --turbopack",
-    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:generate": "prisma generate",
-    "db:push": "npx tsx scripts/with-database-url.ts db push",
-    "db:migrate": "npx tsx scripts/with-database-url.ts migrate dev",
-    "db:seed": "npx tsx prisma/seed.ts",
-    "db:studio": "npx tsx scripts/with-database-url.ts studio"
+    "data:init": "npx tsx scripts/write-initial-json-data.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
-    "@prisma/client": "^6.19.3",
     "@types/leaflet": "^1.9.21",
-    "@vercel/blob": "^2.3.3",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^12.6.3",
     "leaflet": "^1.9.4",
@@ -35,9 +28,6 @@
     "sharp": "^0.34.1",
     "zod": "^3.24.2"
   },
-  "prisma": {
-    "seed": "npx tsx prisma/seed.ts"
-  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.4",
     "@types/bcryptjs": "^2.4.6",
@@ -48,8 +38,8 @@
     "eslint": "^9.25.0",
     "eslint-config-next": "^15.3.1",
     "postcss": "^8.5.3",
-    "prisma": "^6.19.3",
     "tailwindcss": "^4.1.4",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }
 }

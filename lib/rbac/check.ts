@@ -1,4 +1,4 @@
-import { RoleName } from '@prisma/client'
+import type { RoleName } from '@/lib/types/enums'
 import { getCurrentUser } from '@/lib/auth/session'
 import { hasPermission, type Resource, type Action } from './permissions'
 

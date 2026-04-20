@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth/config'
 import { hasPermission } from '@/lib/rbac/permissions'
 import { saveFile } from '@/lib/storage'
-import { RoleName } from '@prisma/client'
+import type { RoleName } from '@/lib/types/enums'
 
 export async function POST(request: NextRequest) {
   try {

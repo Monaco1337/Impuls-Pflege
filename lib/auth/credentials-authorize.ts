@@ -1,7 +1,8 @@
 import { compare } from 'bcryptjs'
-import { prisma } from '@/lib/db'
 import { AuthDatabaseUnavailable } from '@/lib/auth/database-signin-error'
 import { logServerError } from '@/lib/error-handling'
+import { repoFindUserByEmail, repoUpdateUserLastLogin } from '@/lib/data/json-repository'
+
 export async function credentialsAuthorize(
   credentials: Partial<Record<'email' | 'password', unknown>>,
 ) {
@@ -11,19 +12,14 @@ export async function credentialsAuthorize(
   const password = String(credentials.password)
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    })
+    const user = await repoFindUserByEmail(email)
 
     if (!user?.active) return null
 
     const isValid = await compare(password, user.passwordHash)
     if (!isValid) return null
 
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { lastLoginAt: new Date() },
-    })
+    await repoUpdateUserLastLogin(user.id)
 
     return {
       id: user.id,
@@ -34,21 +30,7 @@ export async function credentialsAuthorize(
       lastName: user.lastName,
     } as const
   } catch (err) {
-    const isDev = process.env.NODE_ENV !== 'production'
-    const isDefaultAdmin =
-      email === 'admin@impuls-pflege.de' && password === 'Admin123!'
-    if (isDev && isDefaultAdmin) {
-      return {
-        id: 'dev-admin-local',
-        email: 'admin@impuls-pflege.de',
-        name: 'System Administrator',
-        role: 'SUPER_ADMIN',
-        firstName: 'System',
-        lastName: 'Administrator',
-      } as const
-    }
-
-    logServerError('[auth] Login nicht möglich (Datenbank oder Server)', err)
+    logServerError('[auth] Login nicht möglich (Daten-Layer)', err)
     throw new AuthDatabaseUnavailable()
   }
 }

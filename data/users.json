@@ -1,0 +1,41 @@
+[
+  {
+    "id": "usr_admin",
+    "email": "admin@impuls-pflege.de",
+    "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
+    "firstName": "System",
+    "lastName": "Administrator",
+    "avatar": null,
+    "active": true,
+    "role": "SUPER_ADMIN",
+    "lastLoginAt": null,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "usr_recruiting",
+    "email": "recruiting@impuls-pflege.de",
+    "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
+    "firstName": "Lisa",
+    "lastName": "Müller",
+    "avatar": null,
+    "active": true,
+    "role": "RECRUITING",
+    "lastLoginAt": null,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "usr_office",
+    "email": "buero@impuls-pflege.de",
+    "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
+    "firstName": "Thomas",
+    "lastName": "Weber",
+    "avatar": null,
+    "active": true,
+    "role": "OFFICE_STAFF",
+    "lastLoginAt": null,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  }
+]

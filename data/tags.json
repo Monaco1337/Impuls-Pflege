@@ -1,0 +1,38 @@
+[
+  {
+    "id": "tag_1",
+    "name": "Erfahren",
+    "color": "#0097A7",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "tag_2",
+    "name": "Berufseinsteiger",
+    "color": "#26B3C2",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "tag_3",
+    "name": "Quereinsteiger",
+    "color": "#4DC1CD",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "tag_4",
+    "name": "Sofort verfügbar",
+    "color": "#2E7D32",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "tag_5",
+    "name": "Empfehlung",
+    "color": "#C2185B",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "tag_6",
+    "name": "Top-Kandidat",
+    "color": "#F9A825",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  }
+]

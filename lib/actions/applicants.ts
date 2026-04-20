@@ -1,18 +1,44 @@
 'use server'
 
-import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { applicationSchema } from '@/lib/validation/schemas'
-import { saveFile, deleteFile } from '@/lib/storage'
 import { revalidatePath } from 'next/cache'
-import { ApplicantStatus } from '@prisma/client'
+import type { ApplicantStatus } from '@/lib/types/enums'
 import { logServerError } from '@/lib/error-handling'
+import {
+  newId,
+  nowIso,
+  repoJoinUserBrief,
+  repoJoinUserBriefNoEmail,
+  repoLoadApplicantTags,
+  repoLoadApplicants,
+  repoLoadJobs,
+  repoLoadTags,
+} from '@/lib/data/json-repository'
+import type { JsonApplicant, JsonApplicantDocument } from '@/lib/data/schema'
+import { DATA_FILES, MAX_APPLICANT_DOCUMENT_BYTES } from '@/lib/data/schema'
+import { writeJsonFile } from '@/lib/storage/json-data-layer'
 
 type ActionResult<T = unknown> = {
   success: boolean
   data?: T
   error?: string
+}
+
+function stripDoc(d: JsonApplicantDocument) {
+  const { contentBase64: _c, ...rest } = d
+  return { ...rest, uploadedAt: new Date(rest.uploadedAt) }
+}
+
+function applicantMatchesSearch(a: JsonApplicant, search: string) {
+  const q = search.toLowerCase()
+  return (
+    a.firstName.toLowerCase().includes(q) ||
+    a.lastName.toLowerCase().includes(q) ||
+    a.email.toLowerCase().includes(q) ||
+    a.positionApplied.toLowerCase().includes(q)
+  )
 }
 
 export async function submitApplication(formData: FormData): Promise<ActionResult> {
@@ -38,25 +64,49 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
 
     const { privacy: _, ...applicantData } = parsed.data
 
-    const applicant = await prisma.applicant.create({
-      data: applicantData,
-    })
+    const bundle = await repoLoadApplicants()
+    const t = nowIso()
+    const applicant: JsonApplicant = {
+      id: newId(),
+      firstName: applicantData.firstName,
+      lastName: applicantData.lastName,
+      email: applicantData.email,
+      phone: applicantData.phone ?? null,
+      address: applicantData.address ?? null,
+      positionApplied: applicantData.positionApplied,
+      availability: applicantData.availability ?? null,
+      qualification: applicantData.qualification ?? null,
+      experience: applicantData.experience ?? null,
+      motivation: applicantData.motivation ?? null,
+      source: 'website',
+      status: 'NEU_EINGEGANGEN',
+      assignedToId: null,
+      jobPostingId: null,
+      createdAt: t,
+      updatedAt: t,
+    }
+    bundle.applicants.push(applicant)
 
     const files = formData.getAll('documents') as File[]
     for (const file of files) {
       if (file.size > 0) {
-        const saved = await saveFile(file, `applicants/${applicant.id}`)
-        await prisma.applicantDocument.create({
-          data: {
-            applicantId: applicant.id,
-            fileName: saved.fileName,
-            fileType: saved.fileType,
-            filePath: saved.filePath,
-            fileSize: saved.fileSize,
-          },
+        const buf = Buffer.from(await file.arrayBuffer())
+        if (buf.length > MAX_APPLICANT_DOCUMENT_BYTES) {
+          return { success: false, error: `Datei „${file.name}“ überschreitet die maximale Größe.` }
+        }
+        bundle.documents.push({
+          id: newId(),
+          applicantId: applicant.id,
+          fileName: file.name,
+          fileType: file.type,
+          fileSize: buf.length,
+          uploadedAt: t,
+          contentBase64: buf.toString('base64'),
         })
       }
     }
+
+    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicants submit: ${t}`)
 
     await logAudit({
       action: 'create',
@@ -87,34 +137,41 @@ export async function getApplicants(filters?: {
     const pageSize = filters?.pageSize ?? 20
     const skip = (page - 1) * pageSize
 
-    const where: Record<string, unknown> = {}
+    const bundle = await repoLoadApplicants()
+    const tags = await repoLoadTags()
+    const applicantTags = await repoLoadApplicantTags()
 
-    if (filters?.status) where.status = filters.status
-    if (filters?.positionApplied) where.positionApplied = filters.positionApplied
-    if (filters?.assignedToId) where.assignedToId = filters.assignedToId
-    if (filters?.search) {
-      where.OR = [
-        { firstName: { contains: filters.search, mode: 'insensitive' } },
-        { lastName: { contains: filters.search, mode: 'insensitive' } },
-        { email: { contains: filters.search, mode: 'insensitive' } },
-        { positionApplied: { contains: filters.search, mode: 'insensitive' } },
-      ]
-    }
+    let list = bundle.applicants
+    if (filters?.status) list = list.filter((a) => a.status === filters.status)
+    if (filters?.positionApplied) list = list.filter((a) => a.positionApplied === filters.positionApplied)
+    if (filters?.assignedToId) list = list.filter((a) => a.assignedToId === filters.assignedToId)
+    if (filters?.search) list = list.filter((a) => applicantMatchesSearch(a, filters.search!))
 
-    const [applicants, total] = await Promise.all([
-      prisma.applicant.findMany({
-        where,
-        include: {
-          assignedTo: { select: { id: true, firstName: true, lastName: true } },
-          tags: { include: { tag: true } },
-          _count: { select: { documents: true, notes: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-        skip,
-        take: pageSize,
+    list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    const total = list.length
+    const slice = list.slice(skip, skip + pageSize)
+
+    const applicants = await Promise.all(
+      slice.map(async (a) => {
+        const tagRows = applicantTags.filter((r) => r.applicantId === a.id)
+        const tagObjs = tagRows
+          .map((r) => tags.find((t) => t.id === r.tagId))
+          .filter(Boolean)
+          .map((t) => ({ tag: t! }))
+
+        return {
+          ...a,
+          createdAt: new Date(a.createdAt),
+          updatedAt: new Date(a.updatedAt),
+          assignedTo: await repoJoinUserBriefNoEmail(a.assignedToId),
+          tags: tagObjs,
+          _count: {
+            documents: bundle.documents.filter((d) => d.applicantId === a.id).length,
+            notes: bundle.notes.filter((n) => n.applicantId === a.id).length,
+          },
+        }
       }),
-      prisma.applicant.count({ where }),
-    ])
+    )
 
     return {
       success: true,
@@ -130,26 +187,65 @@ export async function getApplicant(id: string): Promise<ActionResult> {
   try {
     await requireAccess('applicants', 'view')
 
-    const applicant = await prisma.applicant.findUnique({
-      where: { id },
-      include: {
-        assignedTo: { select: { id: true, firstName: true, lastName: true, email: true } },
-        documents: { orderBy: { uploadedAt: 'desc' } },
-        notes: {
-          include: { author: { select: { id: true, firstName: true, lastName: true } } },
-          orderBy: { createdAt: 'desc' },
-        },
-        statusHistory: {
-          include: { changedBy: { select: { id: true, firstName: true, lastName: true } } },
-          orderBy: { changedAt: 'desc' },
-        },
-        tags: { include: { tag: true } },
-        jobPosting: { select: { id: true, title: true, slug: true } },
-      },
-    })
-
+    const bundle = await repoLoadApplicants()
+    const applicant = bundle.applicants.find((a) => a.id === id)
     if (!applicant) return { success: false, error: 'Bewerber nicht gefunden' }
-    return { success: true, data: applicant }
+
+    const tags = await repoLoadTags()
+    const applicantTags = await repoLoadApplicantTags()
+    const jobs = await repoLoadJobs()
+
+    const tagObjs = applicantTags
+      .filter((r) => r.applicantId === id)
+      .map((r) => tags.find((t) => t.id === r.tagId))
+      .filter(Boolean)
+      .map((t) => ({ tag: t! }))
+
+    const notes = await Promise.all(
+      bundle.notes
+        .filter((n) => n.applicantId === id)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .map(async (n) => ({
+          ...n,
+          createdAt: new Date(n.createdAt),
+          author: await repoJoinUserBriefNoEmail(n.authorId),
+        })),
+    )
+
+    const statusHistory = await Promise.all(
+      bundle.statusHistory
+        .filter((h) => h.applicantId === id)
+        .sort((a, b) => new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime())
+        .map(async (h) => ({
+          ...h,
+          changedAt: new Date(h.changedAt),
+          changedBy: await repoJoinUserBriefNoEmail(h.changedById),
+        })),
+    )
+
+    const documents = bundle.documents
+      .filter((d) => d.applicantId === id)
+      .sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime())
+      .map(stripDoc)
+
+    const job = applicant.jobPostingId ? jobs.find((j) => j.id === applicant.jobPostingId) : null
+
+    return {
+      success: true,
+      data: {
+        ...applicant,
+        createdAt: new Date(applicant.createdAt),
+        updatedAt: new Date(applicant.updatedAt),
+        assignedTo: await repoJoinUserBrief(applicant.assignedToId),
+        documents,
+        notes,
+        statusHistory,
+        tags: tagObjs,
+        jobPosting: job
+          ? { id: job.id, title: job.title, slug: job.slug }
+          : null,
+      },
+    }
   } catch (error) {
     logServerError('getApplicant error', error)
     return { success: false, error: 'Bewerber konnte nicht geladen werden' }
@@ -159,38 +255,42 @@ export async function getApplicant(id: string): Promise<ActionResult> {
 export async function updateApplicantStatus(
   id: string,
   status: ApplicantStatus,
-  note?: string
+  note?: string,
 ): Promise<ActionResult> {
   try {
     const user = await requireAccess('applicants', 'edit')
 
-    const current = await prisma.applicant.findUnique({ where: { id }, select: { status: true } })
-    if (!current) return { success: false, error: 'Bewerber nicht gefunden' }
+    const bundle = await repoLoadApplicants()
+    const a = bundle.applicants.find((x) => x.id === id)
+    if (!a) return { success: false, error: 'Bewerber nicht gefunden' }
 
-    const [applicant] = await prisma.$transaction([
-      prisma.applicant.update({ where: { id }, data: { status } }),
-      prisma.applicantStatusHistory.create({
-        data: {
-          applicantId: id,
-          fromStatus: current.status,
-          toStatus: status,
-          changedById: user.id,
-          note: note?.trim() || null,
-        },
-      }),
-    ])
+    const fromStatus = a.status
+    a.status = status
+    a.updatedAt = nowIso()
+
+    bundle.statusHistory.push({
+      id: newId(),
+      applicantId: id,
+      fromStatus,
+      toStatus: status,
+      changedById: user.id,
+      note: note?.trim() || null,
+      changedAt: nowIso(),
+    })
+
+    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicant status ${id}: ${a.updatedAt}`)
 
     await logAudit({
       userId: user.id,
       action: 'status_change',
       entityType: 'applicant',
       entityId: id,
-      metadata: { fromStatus: current.status, toStatus: status },
+      metadata: { fromStatus, toStatus: status },
     })
 
     revalidatePath('/admin/applicants')
     revalidatePath(`/admin/applicants/${id}`)
-    return { success: true, data: applicant }
+    return { success: true, data: { ...a, createdAt: new Date(a.createdAt), updatedAt: new Date(a.updatedAt) } }
   } catch (error) {
     logServerError('updateApplicantStatus error', error)
     return { success: false, error: 'Status konnte nicht aktualisiert werden' }
@@ -201,11 +301,14 @@ export async function assignApplicant(id: string, userId: string | null): Promis
   try {
     const user = await requireAccess('applicants', 'edit')
 
-    const applicant = await prisma.applicant.update({
-      where: { id },
-      data: { assignedToId: userId },
-      include: { assignedTo: { select: { id: true, firstName: true, lastName: true } } },
-    })
+    const bundle = await repoLoadApplicants()
+    const a = bundle.applicants.find((x) => x.id === id)
+    if (!a) return { success: false, error: 'Bewerber nicht gefunden' }
+
+    a.assignedToId = userId
+    a.updatedAt = nowIso()
+
+    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicant assign ${id}: ${a.updatedAt}`)
 
     await logAudit({
       userId: user.id,
@@ -217,7 +320,15 @@ export async function assignApplicant(id: string, userId: string | null): Promis
 
     revalidatePath('/admin/applicants')
     revalidatePath(`/admin/applicants/${id}`)
-    return { success: true, data: applicant }
+    return {
+      success: true,
+      data: {
+        ...a,
+        createdAt: new Date(a.createdAt),
+        updatedAt: new Date(a.updatedAt),
+        assignedTo: await repoJoinUserBriefNoEmail(a.assignedToId),
+      },
+    }
   } catch (error) {
     logServerError('assignApplicant error', error)
     return { success: false, error: 'Zuweisung konnte nicht aktualisiert werden' }
@@ -230,10 +341,23 @@ export async function addApplicantNote(applicantId: string, content: string): Pr
 
     if (!content.trim()) return { success: false, error: 'Notiz darf nicht leer sein' }
 
-    const note = await prisma.applicantNote.create({
-      data: { applicantId, authorId: user.id, content: content.trim() },
-      include: { author: { select: { id: true, firstName: true, lastName: true } } },
+    const bundle = await repoLoadApplicants()
+    if (!bundle.applicants.some((a) => a.id === applicantId)) {
+      return { success: false, error: 'Bewerber nicht gefunden' }
+    }
+
+    const t = nowIso()
+    bundle.notes.push({
+      id: newId(),
+      applicantId,
+      authorId: user.id,
+      content: content.trim(),
+      createdAt: t,
     })
+    const a = bundle.applicants.find((x) => x.id === applicantId)!
+    a.updatedAt = t
+
+    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicant note ${applicantId}: ${t}`)
 
     await logAudit({
       userId: user.id,
@@ -243,7 +367,15 @@ export async function addApplicantNote(applicantId: string, content: string): Pr
     })
 
     revalidatePath(`/admin/applicants/${applicantId}`)
-    return { success: true, data: note }
+    const n = bundle.notes[bundle.notes.length - 1]
+    return {
+      success: true,
+      data: {
+        ...n,
+        createdAt: new Date(n.createdAt),
+        author: await repoJoinUserBriefNoEmail(user.id),
+      },
+    }
   } catch (error) {
     logServerError('addApplicantNote error', error)
     return { success: false, error: 'Notiz konnte nicht hinzugefügt werden' }
@@ -254,9 +386,12 @@ export async function addApplicantTag(applicantId: string, tagId: string): Promi
   try {
     const user = await requireAccess('applicants', 'edit')
 
-    await prisma.applicantTag.create({
-      data: { applicantId, tagId },
-    })
+    const rows = await repoLoadApplicantTags()
+    if (rows.some((r) => r.applicantId === applicantId && r.tagId === tagId)) {
+      return { success: true }
+    }
+    rows.push({ applicantId, tagId })
+    await writeJsonFile(DATA_FILES.applicantTags, rows, `Data update applicant-tags add: ${nowIso()}`)
 
     await logAudit({
       userId: user.id,
@@ -278,9 +413,9 @@ export async function removeApplicantTag(applicantId: string, tagId: string): Pr
   try {
     const user = await requireAccess('applicants', 'edit')
 
-    await prisma.applicantTag.delete({
-      where: { applicantId_tagId: { applicantId, tagId } },
-    })
+    const rows = await repoLoadApplicantTags()
+    const next = rows.filter((r) => !(r.applicantId === applicantId && r.tagId === tagId))
+    await writeJsonFile(DATA_FILES.applicantTags, next, `Data update applicant-tags remove: ${nowIso()}`)
 
     await logAudit({
       userId: user.id,
@@ -302,23 +437,29 @@ export async function deleteApplicant(id: string): Promise<ActionResult> {
   try {
     const user = await requireAccess('applicants', 'delete')
 
-    const documents = await prisma.applicantDocument.findMany({
-      where: { applicantId: id },
-      select: { filePath: true },
-    })
-
-    for (const doc of documents) {
-      await deleteFile(doc.filePath)
+    const bundle = await repoLoadApplicants()
+    if (!bundle.applicants.some((a) => a.id === id)) {
+      return { success: false, error: 'Bewerber nicht gefunden' }
     }
 
-    await prisma.applicant.delete({ where: { id } })
+    const docCount = bundle.documents.filter((d) => d.applicantId === id).length
+    bundle.applicants = bundle.applicants.filter((a) => a.id !== id)
+    bundle.documents = bundle.documents.filter((d) => d.applicantId !== id)
+    bundle.notes = bundle.notes.filter((n) => n.applicantId !== id)
+    bundle.statusHistory = bundle.statusHistory.filter((h) => h.applicantId !== id)
+
+    const rows = await repoLoadApplicantTags()
+    const nextTags = rows.filter((r) => r.applicantId !== id)
+
+    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicants delete ${id}: ${nowIso()}`)
+    await writeJsonFile(DATA_FILES.applicantTags, nextTags, `Data update applicant-tags delete applicant: ${nowIso()}`)
 
     await logAudit({
       userId: user.id,
       action: 'delete',
       entityType: 'applicant',
       entityId: id,
-      metadata: { documentsDeleted: documents.length },
+      metadata: { documentsDeleted: docCount },
     })
 
     revalidatePath('/admin/applicants')
@@ -333,17 +474,13 @@ export async function getApplicantsByStatus(): Promise<ActionResult> {
   try {
     await requireAccess('applicants', 'view')
 
-    const counts = await prisma.applicant.groupBy({
-      by: ['status'],
-      _count: { _all: true },
-    })
-
-    const pipeline = counts.reduce(
-      (acc, item) => {
-        acc[item.status] = item._count._all
+    const bundle = await repoLoadApplicants()
+    const pipeline = bundle.applicants.reduce(
+      (acc, a) => {
+        acc[a.status] = (acc[a.status] ?? 0) + 1
         return acc
       },
-      {} as Record<string, number>
+      {} as Record<string, number>,
     )
 
     return { success: true, data: pipeline }

@@ -1,10 +1,12 @@
 'use server'
 
-import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { revalidatePath } from 'next/cache'
 import { logServerError } from '@/lib/error-handling'
+import { newId, nowIso, repoLoadSettings } from '@/lib/data/json-repository'
+import { DATA_FILES, type JsonSetting } from '@/lib/data/schema'
+import { writeJsonFile } from '@/lib/storage/json-data-layer'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -16,14 +18,14 @@ export async function getSettings(): Promise<ActionResult> {
   try {
     await requireAccess('settings', 'view')
 
-    const settings = await prisma.setting.findMany()
+    const settings = await repoLoadSettings()
 
     const mapped = settings.reduce(
       (acc, setting) => {
         acc[setting.key] = setting.value
         return acc
       },
-      {} as Record<string, unknown>
+      {} as Record<string, unknown>,
     )
 
     return { success: true, data: mapped }
@@ -37,15 +39,25 @@ export async function updateSettings(data: Record<string, unknown>): Promise<Act
   try {
     const user = await requireAccess('settings', 'edit')
 
-    const updates = Object.entries(data).map(([key, value]) =>
-      prisma.setting.upsert({
-        where: { key },
-        update: { value: value as any },
-        create: { key, value: value as any },
-      })
-    )
+    const settings = await repoLoadSettings()
+    const byKey = new Map(settings.map((s) => [s.key, s]))
 
-    await prisma.$transaction(updates)
+    for (const [key, value] of Object.entries(data)) {
+      const existing = byKey.get(key)
+      if (existing) {
+        existing.value = value
+      } else {
+        const row: JsonSetting = { id: newId(), key, value }
+        settings.push(row)
+        byKey.set(key, row)
+      }
+    }
+
+    await writeJsonFile(
+      DATA_FILES.settings,
+      settings,
+      `Data update ${DATA_FILES.settings}: ${nowIso()}`,
+    )
 
     await logAudit({
       userId: user.id,

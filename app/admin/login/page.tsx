@@ -31,7 +31,7 @@ export default function AdminLoginPage() {
           result.code === 'database_unavailable'
         ) {
           setError(
-            'Datenbank nicht erreichbar. Prüfen Sie DATABASE_URL in .env (lokal: postgresql://pg.embedded/… in lib/database-url.ts).',
+            'Daten-Backend nicht erreichbar. Prüfen Sie lokal die Dateien unter data/ und auf Vercel GIT_TOKEN sowie GITHUB_REPO_OWNER / GITHUB_REPO_NAME.',
           )
         } else if (result.error === 'CredentialsSignin') {
           setError('Ungültige Anmeldedaten')

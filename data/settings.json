@@ -1,0 +1,22 @@
+[
+  {
+    "id": "set_org_name",
+    "key": "org_name",
+    "value": "IMPULS Ambulanter Pflegedienst"
+  },
+  {
+    "id": "set_org_address",
+    "key": "org_address",
+    "value": "Massener Str. 147, 59423 Unna"
+  },
+  {
+    "id": "set_org_phone",
+    "key": "org_phone",
+    "value": "02303 2920589"
+  },
+  {
+    "id": "set_org_email",
+    "key": "org_email",
+    "value": "info@impuls-pflege.de"
+  }
+]
