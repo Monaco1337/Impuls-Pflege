@@ -5,6 +5,7 @@ import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { saveFile, deleteFile } from '@/lib/storage'
 import { revalidatePath } from 'next/cache'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -48,7 +49,7 @@ export async function getFiles(filters?: {
       data: { files, total, page, pageSize, totalPages: Math.ceil(total / pageSize) },
     }
   } catch (error) {
-    console.error('getFiles error:', error)
+    logServerError('getFiles error', error)
     return { success: false, error: 'Dateien konnten nicht geladen werden' }
   }
 }
@@ -91,7 +92,7 @@ export async function uploadFile(formData: FormData, applicantId: string): Promi
     revalidatePath(`/admin/applicants/${applicantId}`)
     return { success: true, data: document }
   } catch (error) {
-    console.error('uploadFile error:', error)
+    logServerError('uploadFile error', error)
     return { success: false, error: 'Datei konnte nicht hochgeladen werden' }
   }
 }
@@ -120,7 +121,7 @@ export async function deleteFileRecord(id: string): Promise<ActionResult> {
     revalidatePath(`/admin/applicants/${document.applicantId}`)
     return { success: true }
   } catch (error) {
-    console.error('deleteFileRecord error:', error)
+    logServerError('deleteFileRecord error', error)
     return { success: false, error: 'Dokument konnte nicht gelöscht werden' }
   }
 }

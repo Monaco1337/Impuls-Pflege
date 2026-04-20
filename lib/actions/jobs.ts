@@ -5,6 +5,7 @@ import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { jobPostingSchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -32,7 +33,7 @@ export async function getPublicJobs(): Promise<ActionResult> {
 
     return { success: true, data: jobs }
   } catch (error) {
-    console.error('getPublicJobs error:', error)
+    logServerError('getPublicJobs error', error)
     return { success: false, error: 'Stellenanzeigen konnten nicht geladen werden' }
   }
 }
@@ -61,7 +62,7 @@ export async function getPublicJob(slug: string): Promise<ActionResult> {
     if (!job) return { success: false, error: 'Stelle nicht gefunden' }
     return { success: true, data: job }
   } catch (error) {
-    console.error('getPublicJob error:', error)
+    logServerError('getPublicJob error', error)
     return { success: false, error: 'Stelle konnte nicht geladen werden' }
   }
 }
@@ -109,7 +110,7 @@ export async function getJobs(filters?: {
       data: { jobs, total, page, pageSize, totalPages: Math.ceil(total / pageSize) },
     }
   } catch (error) {
-    console.error('getJobs error:', error)
+    logServerError('getJobs error', error)
     return { success: false, error: 'Stellen konnten nicht geladen werden' }
   }
 }
@@ -129,7 +130,7 @@ export async function getJob(id: string): Promise<ActionResult> {
     if (!job) return { success: false, error: 'Stelle nicht gefunden' }
     return { success: true, data: job }
   } catch (error) {
-    console.error('getJob error:', error)
+    logServerError('getJob error', error)
     return { success: false, error: 'Stelle konnte nicht geladen werden' }
   }
 }
@@ -165,7 +166,7 @@ export async function createJob(data: unknown): Promise<ActionResult> {
     revalidatePath('/jobs')
     return { success: true, data: job }
   } catch (error) {
-    console.error('createJob error:', error)
+    logServerError('createJob error', error)
     return { success: false, error: 'Stelle konnte nicht erstellt werden' }
   }
 }
@@ -205,7 +206,7 @@ export async function updateJob(id: string, data: unknown): Promise<ActionResult
     revalidatePath(`/jobs/${job.slug}`)
     return { success: true, data: job }
   } catch (error) {
-    console.error('updateJob error:', error)
+    logServerError('updateJob error', error)
     return { success: false, error: 'Stelle konnte nicht aktualisiert werden' }
   }
 }
@@ -234,7 +235,7 @@ export async function toggleJobActive(id: string): Promise<ActionResult> {
     revalidatePath('/jobs')
     return { success: true, data: job }
   } catch (error) {
-    console.error('toggleJobActive error:', error)
+    logServerError('toggleJobActive error', error)
     return { success: false, error: 'Status konnte nicht geändert werden' }
   }
 }
@@ -282,7 +283,7 @@ export async function duplicateJob(id: string): Promise<ActionResult> {
     revalidatePath('/admin/jobs')
     return { success: true, data: duplicate }
   } catch (error) {
-    console.error('duplicateJob error:', error)
+    logServerError('duplicateJob error', error)
     return { success: false, error: 'Stelle konnte nicht dupliziert werden' }
   }
 }
@@ -308,7 +309,7 @@ export async function deleteJob(id: string): Promise<ActionResult> {
     revalidatePath('/jobs')
     return { success: true }
   } catch (error) {
-    console.error('deleteJob error:', error)
+    logServerError('deleteJob error', error)
     return { success: false, error: 'Stelle konnte nicht gelöscht werden' }
   }
 }

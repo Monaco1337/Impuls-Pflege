@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { revalidatePath } from 'next/cache'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -22,7 +23,7 @@ export async function getTags(): Promise<ActionResult> {
 
     return { success: true, data: tags }
   } catch (error) {
-    console.error('getTags error:', error)
+    logServerError('getTags error', error)
     return { success: false, error: 'Tags konnten nicht geladen werden' }
   }
 }
@@ -51,7 +52,7 @@ export async function createTag(name: string, color?: string): Promise<ActionRes
     revalidatePath('/admin/applicants')
     return { success: true, data: tag }
   } catch (error) {
-    console.error('createTag error:', error)
+    logServerError('createTag error', error)
     return { success: false, error: 'Tag konnte nicht erstellt werden' }
   }
 }
@@ -76,7 +77,7 @@ export async function deleteTag(id: string): Promise<ActionResult> {
     revalidatePath('/admin/applicants')
     return { success: true }
   } catch (error) {
-    console.error('deleteTag error:', error)
+    logServerError('deleteTag error', error)
     return { success: false, error: 'Tag konnte nicht gelöscht werden' }
   }
 }

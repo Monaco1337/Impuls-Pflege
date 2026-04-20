@@ -20,17 +20,37 @@ export default function AdminLoginPage() {
 
     try {
       const result = await signIn('credentials', {
-        email,
+        email: email.trim(),
         password,
         redirect: false,
       })
 
       if (result?.error) {
-        setError('Ungültige Anmeldedaten')
+        if (
+          result.error === 'CredentialsSignin' &&
+          result.code === 'database_unavailable'
+        ) {
+          setError(
+            'Datenbank nicht erreichbar. Prüfen Sie DATABASE_URL in .env (lokal: postgresql://pg.embedded/… in lib/database-url.ts).',
+          )
+        } else if (result.error === 'CredentialsSignin') {
+          setError('Ungültige Anmeldedaten')
+        } else {
+          setError(
+            `Anmeldung fehlgeschlagen (${result.error}). Prüfen Sie AUTH_URL (leer lassen für lokalen Dev mit beliebigem Port) und AUTH_SECRET.`,
+          )
+        }
         setLoading(false)
         return
       }
 
+      if (result?.ok !== true) {
+        setError('Anmeldung fehlgeschlagen. Bitte Seite neu laden und erneut versuchen.')
+        setLoading(false)
+        return
+      }
+
+      router.refresh()
       router.push('/admin/dashboard')
     } catch {
       setError('Ein Fehler ist aufgetreten')

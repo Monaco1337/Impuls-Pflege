@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import { Container } from '@/components/ui/container'
-import { Section } from '@/components/ui/section'
-import { MotionWrapper } from '@/components/sections/motion-wrapper'
 import { ApplicationForm } from '@/components/forms/application-form'
 
 export const metadata: Metadata = {
@@ -18,45 +16,73 @@ export default async function BewerbungPage({
   const { stelle } = await searchParams
 
   return (
-    <>
-      {/* Hero */}
-      <Section className="relative overflow-hidden bg-gradient-to-b from-warm-50 via-white to-white pt-16 pb-12 sm:pt-24 sm:pb-16 lg:pt-32 lg:pb-20">
+    <div className="min-h-screen" style={{ background: '#F7FAFA' }}>
+
+      {/* ── Hero Header ── */}
+      <div className="relative overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-36">
+
+        {/* Brand glows */}
         <div
-          className="pointer-events-none absolute -top-32 right-0 h-[480px] w-[480px] rounded-full opacity-[0.08]"
-          style={{
-            background:
-              'radial-gradient(circle, var(--color-primary-400) 0%, transparent 70%)',
-          }}
           aria-hidden="true"
+          className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(24,193,163,0.08) 0%, transparent 70%)', filter: 'blur(70px)' }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-20 top-0 h-[360px] w-[360px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(242,75,106,0.05) 0%, transparent 70%)', filter: 'blur(80px)' }}
         />
 
         <Container size="lg">
           <div className="mx-auto max-w-2xl text-center">
-            <MotionWrapper>
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary-500">
-                Bewerbung
-              </p>
-              <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-warm-900 sm:text-4xl lg:text-5xl lg:leading-[1.15]">
-                Ihre Bewerbung bei IMPULS
-              </h1>
-            </MotionWrapper>
 
-            <MotionWrapper delay={0.1}>
-              <p className="mt-6 text-lg leading-relaxed text-warm-600 sm:text-xl">
-                Wir freuen uns auf Sie. Füllen Sie das Formular aus und wir
-                melden uns zeitnah bei Ihnen.
-              </p>
-            </MotionWrapper>
+            {/* Label */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(24,193,163,0.25)] bg-white/80 px-4 py-1.5">
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ backgroundColor: '#18C1A3' }}
+              />
+              <span className="text-[11px] font-[640] uppercase tracking-[0.18em]" style={{ color: '#18C1A3' }}>
+                Bewerbung
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1
+              className="mt-6 text-[clamp(2rem,5vw,3.2rem)] font-[800] leading-[1.08] tracking-[-0.04em]"
+              style={{ color: '#0F172A' }}
+            >
+              Ihre Bewerbung
+              <br />
+              <span style={{ color: '#18C1A3' }}>bei IMPULS.</span>
+            </h1>
+
+            {/* Accent rule */}
+            <div className="mt-5 flex items-center justify-center gap-2">
+              <div className="h-[1.5px] w-8 rounded-full" style={{ background: 'linear-gradient(to right, #F24B6A, transparent)' }} />
+              <div className="h-[1.5px] w-20 rounded-full" style={{ background: 'linear-gradient(to right, rgba(24,193,163,0.4), transparent)' }} />
+            </div>
+
+            {/* Subline */}
+            <p
+              className="mt-6 text-[1.05rem] font-[420] leading-[1.78] tracking-[-0.01em]"
+              style={{ color: '#475569' }}
+            >
+              Wir freuen uns auf Sie. Füllen Sie das Formular aus und
+              wir melden uns zeitnah bei Ihnen.
+            </p>
+
           </div>
         </Container>
-      </Section>
+      </div>
 
-      {/* Form */}
-      <Section className="bg-white py-12 sm:py-20">
+      {/* ── Form ── */}
+      <div className="pb-24">
         <Container size="md">
           <ApplicationForm preselectedPosition={stelle} />
         </Container>
-      </Section>
-    </>
+      </div>
+
+    </div>
   )
 }

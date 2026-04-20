@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback, type DragEvent, type ChangeEvent } from 'react'
+import { useState, useRef, useCallback, useEffect, type DragEvent, type ChangeEvent } from 'react'
 import { cn } from '@/lib/utils'
 import { formatFileSize } from '@/lib/utils'
 
@@ -36,6 +36,12 @@ export function FileUpload({
 
   const maxSizeBytes = maxSizeMB * 1024 * 1024
 
+  // Notify parent after state update, never during render
+  useEffect(() => {
+    onChange?.(files.map((f) => f.file))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files])
+
   const addFiles = useCallback(
     (incoming: FileList | File[]) => {
       const valid = Array.from(incoming).filter((f) => f.size <= maxSizeBytes)
@@ -46,20 +52,15 @@ export function FileUpload({
 
       setFiles((prev) => {
         const next = multiple ? [...prev, ...newFiles] : newFiles
-        onChange?.(next.map((f) => f.file))
         return next
       })
     },
-    [maxSizeBytes, multiple, onChange],
+    [maxSizeBytes, multiple],
   )
 
-  const removeFile = (id: string) => {
-    setFiles((prev) => {
-      const next = prev.filter((f) => f.id !== id)
-      onChange?.(next.map((f) => f.file))
-      return next
-    })
-  }
+  const removeFile = useCallback((id: string) => {
+    setFiles((prev) => prev.filter((f) => f.id !== id))
+  }, [])
 
   const handleDrop = (e: DragEvent) => {
     e.preventDefault()

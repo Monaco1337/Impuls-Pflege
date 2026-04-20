@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Heart,
   Stethoscope,
@@ -6,13 +7,13 @@ import {
   Home,
   MessageCircle,
   ShieldCheck,
-  ArrowRight,
-  Phone,
-  CheckCircle2,
+  UserCheck,
+  Sparkles,
+  MapPin,
 } from 'lucide-react'
-import { Container } from '@/components/ui/container'
-import { Section } from '@/components/ui/section'
-import { MotionWrapper } from '@/components/sections/motion-wrapper'
+import { FadeIn } from '@/components/animations/fade-in'
+import { PremiumCta } from '@/components/sections/premium-cta'
+import { LeistungenHeroSection } from '@/components/sections/leistungen-hero-section'
 
 export const metadata = {
   title: 'Leistungen – IMPULS Ambulanter Pflegedienst in Unna',
@@ -22,38 +23,53 @@ export const metadata = {
 
 const services = [
   {
+    id: 'grundpflege',
     icon: Heart,
     title: 'Grundpflege',
+    image: '/images/care-grundpflege.jpg',
+    imageAlt: 'Pflegekraft bei der einfühlsamen Grundpflege',
+    imageRatio: '3/4',
+    imagePosition: 'center 30%',
     description:
-      'Körperpflege, Ernährung und Mobilität gehören zu den grundlegendsten Bedürfnissen eines jeden Menschen. Wenn diese Bereiche nicht mehr selbstständig bewältigt werden können, ist verlässliche Unterstützung gefragt – einfühlsam, respektvoll und ganz auf Ihre persönlichen Gewohnheiten abgestimmt. Unser Team begleitet Sie mit Geduld und Wärme durch den Alltag, damit Sie sich sicher und wohl fühlen.',
+      'Körperpflege, Mobilität und Ernährung sind zentrale Grundlagen für Lebensqualität und Selbstständigkeit. Wenn alltägliche Aufgaben schwerer fallen, stehen wir Ihnen zuverlässig und respektvoll zur Seite — individuell abgestimmt auf Ihre Gewohnheiten, Bedürfnisse und Ihren persönlichen Alltag.\n\nUnsere Grundpflege bedeutet nicht nur Unterstützung, sondern echte Entlastung. Mit festen Ansprechpartnern, vertrauter Betreuung und einem einfühlsamen Blick für Ihre Situation schaffen wir Sicherheit, Struktur und mehr Lebensqualität in Ihrem Zuhause.',
     items: [
-      'Körperpflege (Waschen, Duschen, Baden)',
-      'Unterstützung beim An- und Auskleiden',
+      'Unterstützung bei Körperpflege (Waschen, Duschen, Baden)',
       'Hilfe bei der Nahrungsaufnahme',
-      'Lagern und Mobilisieren',
       'Unterstützung beim Toilettengang',
+      'Unterstützung beim An- und Auskleiden',
+      'Lagerung und Mobilisation',
       'Hautpflege und Prophylaxen',
     ],
   },
   {
+    id: 'behandlungspflege',
     icon: Stethoscope,
     title: 'Behandlungspflege',
+    image: '/images/care-behandlungspflege.jpg',
+    imageAlt: 'Medizinische Versorgung und Behandlungspflege',
+    imagePosition: 'center 18%',
+    imageRatio: '3/4',
     description:
-      'Medizinische Pflege erfordert höchste Sorgfalt und Fachkompetenz. Unsere examinierten Pflegekräfte führen alle verordneten Maßnahmen zuverlässig und professionell durch – in enger Abstimmung mit Ihrem behandelnden Arzt. So erhalten Sie die medizinische Versorgung, die Sie brauchen, ohne Ihr Zuhause verlassen zu müssen.',
+      'Medizinische Behandlungspflege erfordert Fachkompetenz, Erfahrung und höchste Sorgfalt. Unsere examinierten Pflegekräfte übernehmen verordnete Maßnahmen zuverlässig und professionell — stets in enger Abstimmung mit Ihrem behandelnden Arzt.\n\nDabei verbinden wir medizinische Qualität mit persönlicher Betreuung. Wir achten auf Veränderungen, reagieren frühzeitig und sorgen dafür, dass Sie sich auch bei komplexeren gesundheitlichen Situationen sicher und gut versorgt fühlen — in Ihrer vertrauten Umgebung.',
     items: [
-      'Medikamentengabe und -überwachung',
-      'Wundversorgung und Verbandswechsel',
+      'Medikamentengabe und Überwachung',
       'Injektionen (z. B. Insulin)',
-      'Blutzucker- und Blutdruckmessung',
       'Kompressionstherapie',
+      'Wundversorgung und Verbandswechsel',
+      'Blutdruck- und Blutzuckermessung',
       'Katheter- und Stomapflege',
     ],
   },
   {
+    id: 'betreuung',
     icon: Smile,
     title: 'Betreuungsangebote',
+    image: '/images/care-betreuung.jpg',
+    imageAlt: 'Aktivierende Betreuung und gemeinsame Zeit',
+    imageRatio: '3/4',
+    imagePosition: 'center 20%',
     description:
-      'Gute Pflege ist mehr als medizinische Versorgung – sie umfasst auch Zuwendung, Anregung und menschliche Nähe. Unsere Betreuungsangebote schaffen Momente der Freude und fördern die geistige Aktivität. Ob gemeinsame Spaziergänge, anregende Gespräche oder kreative Beschäftigung: Wir bringen Lebensqualität in Ihren Alltag.',
+      'Gute Pflege bedeutet mehr als medizinische Versorgung. Zuwendung, Aktivierung und persönliche Begleitung sind entscheidend für Lebensqualität und Wohlbefinden im Alltag.\n\nUnsere Betreuungsangebote schaffen Struktur, fördern Selbstständigkeit und ermöglichen soziale Teilhabe. Wir gestalten gemeinsame Momente, unterstützen bei Aktivitäten und sorgen dafür, dass sich der Alltag wieder leichter und erfüllter anfühlt — individuell abgestimmt auf Ihre Wünsche und Bedürfnisse.',
     items: [
       'Spaziergänge und Begleitung im Freien',
       'Gespräche und Gesellschaft',
@@ -64,24 +80,34 @@ const services = [
     ],
   },
   {
+    id: 'hauswirtschaft',
     icon: Home,
     title: 'Hauswirtschaftliche Unterstützung',
+    image: '/images/care-hauswirtschaft.jpg',
+    imageAlt: 'Hauswirtschaftliche Hilfe im vertrauten Zuhause',
+    imageRatio: '3/4',
+    imagePosition: 'center 10%',
     description:
-      'Ein gepflegtes und ordentliches Zuhause trägt wesentlich zum Wohlbefinden bei. Wenn der Haushalt zur Herausforderung wird, übernehmen wir die Aufgaben, die Ihnen schwerfallen – zuverlässig und diskret. So bleibt Ihr Zuhause ein Ort, an dem Sie sich rundum wohlfühlen.',
+      'Ein gepflegtes Zuhause bedeutet Sicherheit, Wohlbefinden und Lebensqualität. Wenn alltägliche Aufgaben zur Herausforderung werden, unterstützen wir Sie zuverlässig und diskret — damit Sie sich weiterhin in Ihrer vertrauten Umgebung wohlfühlen können.\n\nUnsere hauswirtschaftliche Unterstützung entlastet Sie im Alltag, schafft Struktur und sorgt dafür, dass Ihr Zuhause ein Ort der Ruhe und Geborgenheit bleibt — individuell abgestimmt auf Ihre persönlichen Bedürfnisse.',
     items: [
       'Reinigung der Wohnung',
-      'Wäschepflege und Bügeln',
       'Einkäufe und Besorgungen',
-      'Zubereitung von Mahlzeiten',
       'Müllentsorgung und Hausordnung',
+      'Wäschepflege und Bügeln',
+      'Zubereitung von Mahlzeiten',
       'Beheizen und Lüften der Räume',
     ],
   },
   {
+    id: 'beratung',
     icon: MessageCircle,
     title: 'Individuelle Beratung',
+    image: '/images/care-beratung.jpg',
+    imageAlt: 'Pflegekraft berät ältere Dame und Angehörigen persönlich am Tisch',
+    imageRatio: '3/4',
+    imagePosition: 'center 20%',
     description:
-      'Die Pflegelandschaft in Deutschland ist komplex – von Pflegegraden über Kassenleistungen bis zu Entlastungsangeboten. Wir stehen Ihnen und Ihren Angehörigen als kompetente Ansprechpartner zur Seite und helfen Ihnen, die bestmögliche Versorgung zu finden und alle Ihnen zustehenden Leistungen in Anspruch zu nehmen.',
+      'Die Pflegesituation bringt viele Fragen mit sich. Leistungen, Pflegegrade und Anträge können schnell unübersichtlich werden. Wir stehen Ihnen als kompetente Ansprechpartner zur Seite und unterstützen Sie dabei, die passende Versorgung für Ihre persönliche Situation zu finden.\n\nGemeinsam schaffen wir Klarheit, begleiten Sie durch organisatorische Schritte und sorgen dafür, dass Sie alle Möglichkeiten optimal nutzen können — verständlich, persönlich und auf Augenhöhe.',
     items: [
       'Beratung zu Pflegeleistungen und Pflegegraden',
       'Unterstützung bei Anträgen an die Pflegekasse',
@@ -92,14 +118,19 @@ const services = [
     ],
   },
   {
+    id: 'zuhause',
     icon: ShieldCheck,
     title: 'Pflege in vertrauter Umgebung',
+    image: '/images/care-zuhause.jpg',
+    imageAlt: 'Pflegekraft hilft älterem Herrn beim Kochen im eigenen Zuhause',
+    imageRatio: '3/4',
+    imagePosition: 'center 15%',
     description:
-      'Das eigene Zuhause ist mehr als vier Wände – es ist ein Ort voller Erinnerungen, Geborgenheit und Selbstbestimmung. Unsere gesamte Philosophie baut auf der Überzeugung, dass Menschen am besten dort versorgt werden, wo sie sich heimisch fühlen. Wir passen unsere Pflege an Ihr Leben an – nicht umgekehrt.',
+      'Das eigene Zuhause bedeutet Sicherheit, Erinnerungen und Vertrautheit. Gerade in herausfordernden Lebenssituationen ist diese Umgebung besonders wichtig. Deshalb gestalten wir unsere Pflege so, dass Sie weiterhin in Ihrer gewohnten Umgebung leben können — mit Unterstützung, die sich Ihrem Alltag anpasst.\n\nWir fördern Selbstständigkeit, schaffen Kontinuität und begleiten Sie einfühlsam. So entsteht eine Betreuung, die Vertrauen schafft und Lebensqualität erhält — persönlich, respektvoll und auf Augenhöhe.',
     items: [
       'Pflege und Betreuung in Ihrem Zuhause',
       'Wahrung von Selbstständigkeit und Eigenständigkeit',
-      'Feste Bezugspflegekräfte für Vertrauen und Kontinuität',
+      'Feste Bezugspflegekräfte für Kontinuität',
       'Flexible Einsatzzeiten nach Ihrem Rhythmus',
       'Enge Einbindung von Angehörigen',
       'Respektvoller Umgang in vertrauter Atmosphäre',
@@ -110,171 +141,159 @@ const services = [
 export default function LeistungenPage() {
   return (
     <>
-      {/* Hero */}
-      <Section className="relative overflow-hidden bg-gradient-to-b from-warm-50 via-white to-white pt-16 pb-12 sm:pt-24 sm:pb-16 lg:pt-32 lg:pb-20">
-        <div
-          className="pointer-events-none absolute -top-32 right-0 h-[480px] w-[480px] rounded-full opacity-[0.08]"
-          style={{
-            background:
-              'radial-gradient(circle, var(--color-accent-400) 0%, transparent 70%)',
-          }}
-          aria-hidden="true"
-        />
-        <Container size="lg">
-          <div className="mx-auto max-w-3xl text-center">
-            <MotionWrapper>
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary-500">
-                Leistungen
-              </p>
-              <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-warm-900 sm:text-4xl lg:text-5xl lg:leading-[1.15]">
-                Unsere Leistungen
-              </h1>
-            </MotionWrapper>
+      <LeistungenHeroSection />
 
-            <MotionWrapper delay={0.1}>
-              <p className="mt-6 text-lg leading-relaxed text-warm-600 sm:text-xl">
-                Umfassende ambulante Pflege und Betreuung – individuell auf Ihre
-                Bedürfnisse abgestimmt.
-              </p>
-            </MotionWrapper>
-
-            <MotionWrapper delay={0.15}>
-              <p className="mt-4 text-base leading-relaxed text-warm-500 sm:text-lg">
-                Von der professionellen Grund- und Behandlungspflege über
-                aktivierende Betreuung bis hin zur Unterstützung im Haushalt:
-                Bei IMPULS erhalten Sie genau die Hilfe, die zu Ihrem Leben
-                passt.
-              </p>
-            </MotionWrapper>
+      {/* ── Trust Strip ── */}
+      <section className="relative py-14 sm:py-16" style={{ background: '#ffffff' }}>
+        <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'rgba(0,0,0,0.06)' }} />
+        <div className="absolute inset-x-0 bottom-0 h-px" style={{ background: 'rgba(0,0,0,0.06)' }} />
+        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 xl:px-14">
+          <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+            {[
+              { icon: UserCheck, title: 'Persönliche Ansprechpartner', sub: 'Immer ein vertrautes Gesicht an Ihrer Seite.' },
+              { icon: Sparkles, title: 'Individuelle Betreuung', sub: 'Jeder Mensch ist einzigartig – unsere Pflege auch.' },
+              { icon: Heart, title: 'Feste Bezugspflege', sub: 'Kontinuität und Verlässlichkeit in jeder Situation.' },
+              { icon: MapPin, title: 'Regionale Nähe', sub: 'Lokal verwurzelt – schnell und persönlich erreichbar.' },
+            ].map((item, i) => (
+              <FadeIn key={item.title} direction="up" distance={14} delay={0.05 * i}>
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full"
+                    style={{ background: 'rgba(24,193,163,0.09)' }}>
+                    <item.icon className="h-[18px] w-[18px]" style={{ color: '#18C1A3' }} strokeWidth={1.6} />
+                  </div>
+                  <p className="mt-3.5 text-[14px] font-[680] leading-tight tracking-[-0.016em]"
+                    style={{ color: '#0F172A' }}>{item.title}</p>
+                  <p className="mt-1.5 text-[12.5px] font-[400] leading-[1.6]"
+                    style={{ color: '#64748b' }}>{item.sub}</p>
+                </div>
+              </FadeIn>
+            ))}
           </div>
-        </Container>
-      </Section>
+        </div>
+      </section>
 
-      {/* Service sections */}
+      {/* ── Service sections ── */}
       {services.map((service, index) => {
         const Icon = service.icon
         const isReversed = index % 2 !== 0
+        const bg = index % 2 === 0 ? '#ffffff' : '#F7FAFA'
 
         return (
-          <Section
-            key={service.title}
-            className={`py-16 sm:py-24 ${index % 2 === 0 ? 'bg-white' : 'bg-warm-50/50'}`}
+          <section
+            key={service.id}
+            id={service.id}
+            className="relative scroll-mt-24 py-28 sm:py-36 lg:py-44"
+            style={{ background: bg }}
           >
-            <Container size="lg">
-              <div
-                className={`grid items-start gap-12 lg:grid-cols-2 lg:gap-20 ${isReversed ? 'lg:[direction:rtl]' : ''}`}
-              >
-                {/* Text */}
-                <div className={isReversed ? 'lg:[direction:ltr]' : ''}>
-                  <MotionWrapper>
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50">
-                        <Icon
-                          className="h-5 w-5 text-primary-600"
-                          aria-hidden="true"
+            {/* Subtle top hairline between sections */}
+            <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'rgba(0,0,0,0.05)' }} />
+
+            <div className="mx-auto max-w-[1280px] px-6 sm:px-10 xl:px-14">
+              <div className={`grid items-center gap-14 lg:grid-cols-2 lg:gap-20 xl:gap-28`}>
+
+                {/* Image */}
+                <div className={isReversed ? 'lg:order-2' : 'lg:order-1'}>
+                  <FadeIn direction={isReversed ? 'right' : 'left'} distance={28}>
+                    <div className="relative">
+                      <div className="overflow-hidden"
+                        style={{
+                          borderRadius: '28px',
+                          boxShadow: '0 24px 64px -12px rgba(0,0,0,0.11)',
+                        }}>
+                        <Image
+                          src={service.image}
+                          alt={service.imageAlt}
+                          width={700}
+                          height={520}
+                          className={`w-full object-cover ${(service as typeof service & { imageRatio?: string }).imageRatio ? 'aspect-[4/3] lg:aspect-[3/4]' : 'aspect-[4/3]'}`}
+                          style={{
+                            objectPosition: (service as typeof service & { imagePosition?: string }).imagePosition ?? 'center center',
+                          }}
+                          sizes="(min-width: 1024px) 50vw, 100vw"
                         />
-                      </span>
-                      <h2 className="text-2xl font-bold leading-tight text-warm-900 sm:text-3xl">
-                        {service.title}
-                      </h2>
-                    </div>
-                  </MotionWrapper>
-
-                  <MotionWrapper delay={0.1}>
-                    <p className="mt-5 text-base leading-relaxed text-warm-600 sm:text-lg">
-                      {service.description}
-                    </p>
-                  </MotionWrapper>
-
-                  <MotionWrapper delay={0.15}>
-                    <ul className="mt-6 space-y-3">
-                      {service.items.map((item) => (
-                        <li key={item} className="flex items-start gap-3">
-                          <CheckCircle2
-                            className="mt-0.5 h-5 w-5 shrink-0 text-primary-500"
-                            aria-hidden="true"
-                          />
-                          <span className="text-sm leading-relaxed text-warm-700 sm:text-base">
-                            {item}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </MotionWrapper>
-                </div>
-
-                {/* Visual element */}
-                <MotionWrapper
-                  delay={0.2}
-                  className={isReversed ? 'lg:[direction:ltr]' : ''}
-                >
-                  <div className="relative">
-                    <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-warm-50 to-primary-50 ring-1 ring-warm-200/60">
-                      <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-100/80">
-                          <Icon
-                            className="h-8 w-8 text-primary-500"
-                            aria-hidden="true"
-                          />
-                        </span>
-                        <p className="text-sm text-warm-400">Bildelement</p>
+                      </div>
+                      {/* Floating icon badge */}
+                      <div
+                        className={`absolute -bottom-4 ${isReversed ? '-left-4 sm:-left-5' : '-right-4 sm:-right-5'} flex h-14 w-14 items-center justify-center rounded-[16px] border bg-white`}
+                        style={{
+                          borderColor: 'rgba(0,0,0,0.07)',
+                          boxShadow: '0 8px 28px rgba(0,0,0,0.09)',
+                        }}>
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full"
+                          style={{ background: 'rgba(24,193,163,0.10)' }}>
+                          <Icon className="h-[18px] w-[18px]" style={{ color: '#18C1A3' }} strokeWidth={1.5} />
+                        </div>
                       </div>
                     </div>
+                  </FadeIn>
+                </div>
+
+                {/* Content */}
+                <div className={`text-center lg:text-left ${isReversed ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <FadeIn direction="up" distance={14} delay={0.08}>
+                    <p className="text-[11px] font-[660] uppercase tracking-[0.22em]"
+                      style={{ color: 'rgba(24,193,163,0.80)' }}>
+                      {String(index + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
+                    </p>
+                  </FadeIn>
+
+                  <FadeIn direction="up" distance={18} delay={0.12}>
+                    <h2
+                      className="mt-4 mx-auto max-w-[560px] text-[clamp(2rem,4vw,3.2rem)] font-[800] leading-[1.06] tracking-[-0.048em] lg:mx-0"
+                      style={{ color: '#0F172A' }}
+                    >
+                      {service.title}
+                    </h2>
+                  </FadeIn>
+
+                  <FadeIn direction="up" distance={12} delay={0.14}>
+                    <div className="mt-4 flex items-center justify-center gap-2 lg:justify-start">
+                      <div className="h-[1.5px] w-5 rounded-full"
+                        style={{ background: 'linear-gradient(to right, #F24B6A, transparent)' }} />
+                      <div className="h-[1.5px] w-12 rounded-full"
+                        style={{ background: 'linear-gradient(to right, rgba(24,193,163,0.28), transparent)' }} />
+                    </div>
+                  </FadeIn>
+
+                  <FadeIn direction="up" distance={16} delay={0.18}>
                     <div
-                      className="absolute -bottom-3 -right-3 -z-10 h-full w-full rounded-2xl"
-                      style={{
-                        background:
-                          'linear-gradient(135deg, var(--color-accent-100) 0%, var(--color-primary-100) 100%)',
-                      }}
-                      aria-hidden="true"
-                    />
-                  </div>
-                </MotionWrapper>
+                      className="mt-6 mx-auto max-w-[500px] space-y-4 text-[16px] font-[400] leading-[1.82] tracking-[-0.01em] lg:mx-0"
+                      style={{ color: '#475569' }}
+                    >
+                      {service.description.split('\n\n').map((para, i) => (
+                        <p key={i}>{para}</p>
+                      ))}
+                    </div>
+                  </FadeIn>
+
+                  <FadeIn direction="up" distance={14} delay={0.24}>
+                    <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                      {service.items.map((item) => (
+                        <div key={item} className="icon-list-stack-cell flex items-start gap-3">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#18C1A3" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="mt-[2px] shrink-0" aria-hidden="true">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                          </svg>
+                          <span className="icon-list-prose min-w-0 flex-1 text-[14px] font-[460] leading-[1.55] tracking-[-0.005em]"
+                            style={{ color: '#334155' }}>
+                            {item}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </FadeIn>
+                </div>
               </div>
-            </Container>
-          </Section>
+            </div>
+          </section>
         )
       })}
 
-      {/* CTA */}
-      <Section className="bg-primary-50/60 py-16 sm:py-24">
-        <Container size="lg">
-          <div className="mx-auto max-w-2xl text-center">
-            <MotionWrapper>
-              <h2 className="text-2xl font-bold leading-tight text-warm-900 sm:text-3xl lg:text-4xl">
-                Haben Sie Fragen zu unseren Leistungen?
-              </h2>
-            </MotionWrapper>
+      {/* ── CTA ── */}
+      <PremiumCta
+        headline="Haben Sie Fragen zu unseren Leistungen?"
+        subtext="Wir beraten Sie gerne persönlich und unverbindlich. Gemeinsam finden wir die passende Unterstützung für Ihre Situation."
+      />
 
-            <MotionWrapper delay={0.1}>
-              <p className="mt-5 text-base leading-relaxed text-warm-600 sm:text-lg">
-                Wir beraten Sie gerne persönlich und unverbindlich zu allen
-                unseren Pflege- und Betreuungsleistungen. Gemeinsam finden wir
-                die passende Unterstützung für Ihre Situation.
-              </p>
-            </MotionWrapper>
-
-            <MotionWrapper delay={0.15}>
-              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
-                <Link
-                  href="/kontakt"
-                  className="inline-flex h-12 w-full items-center justify-center gap-2.5 rounded-lg bg-primary-500 px-7 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-primary-600 active:bg-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 sm:w-auto"
-                >
-                  Jetzt unverbindlich anfragen
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
-                <a
-                  href="tel:+492303123456"
-                  className="inline-flex h-12 w-full items-center justify-center gap-2.5 rounded-lg border border-warm-300 bg-white px-7 text-base font-semibold text-warm-700 transition-colors duration-200 hover:bg-warm-50 active:bg-warm-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 sm:w-auto"
-                >
-                  <Phone className="h-4 w-4 text-primary-500" aria-hidden="true" />
-                  02303 / 123 456
-                </a>
-              </div>
-            </MotionWrapper>
-          </div>
-        </Container>
-      </Section>
     </>
   )
 }

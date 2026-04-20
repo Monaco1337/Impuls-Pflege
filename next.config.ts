@@ -1,3 +1,4 @@
+import './lib/apply-database-url'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
@@ -21,6 +22,7 @@ const nextConfig: NextConfig = {
               "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https:",
+              "media-src 'self'",
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self'",
               "frame-ancestors 'none'",

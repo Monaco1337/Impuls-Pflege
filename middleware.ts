@@ -1,4 +1,4 @@
-export { auth as middleware } from '@/lib/auth/config'
+export { edgeAuth as middleware } from '@/lib/auth/middleware-auth'
 
 export const config = {
   matcher: ['/admin/:path*'],

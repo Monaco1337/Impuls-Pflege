@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { revalidatePath } from 'next/cache'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -27,7 +28,7 @@ export async function getSettings(): Promise<ActionResult> {
 
     return { success: true, data: mapped }
   } catch (error) {
-    console.error('getSettings error:', error)
+    logServerError('getSettings error', error)
     return { success: false, error: 'Einstellungen konnten nicht geladen werden' }
   }
 }
@@ -56,7 +57,7 @@ export async function updateSettings(data: Record<string, unknown>): Promise<Act
     revalidatePath('/admin/settings')
     return { success: true }
   } catch (error) {
-    console.error('updateSettings error:', error)
+    logServerError('updateSettings error', error)
     return { success: false, error: 'Einstellungen konnten nicht gespeichert werden' }
   }
 }

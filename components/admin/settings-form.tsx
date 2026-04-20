@@ -49,7 +49,7 @@ export function SettingsForm({ initialValues }: SettingsFormProps) {
 
       <Input
         label="Adresse *"
-        placeholder="Musterstraße 1, 12345 Musterstadt"
+        placeholder="Massener Str. 147, 12345 Musterstadt"
         error={errors.org_address?.message}
         {...register('org_address')}
       />

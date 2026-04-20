@@ -6,6 +6,7 @@ import { logAudit } from '@/lib/audit/logger'
 import { inquirySchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
 import { InquiryStatus, InquiryPriority } from '@prisma/client'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -33,7 +34,7 @@ export async function submitInquiry(formData: unknown): Promise<ActionResult> {
 
     return { success: true, data: inquiry }
   } catch (error) {
-    console.error('submitInquiry error:', error)
+    logServerError('submitInquiry error', error)
     return { success: false, error: 'Anfrage konnte nicht gesendet werden' }
   }
 }
@@ -82,7 +83,7 @@ export async function getInquiries(filters?: {
       data: { inquiries, total, page, pageSize, totalPages: Math.ceil(total / pageSize) },
     }
   } catch (error) {
-    console.error('getInquiries error:', error)
+    logServerError('getInquiries error', error)
     return { success: false, error: 'Anfragen konnten nicht geladen werden' }
   }
 }
@@ -105,7 +106,7 @@ export async function getInquiry(id: string): Promise<ActionResult> {
     if (!inquiry) return { success: false, error: 'Anfrage nicht gefunden' }
     return { success: true, data: inquiry }
   } catch (error) {
-    console.error('getInquiry error:', error)
+    logServerError('getInquiry error', error)
     return { success: false, error: 'Anfrage konnte nicht geladen werden' }
   }
 }
@@ -130,7 +131,7 @@ export async function updateInquiryStatus(id: string, status: InquiryStatus): Pr
     revalidatePath('/admin/inquiries')
     return { success: true, data: inquiry }
   } catch (error) {
-    console.error('updateInquiryStatus error:', error)
+    logServerError('updateInquiryStatus error', error)
     return { success: false, error: 'Status konnte nicht aktualisiert werden' }
   }
 }
@@ -155,7 +156,7 @@ export async function updateInquiryPriority(id: string, priority: InquiryPriorit
     revalidatePath('/admin/inquiries')
     return { success: true, data: inquiry }
   } catch (error) {
-    console.error('updateInquiryPriority error:', error)
+    logServerError('updateInquiryPriority error', error)
     return { success: false, error: 'Priorität konnte nicht aktualisiert werden' }
   }
 }
@@ -181,7 +182,7 @@ export async function assignInquiry(id: string, userId: string | null): Promise<
     revalidatePath('/admin/inquiries')
     return { success: true, data: inquiry }
   } catch (error) {
-    console.error('assignInquiry error:', error)
+    logServerError('assignInquiry error', error)
     return { success: false, error: 'Zuweisung konnte nicht aktualisiert werden' }
   }
 }
@@ -207,7 +208,7 @@ export async function addInquiryNote(inquiryId: string, content: string): Promis
     revalidatePath(`/admin/inquiries/${inquiryId}`)
     return { success: true, data: note }
   } catch (error) {
-    console.error('addInquiryNote error:', error)
+    logServerError('addInquiryNote error', error)
     return { success: false, error: 'Notiz konnte nicht hinzugefügt werden' }
   }
 }
@@ -228,7 +229,7 @@ export async function deleteInquiry(id: string): Promise<ActionResult> {
     revalidatePath('/admin/inquiries')
     return { success: true }
   } catch (error) {
-    console.error('deleteInquiry error:', error)
+    logServerError('deleteInquiry error', error)
     return { success: false, error: 'Anfrage konnte nicht gelöscht werden' }
   }
 }

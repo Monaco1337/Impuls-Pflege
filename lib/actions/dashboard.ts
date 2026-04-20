@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -44,7 +45,7 @@ export async function getDashboardStats(): Promise<ActionResult> {
       },
     }
   } catch (error) {
-    console.error('getDashboardStats error:', error)
+    logServerError('getDashboardStats error', error)
     return { success: false, error: 'Dashboard-Daten konnten nicht geladen werden' }
   }
 }
@@ -68,7 +69,7 @@ export async function getRecentInquiries(): Promise<ActionResult> {
 
     return { success: true, data: inquiries }
   } catch (error) {
-    console.error('getRecentInquiries error:', error)
+    logServerError('getRecentInquiries error', error)
     return { success: false, error: 'Letzte Anfragen konnten nicht geladen werden' }
   }
 }
@@ -92,7 +93,7 @@ export async function getRecentApplicants(): Promise<ActionResult> {
 
     return { success: true, data: applicants }
   } catch (error) {
-    console.error('getRecentApplicants error:', error)
+    logServerError('getRecentApplicants error', error)
     return { success: false, error: 'Letzte Bewerber konnten nicht geladen werden' }
   }
 }
@@ -111,7 +112,7 @@ export async function getRecentActivity(): Promise<ActionResult> {
 
     return { success: true, data: logs }
   } catch (error) {
-    console.error('getRecentActivity error:', error)
+    logServerError('getRecentActivity error', error)
     return { success: false, error: 'Letzte Aktivitäten konnten nicht geladen werden' }
   }
 }
@@ -135,7 +136,7 @@ export async function getPipelineSummary(): Promise<ActionResult> {
 
     return { success: true, data: pipeline }
   } catch (error) {
-    console.error('getPipelineSummary error:', error)
+    logServerError('getPipelineSummary error', error)
     return { success: false, error: 'Pipeline-Übersicht konnte nicht geladen werden' }
   }
 }
@@ -151,7 +152,7 @@ export async function getJobStatusSummary(): Promise<ActionResult> {
 
     return { success: true, data: { active, inactive, total: active + inactive } }
   } catch (error) {
-    console.error('getJobStatusSummary error:', error)
+    logServerError('getJobStatusSummary error', error)
     return { success: false, error: 'Stellen-Übersicht konnte nicht geladen werden' }
   }
 }

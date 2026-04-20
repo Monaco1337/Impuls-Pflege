@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db'
+import { logServerError } from '@/lib/error-handling'
 
 type AuditAction =
   | 'login'
@@ -44,6 +45,6 @@ export async function logAudit(params: {
       },
     })
   } catch (error) {
-    console.error('Failed to create audit log:', error)
+    logServerError('Failed to create audit log', error)
   }
 }

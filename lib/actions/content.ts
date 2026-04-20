@@ -5,6 +5,7 @@ import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { contentBlockSchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -23,7 +24,7 @@ export async function getContentBlocks(): Promise<ActionResult> {
 
     return { success: true, data: blocks }
   } catch (error) {
-    console.error('getContentBlocks error:', error)
+    logServerError('getContentBlocks error', error)
     return { success: false, error: 'Inhalte konnten nicht geladen werden' }
   }
 }
@@ -40,7 +41,7 @@ export async function getContentBlock(key: string): Promise<ActionResult> {
     if (!block) return { success: false, error: 'Inhaltsblock nicht gefunden' }
     return { success: true, data: block }
   } catch (error) {
-    console.error('getContentBlock error:', error)
+    logServerError('getContentBlock error', error)
     return { success: false, error: 'Inhaltsblock konnte nicht geladen werden' }
   }
 }
@@ -85,7 +86,7 @@ export async function updateContentBlock(key: string, data: unknown): Promise<Ac
     revalidatePath('/')
     return { success: true, data: block }
   } catch (error) {
-    console.error('updateContentBlock error:', error)
+    logServerError('updateContentBlock error', error)
     return { success: false, error: 'Inhalt konnte nicht aktualisiert werden' }
   }
 }
@@ -109,7 +110,7 @@ export async function getPublicContent(keys: string[]): Promise<ActionResult> {
 
     return { success: true, data: mapped }
   } catch (error) {
-    console.error('getPublicContent error:', error)
+    logServerError('getPublicContent error', error)
     return { success: false, error: 'Inhalte konnten nicht geladen werden' }
   }
 }

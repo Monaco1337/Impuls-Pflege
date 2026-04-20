@@ -7,6 +7,7 @@ import { applicationSchema } from '@/lib/validation/schemas'
 import { saveFile, deleteFile } from '@/lib/storage'
 import { revalidatePath } from 'next/cache'
 import { ApplicantStatus } from '@prisma/client'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -66,7 +67,7 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
 
     return { success: true, data: { id: applicant.id } }
   } catch (error) {
-    console.error('submitApplication error:', error)
+    logServerError('submitApplication error', error)
     return { success: false, error: 'Bewerbung konnte nicht eingereicht werden' }
   }
 }
@@ -120,7 +121,7 @@ export async function getApplicants(filters?: {
       data: { applicants, total, page, pageSize, totalPages: Math.ceil(total / pageSize) },
     }
   } catch (error) {
-    console.error('getApplicants error:', error)
+    logServerError('getApplicants error', error)
     return { success: false, error: 'Bewerber konnten nicht geladen werden' }
   }
 }
@@ -150,7 +151,7 @@ export async function getApplicant(id: string): Promise<ActionResult> {
     if (!applicant) return { success: false, error: 'Bewerber nicht gefunden' }
     return { success: true, data: applicant }
   } catch (error) {
-    console.error('getApplicant error:', error)
+    logServerError('getApplicant error', error)
     return { success: false, error: 'Bewerber konnte nicht geladen werden' }
   }
 }
@@ -191,7 +192,7 @@ export async function updateApplicantStatus(
     revalidatePath(`/admin/applicants/${id}`)
     return { success: true, data: applicant }
   } catch (error) {
-    console.error('updateApplicantStatus error:', error)
+    logServerError('updateApplicantStatus error', error)
     return { success: false, error: 'Status konnte nicht aktualisiert werden' }
   }
 }
@@ -218,7 +219,7 @@ export async function assignApplicant(id: string, userId: string | null): Promis
     revalidatePath(`/admin/applicants/${id}`)
     return { success: true, data: applicant }
   } catch (error) {
-    console.error('assignApplicant error:', error)
+    logServerError('assignApplicant error', error)
     return { success: false, error: 'Zuweisung konnte nicht aktualisiert werden' }
   }
 }
@@ -244,7 +245,7 @@ export async function addApplicantNote(applicantId: string, content: string): Pr
     revalidatePath(`/admin/applicants/${applicantId}`)
     return { success: true, data: note }
   } catch (error) {
-    console.error('addApplicantNote error:', error)
+    logServerError('addApplicantNote error', error)
     return { success: false, error: 'Notiz konnte nicht hinzugefügt werden' }
   }
 }
@@ -268,7 +269,7 @@ export async function addApplicantTag(applicantId: string, tagId: string): Promi
     revalidatePath(`/admin/applicants/${applicantId}`)
     return { success: true }
   } catch (error) {
-    console.error('addApplicantTag error:', error)
+    logServerError('addApplicantTag error', error)
     return { success: false, error: 'Tag konnte nicht hinzugefügt werden' }
   }
 }
@@ -292,7 +293,7 @@ export async function removeApplicantTag(applicantId: string, tagId: string): Pr
     revalidatePath(`/admin/applicants/${applicantId}`)
     return { success: true }
   } catch (error) {
-    console.error('removeApplicantTag error:', error)
+    logServerError('removeApplicantTag error', error)
     return { success: false, error: 'Tag konnte nicht entfernt werden' }
   }
 }
@@ -323,7 +324,7 @@ export async function deleteApplicant(id: string): Promise<ActionResult> {
     revalidatePath('/admin/applicants')
     return { success: true }
   } catch (error) {
-    console.error('deleteApplicant error:', error)
+    logServerError('deleteApplicant error', error)
     return { success: false, error: 'Bewerber konnte nicht gelöscht werden' }
   }
 }
@@ -347,7 +348,7 @@ export async function getApplicantsByStatus(): Promise<ActionResult> {
 
     return { success: true, data: pipeline }
   } catch (error) {
-    console.error('getApplicantsByStatus error:', error)
+    logServerError('getApplicantsByStatus error', error)
     return { success: false, error: 'Pipeline-Daten konnten nicht geladen werden' }
   }
 }

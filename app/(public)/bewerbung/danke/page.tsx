@@ -59,13 +59,13 @@ export default function DankePage() {
               <p className="text-sm font-medium text-warm-700">
                 Bei Fragen erreichen Sie uns jederzeit:
               </p>
-              <div className="mt-3 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-6">
+              <div className="mt-3 flex flex-col items-center gap-3 lg:flex-row lg:justify-center lg:gap-6">
                 <a
-                  href="tel:+492303123456"
+                  href="tel:+4923032920589"
                   className="inline-flex items-center gap-2 text-sm font-medium text-warm-600 transition-colors duration-150 hover:text-primary-600"
                 >
                   <Phone className="h-4 w-4 text-primary-500" aria-hidden="true" />
-                  02303 / 123 456
+                  02303 2920589
                 </a>
                 <a
                   href="mailto:info@impuls-pflege.de"
@@ -79,16 +79,16 @@ export default function DankePage() {
           </MotionWrapper>
 
           <MotionWrapper delay={0.25}>
-            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+            <div className="mt-10 flex flex-col items-center gap-3 lg:flex-row lg:justify-center lg:gap-4">
               <Link
                 href="/"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary-500 px-6 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-primary-600 active:bg-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 sm:w-auto"
+                className="inline-flex h-11 w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-primary-500 px-6 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-primary-600 active:bg-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 lg:w-auto lg:max-w-none"
               >
                 Zur Startseite
               </Link>
               <Link
                 href="/karriere"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-warm-300 bg-white px-6 text-sm font-semibold text-warm-700 transition-colors duration-200 hover:bg-warm-50 active:bg-warm-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 sm:w-auto"
+                className="inline-flex h-11 w-full max-w-xs items-center justify-center gap-2 rounded-lg border border-warm-300 bg-white px-6 text-sm font-semibold text-warm-700 transition-colors duration-200 hover:bg-warm-50 active:bg-warm-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 lg:w-auto lg:max-w-none"
               >
                 Karriere entdecken
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />

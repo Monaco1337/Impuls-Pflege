@@ -7,6 +7,7 @@ import { logAudit } from '@/lib/audit/logger'
 import { userSchema, passwordChangeSchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
 import { hash, compare } from 'bcryptjs'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -40,7 +41,7 @@ export async function getUsers(): Promise<ActionResult> {
 
     return { success: true, data: users }
   } catch (error) {
-    console.error('getUsers error:', error)
+    logServerError('getUsers error', error)
     return { success: false, error: 'Benutzer konnten nicht geladen werden' }
   }
 }
@@ -57,7 +58,7 @@ export async function getUser(id: string): Promise<ActionResult> {
     if (!user) return { success: false, error: 'Benutzer nicht gefunden' }
     return { success: true, data: user }
   } catch (error) {
-    console.error('getUser error:', error)
+    logServerError('getUser error', error)
     return { success: false, error: 'Benutzer konnte nicht geladen werden' }
   }
 }
@@ -103,7 +104,7 @@ export async function createUser(data: unknown): Promise<ActionResult> {
     revalidatePath('/admin/users')
     return { success: true, data: user }
   } catch (error) {
-    console.error('createUser error:', error)
+    logServerError('createUser error', error)
     return { success: false, error: 'Benutzer konnte nicht erstellt werden' }
   }
 }
@@ -155,7 +156,7 @@ export async function updateUser(id: string, data: unknown): Promise<ActionResul
     revalidatePath('/admin/users')
     return { success: true, data: user }
   } catch (error) {
-    console.error('updateUser error:', error)
+    logServerError('updateUser error', error)
     return { success: false, error: 'Benutzer konnte nicht aktualisiert werden' }
   }
 }
@@ -188,7 +189,7 @@ export async function toggleUserActive(id: string): Promise<ActionResult> {
     revalidatePath('/admin/users')
     return { success: true, data: user }
   } catch (error) {
-    console.error('toggleUserActive error:', error)
+    logServerError('toggleUserActive error', error)
     return { success: false, error: 'Status konnte nicht geändert werden' }
   }
 }
@@ -233,7 +234,7 @@ export async function changePassword(
 
     return { success: true }
   } catch (error) {
-    console.error('changePassword error:', error)
+    logServerError('changePassword error', error)
     return { success: false, error: 'Passwort konnte nicht geändert werden' }
   }
 }

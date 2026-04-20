@@ -1,27 +1,37 @@
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 export interface LogoProps {
   size?: 'sm' | 'md' | 'lg'
+  variant?: 'default' | 'light'
   className?: string
 }
 
-const sizes = {
-  sm: { heading: 'text-lg', sub: 'text-[10px]' },
-  md: { heading: 'text-2xl', sub: 'text-xs' },
-  lg: { heading: 'text-4xl', sub: 'text-sm' },
+// natural ratio: 1024 × 549
+const heights = {
+  sm: 36,   // scrolled pill nav (48px container)
+  md: 44,   // default full nav (60px container)
+  lg: 52,   // footer / large display
 } as const
 
-export function Logo({ size = 'md', className }: LogoProps) {
-  const s = sizes[size]
+export function Logo({ size = 'md', variant = 'default', className }: LogoProps) {
+  const h = heights[size]
+  const w = Math.round(h * (1024 / 549))
+  const src = variant === 'light' ? '/images/logo-white.png' : '/images/logo.png'
 
   return (
-    <span className={cn('inline-flex flex-col leading-none select-none', className)} aria-label="IMPULS Ambulanter Pflegedienst">
-      <span className={cn('font-bold tracking-tight text-primary-500', s.heading)}>
-        IMPULS
-      </span>
-      <span className={cn('font-medium tracking-widest uppercase text-warm-500', s.sub)}>
-        Ambulanter Pflegedienst
-      </span>
+    <span
+      className={cn('inline-flex shrink-0 select-none items-center', className)}
+      aria-label="IMPULS Ambulanter Pflegedienst"
+    >
+      <Image
+        src={src}
+        alt="IMPULS Ambulanter Pflegedienst"
+        width={w}
+        height={h}
+        className="h-auto w-auto object-contain"
+        priority
+      />
     </span>
   )
 }

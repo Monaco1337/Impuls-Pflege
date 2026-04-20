@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db'
 import { requireAccess } from '@/lib/rbac/check'
+import { logServerError } from '@/lib/error-handling'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -55,7 +56,7 @@ export async function getAuditLogs(filters?: {
       data: { logs, total, page, pageSize, totalPages: Math.ceil(total / pageSize) },
     }
   } catch (error) {
-    console.error('getAuditLogs error:', error)
+    logServerError('getAuditLogs error', error)
     return { success: false, error: 'Aktivitätsprotokolle konnten nicht geladen werden' }
   }
 }
