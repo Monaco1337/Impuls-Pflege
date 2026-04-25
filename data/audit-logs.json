@@ -51,5 +51,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-25T19:40:46.873Z"
+  },
+  {
+    "id": "49ce78fc-8e25-49e1-bd3f-a8d26a9016ba",
+    "userId": "usr_admin",
+    "action": "status_change",
+    "entityType": "applicant",
+    "entityId": "582e95ed-8948-46b0-a2e4-2e1790c59a23",
+    "metadata": {
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "source": "detail_open"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:41:06.930Z"
   }
 ]
