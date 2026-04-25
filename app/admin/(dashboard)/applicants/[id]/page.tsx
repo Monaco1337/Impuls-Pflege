@@ -6,34 +6,27 @@ import {
   Mail,
   Phone,
   MapPin,
-  CalendarDays,
   Clock,
   GraduationCap,
   Briefcase,
   FileText,
-  FileSpreadsheet,
-  FileImage,
-  File,
-  Download,
   StickyNote,
   History,
   Settings2,
   Tag,
-  UserCheck,
   ArrowRight,
-  Globe,
 } from 'lucide-react'
-import { cn, formatDate, formatDateTime, formatFileSize } from '@/lib/utils'
+import { cn, formatDate, formatDateTime } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ApplicantStatusBadge } from '@/components/ui/status-badge'
-import { Button } from '@/components/ui/button'
 import { acknowledgeApplicantOnOpen, getApplicant } from '@/lib/actions/applicants'
 import { getUsers } from '@/lib/actions/users'
 import { getTags } from '@/lib/actions/tags'
 import { ApplicantStatusUpdate } from '@/components/admin/applicant-status-update'
 import { ApplicantTags } from '@/components/admin/applicant-tags'
 import { ApplicantNotes } from '@/components/admin/applicant-notes'
+import { ApplicantDocumentsList } from '@/components/admin/applicant-documents-list'
 import { ApplicantDeleteButton } from './delete-button'
 
 export async function generateMetadata({
@@ -94,14 +87,6 @@ function InfoRow({
       </div>
     </div>
   )
-}
-
-function fileIcon(fileType: string) {
-  if (fileType?.includes('pdf')) return FileText
-  if (fileType?.includes('spreadsheet') || fileType?.includes('excel'))
-    return FileSpreadsheet
-  if (fileType?.includes('image')) return FileImage
-  return File
 }
 
 export default async function ApplicantDetailPage({
@@ -246,50 +231,9 @@ export default async function ApplicantDetailPage({
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              {applicant.documents?.length > 0 ? (
-                <div className="divide-y divide-warm-100">
-                  {applicant.documents.map((doc: any) => {
-                    const Icon = fileIcon(doc.fileType)
-                    return (
-                      <div
-                        key={doc.id}
-                        className="flex items-center justify-between gap-3 py-3"
-                      >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-warm-100">
-                            <Icon className="h-4 w-4 text-warm-500" />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-medium text-warm-800">
-                              {doc.fileName}
-                            </p>
-                            <p className="text-xs text-warm-400">
-                              {formatFileSize(doc.fileSize)} ·{' '}
-                              {formatDate(doc.uploadedAt)}
-                            </p>
-                          </div>
-                        </div>
-                        <a
-                          href={`/api/files/${doc.id}`}
-                          download
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-warm-400 transition-colors hover:bg-warm-100 hover:text-warm-600"
-                        >
-                          <Download className="h-4 w-4" />
-                        </a>
-                      </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <div className="flex flex-col items-center py-8 text-center">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-warm-100">
-                    <FileText className="h-4 w-4 text-warm-400" />
-                  </div>
-                  <p className="text-sm text-warm-500">
-                    Keine Dokumente vorhanden
-                  </p>
-                </div>
-              )}
+              <ApplicantDocumentsList
+                documents={applicant.documents ?? []}
+              />
             </CardContent>
           </Card>
 

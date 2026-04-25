@@ -5,7 +5,7 @@ import { repoApplicantDocumentToBuffer } from '@/lib/data/json-repository'
 import type { RoleName } from '@/lib/types/enums'
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
@@ -27,11 +27,17 @@ export async function GET(
 
     const uint8 = new Uint8Array(hit.buffer)
 
+    // ?inline=1 → im Browser anzeigen (für Vorschau im Admin-Dialog).
+    // Sonst (Default) → als Download zurückgeben.
+    const inline = request.nextUrl.searchParams.get('inline') === '1'
+    const disposition = inline ? 'inline' : 'attachment'
+
     return new Response(uint8, {
       headers: {
         'Content-Type': hit.fileType,
-        'Content-Disposition': `attachment; filename="${encodeURIComponent(hit.fileName)}"`,
+        'Content-Disposition': `${disposition}; filename="${encodeURIComponent(hit.fileName)}"`,
         'Content-Length': String(hit.buffer.length),
+        'Cache-Control': 'private, max-age=0, no-store',
       },
     })
   } catch (error) {
