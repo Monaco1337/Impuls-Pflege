@@ -117,5 +117,21 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-25T19:51:57.160Z"
+  },
+  {
+    "id": "d698e1fb-0bb2-46a6-b8d5-78ca04346079",
+    "userId": "usr_admin",
+    "action": "status_change",
+    "entityType": "applicant",
+    "entityId": null,
+    "metadata": {
+      "bulk": true,
+      "count": 1,
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "source": "inbox_click"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:52:04.261Z"
   }
 ]
