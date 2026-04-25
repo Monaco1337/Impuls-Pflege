@@ -16,7 +16,7 @@ import { cn, formatDate, formatDateTime } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { InquiryStatusBadge } from '@/components/ui/status-badge'
-import { getInquiry } from '@/lib/actions/inquiries'
+import { acknowledgeInquiryOnOpen, getInquiry } from '@/lib/actions/inquiries'
 import { getUsers } from '@/lib/actions/users'
 import { InquiryStatusUpdate } from '@/components/admin/inquiry-status-update'
 import { InquiryNotes } from '@/components/admin/inquiry-notes'
@@ -78,6 +78,8 @@ export default async function InquiryDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+
+  await acknowledgeInquiryOnOpen(id)
 
   const [inquiryResult, usersResult] = await Promise.all([
     getInquiry(id),

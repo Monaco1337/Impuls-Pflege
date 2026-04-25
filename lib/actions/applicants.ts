@@ -4,7 +4,8 @@ import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { applicationSchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
-import type { ApplicantStatus } from '@/lib/types/enums'
+import { after } from 'next/server'
+import { ApplicantStatus } from '@/lib/types/enums'
 import { logServerError } from '@/lib/error-handling'
 import {
   newId,
@@ -249,6 +250,50 @@ export async function getApplicant(id: string): Promise<ActionResult> {
   } catch (error) {
     logServerError('getApplicant error', error)
     return { success: false, error: 'Bewerber konnte nicht geladen werden' }
+  }
+}
+
+/** Beim Öffnen der Detailseite: „Neu eingegangen“ → „Gesichtet“, Eingang-Badge sinkt. Mit `view` erlaubt. */
+export async function acknowledgeApplicantOnOpen(id: string): Promise<void> {
+  try {
+    const user = await requireAccess('applicants', 'view')
+
+    const bundle = await repoLoadApplicants()
+    const a = bundle.applicants.find((x) => x.id === id)
+    if (!a || a.status !== ApplicantStatus.NEU_EINGEGANGEN) return
+
+    const fromStatus = a.status
+    a.status = ApplicantStatus.GESICHTET
+    a.updatedAt = nowIso()
+
+    bundle.statusHistory.push({
+      id: newId(),
+      applicantId: id,
+      fromStatus,
+      toStatus: ApplicantStatus.GESICHTET,
+      changedById: user.id,
+      note: 'Automatisch: Detailansicht geöffnet',
+      changedAt: nowIso(),
+    })
+
+    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicant ack open ${id}: ${a.updatedAt}`)
+
+    await logAudit({
+      userId: user.id,
+      action: 'status_change',
+      entityType: 'applicant',
+      entityId: id,
+      metadata: { fromStatus, toStatus: ApplicantStatus.GESICHTET, source: 'detail_open' },
+    })
+
+    // revalidatePath darf nicht während RSC-Render laufen; after() führt es nach der Response aus.
+    after(() => {
+      revalidatePath('/admin/applicants')
+      revalidatePath(`/admin/applicants/${id}`)
+      revalidatePath('/admin/dashboard')
+    })
+  } catch (error) {
+    logServerError('acknowledgeApplicantOnOpen error', error)
   }
 }
 

@@ -109,7 +109,7 @@ export default async function DashboardPage() {
     entityType: string
     entityId: string
     createdAt: string | Date
-    user: { firstName: string; lastName: string }
+    user: { firstName: string; lastName: string } | null
   }>
   const pipeline = (pipelineResult.data ?? {}) as Record<string, number>
 
@@ -312,7 +312,14 @@ export default async function DashboardPage() {
             </p>
           ) : (
             <div className="space-y-0">
-              {activity.map((entry, i) => (
+              {activity.map((entry, i) => {
+                const who = entry.user
+                  ? [entry.user.firstName, entry.user.lastName]
+                      .filter(Boolean)
+                      .join(' ')
+                      .trim() || 'Unbekannt'
+                  : 'System'
+                return (
                 <div
                   key={entry.id}
                   className={cn(
@@ -321,15 +328,13 @@ export default async function DashboardPage() {
                   )}
                 >
                   <Avatar
-                    name={`${entry.user.firstName} ${entry.user.lastName}`}
+                    name={who}
                     size="sm"
                     className="mt-0.5"
                   />
                   <div className="min-w-0 flex-1">
                     <p className="text-sm text-warm-700">
-                      <span className="font-medium text-warm-900">
-                        {entry.user.firstName} {entry.user.lastName}
-                      </span>{' '}
+                      <span className="font-medium text-warm-900">{who}</span>{' '}
                       hat {formatAction(entry.action, entry.entityType)}
                     </p>
                     <p className="mt-0.5 text-xs text-warm-400">
@@ -337,7 +342,8 @@ export default async function DashboardPage() {
                     </p>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </CardContent>

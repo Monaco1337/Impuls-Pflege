@@ -4,8 +4,9 @@ import { requireAccess } from '@/lib/rbac/check'
 import { logAudit } from '@/lib/audit/logger'
 import { inquirySchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
+import { after } from 'next/server'
 import { logServerError } from '@/lib/error-handling'
-import type { InquiryPriority, InquiryStatus } from '@/lib/types/enums'
+import { InquiryStatus, type InquiryPriority } from '@/lib/types/enums'
 import {
   newId,
   nowIso,
@@ -155,6 +156,39 @@ export async function getInquiry(id: string): Promise<ActionResult> {
   } catch (error) {
     logServerError('getInquiry error', error)
     return { success: false, error: 'Anfrage konnte nicht geladen werden' }
+  }
+}
+
+/** Beim Öffnen der Detailseite: „Neu“ → „In Bearbeitung“, Eingang-Badge sinkt. Mit `view` erlaubt. */
+export async function acknowledgeInquiryOnOpen(id: string): Promise<void> {
+  try {
+    const user = await requireAccess('inquiries', 'view')
+
+    const bundle = await repoLoadInquiries()
+    const inv = bundle.inquiries.find((i) => i.id === id)
+    if (!inv || inv.status !== InquiryStatus.NEU) return
+
+    const fromStatus = inv.status
+    inv.status = InquiryStatus.IN_BEARBEITUNG
+    inv.updatedAt = nowIso()
+
+    await writeJsonFile(DATA_FILES.inquiries, bundle, `Data update inquiry ack open ${id}: ${inv.updatedAt}`)
+
+    await logAudit({
+      userId: user.id,
+      action: 'status_change',
+      entityType: 'inquiry',
+      entityId: id,
+      metadata: { fromStatus, toStatus: InquiryStatus.IN_BEARBEITUNG, source: 'detail_open' },
+    })
+
+    after(() => {
+      revalidatePath('/admin/inquiries')
+      revalidatePath(`/admin/inquiries/${id}`)
+      revalidatePath('/admin/dashboard')
+    })
+  } catch (error) {
+    logServerError('acknowledgeInquiryOnOpen error', error)
   }
 }
 

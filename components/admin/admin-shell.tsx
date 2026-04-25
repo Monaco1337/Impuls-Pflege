@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useAdminInbox } from '@/components/admin/use-admin-inbox'
+import { InboxBellDropdown } from '@/components/admin/inbox-bell-dropdown'
 import {
   LayoutDashboard,
   MessageSquare,
@@ -39,15 +41,19 @@ interface AdminShellProps {
   children: React.ReactNode
 }
 
+const INQ_INBOX = '/admin/inquiries?status=NEU' as const
+const APP_INBOX = '/admin/applicants?status=NEU_EINGEGANGEN' as const
+
 const navItems: {
   label: string
   href: string
   icon: React.ElementType
   resource: Resource
+  inbox?: 'inquiries' | 'applicants'
 }[] = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard, resource: 'dashboard' },
-  { label: 'Anfragen', href: '/admin/inquiries', icon: MessageSquare, resource: 'inquiries' },
-  { label: 'Bewerber', href: '/admin/applicants', icon: Users, resource: 'applicants' },
+  { label: 'Anfragen', href: '/admin/inquiries', icon: MessageSquare, resource: 'inquiries', inbox: 'inquiries' },
+  { label: 'Bewerber', href: '/admin/applicants', icon: Users, resource: 'applicants', inbox: 'applicants' },
   { label: 'Stellenanzeigen', href: '/admin/jobs', icon: Briefcase, resource: 'jobs' },
   { label: 'Inhalte', href: '/admin/content', icon: FileText, resource: 'content' },
   { label: 'Benutzer', href: '/admin/users', icon: UserCog, resource: 'users' },
@@ -61,9 +67,20 @@ function getPageTitle(pathname: string): string {
   return item?.label ?? 'Admin'
 }
 
+function hrefForInbox(
+  item: (typeof navItems)[number],
+  newInquiries: number,
+  newApplicants: number,
+) {
+  if (item.inbox === 'inquiries' && newInquiries > 0) return INQ_INBOX
+  if (item.inbox === 'applicants' && newApplicants > 0) return APP_INBOX
+  return item.href
+}
+
 export function AdminShell({ user, children }: AdminShellProps) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { counts, ready: inboxReady } = useAdminInbox()
 
   const visibleItems = navItems.filter((item) =>
     hasPermission(user.role, item.resource, 'view'),
@@ -104,14 +121,24 @@ export function AdminShell({ user, children }: AdminShellProps) {
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-0.5">
             {visibleItems.map((item) => {
+              const href = hrefForInbox(item, counts.newInquiries, counts.newApplicants)
               const isActive =
-                pathname === item.href || pathname.startsWith(item.href + '/')
+                item.href === '/admin/dashboard'
+                  ? pathname === item.href
+                  : pathname === item.href || pathname.startsWith(item.href + '/')
               const Icon = item.icon
+              const navCount =
+                item.inbox === 'inquiries'
+                  ? counts.newInquiries
+                  : item.inbox === 'applicants'
+                    ? counts.newApplicants
+                    : 0
+              const showBadge = inboxReady && item.inbox && navCount > 0
 
               return (
                 <li key={item.href}>
                   <Link
-                    href={item.href}
+                    href={href}
                     onClick={() => setSidebarOpen(false)}
                     className={cn(
                       'group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-150',
@@ -119,6 +146,22 @@ export function AdminShell({ user, children }: AdminShellProps) {
                         ? 'bg-primary-50 text-primary-600'
                         : 'text-warm-600 hover:bg-warm-100 hover:text-warm-900',
                     )}
+                    title={
+                      showBadge
+                        ? (() => {
+                            const n = navCount
+                            if (item.inbox === 'inquiries') {
+                              return `${n} ${n === 1 ? 'neue Anfrage' : 'neue Anfragen'} (gefiltert)`
+                            }
+                            return `${n} ${n === 1 ? 'neue Bewerbung' : 'neue Bewerbungen'} (gefiltert)`
+                          })()
+                        : undefined
+                    }
+                    aria-label={
+                      showBadge
+                        ? `${item.label}, ${navCount} neue Eingänge`
+                        : item.label
+                    }
                   >
                     <Icon
                       className={cn(
@@ -126,7 +169,19 @@ export function AdminShell({ user, children }: AdminShellProps) {
                         isActive ? 'text-primary-500' : 'text-warm-400 group-hover:text-warm-500',
                       )}
                     />
-                    {item.label}
+                    <span className="min-w-0 flex-1 leading-snug">{item.label}</span>
+                    {showBadge && (
+                      <span
+                        className={cn(
+                          'shrink-0 tabular-nums',
+                          'inline-flex h-5 min-w-[1.5rem] items-center justify-center rounded-md px-1.5',
+                          'bg-rose-500 text-[11px] font-semibold leading-none text-white shadow-sm',
+                        )}
+                        aria-hidden
+                      >
+                        {navCount > 9 ? '9+' : navCount}
+                      </span>
+                    )}
                   </Link>
                 </li>
               )
@@ -165,7 +220,13 @@ export function AdminShell({ user, children }: AdminShellProps) {
             <h1 className="text-lg font-semibold text-warm-900">{pageTitle}</h1>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <InboxBellDropdown
+              userRole={user.role}
+              newInquiries={counts.newInquiries}
+              newApplicants={counts.newApplicants}
+              liveReady={inboxReady}
+            />
             <Badge variant="primary" className="hidden sm:inline-flex">
               {getRoleLabel(user.role)}
             </Badge>

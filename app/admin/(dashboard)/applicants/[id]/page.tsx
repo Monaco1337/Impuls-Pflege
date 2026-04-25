@@ -28,7 +28,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ApplicantStatusBadge } from '@/components/ui/status-badge'
 import { Button } from '@/components/ui/button'
-import { getApplicant } from '@/lib/actions/applicants'
+import { acknowledgeApplicantOnOpen, getApplicant } from '@/lib/actions/applicants'
 import { getUsers } from '@/lib/actions/users'
 import { getTags } from '@/lib/actions/tags'
 import { ApplicantStatusUpdate } from '@/components/admin/applicant-status-update'
@@ -110,6 +110,8 @@ export default async function ApplicantDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+
+  await acknowledgeApplicantOnOpen(id)
 
   const [applicantResult, usersResult, tagsResult] = await Promise.all([
     getApplicant(id),
