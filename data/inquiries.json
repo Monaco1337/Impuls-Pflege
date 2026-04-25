@@ -8,11 +8,11 @@
       "inquiryType": "Allgemeine Anfrage",
       "message": "aysxdxgddtrre",
       "preferredCallback": "Montag, 12Uhr",
-      "status": "IN_BEARBEITUNG",
+      "status": "RUECKRUF_GEPLANT",
       "priority": "NORMAL",
       "assignedToId": null,
       "createdAt": "2026-04-25T19:44:13.578Z",
-      "updatedAt": "2026-04-25T19:44:26.290Z"
+      "updatedAt": "2026-04-25T19:47:56.212Z"
     }
   ],
   "notes": []
