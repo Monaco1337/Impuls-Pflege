@@ -143,6 +143,17 @@ export async function writeJsonFile(fileName: string, value: unknown, commitMess
       return
     }
 
+    if (isVercel()) {
+      // Auf Vercel ist das Repo-Verzeichnis read-only. Ohne GitHub-Persistenz
+      // bleiben die Daten nur im Memory + /tmp (lambda-lokal). Logge eine Warnung,
+      // damit Operations das aktivieren können – aber breche den Schreibvorgang
+      // NICHT mit EROFS ab, sonst scheitert jede Bewerbung.
+      console.warn(
+        `[writeJsonFile] '${fileName}' wurde nur in /tmp + Memory geschrieben. Setze GIT_TOKEN/GITHUB_REPO_OWNER/GITHUB_REPO_NAME für persistente Speicherung.`,
+      )
+      return
+    }
+
     await writeLocalDataFile(fileName, text)
   })
 }

@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "445e2f6b-4ee0-4ab2-81e4-86607cbb21ed",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86",
+    "metadata": {
+      "name": "celina test",
+      "position": "Initiativbewerbung"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-24T10:23:43.129Z"
+  },
+  {
+    "id": "7c6aca2b-83eb-461b-b3c5-020353934591",
+    "userId": "usr_admin",
+    "action": "status_change",
+    "entityType": "applicant",
+    "entityId": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86",
+    "metadata": {
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "source": "detail_open"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-24T10:33:08.740Z"
+  },
+  {
+    "id": "1defceb6-9bb1-44a5-b651-3297e71f926a",
+    "userId": "usr_admin",
+    "action": "delete",
+    "entityType": "document",
+    "entityId": "3ff965d0-b0a6-4a3e-a41e-c15eb129c68a",
+    "metadata": {
+      "fileName": "cool wallpaper.pdf",
+      "applicantId": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:12:34.092Z"
+  }
+]

@@ -46,7 +46,17 @@ function applicantMatchesSearch(a: JsonApplicant, search: string) {
   )
 }
 
+function safeErrorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message
+  try {
+    return String(err)
+  } catch {
+    return 'Unbekannter Fehler'
+  }
+}
+
 export async function submitApplication(formData: FormData): Promise<ActionResult> {
+  const debug = process.env.APP_DEBUG_SUBMIT === '1'
   try {
     const raw = {
       firstName: formData.get('firstName'),
@@ -61,15 +71,27 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
       motivation: formData.get('motivation'),
       privacy: formData.get('privacy') === 'true',
     }
+    console.info('[submitApplication] received', {
+      firstName: raw.firstName,
+      lastName: raw.lastName,
+      email: raw.email,
+      positionApplied: raw.positionApplied,
+      privacy: raw.privacy,
+      filesAttached: formData.getAll('documents').length,
+    })
 
     const parsed = applicationSchema.safeParse(raw)
     if (!parsed.success) {
-      return { success: false, error: parsed.error.errors[0]?.message ?? 'Ungültige Eingabe' }
+      const first = parsed.error.errors[0]
+      console.warn('[submitApplication] validation failed', parsed.error.errors)
+      return {
+        success: false,
+        error: first ? `${first.path.join('.')}: ${first.message}` : 'Ungültige Eingabe',
+      }
     }
 
     const { privacy: _, ...applicantData } = parsed.data
 
-    const bundle = await repoLoadApplicants()
     const t = nowIso()
     const applicant: JsonApplicant = {
       id: newId(),
@@ -90,11 +112,12 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
       createdAt: t,
       updatedAt: t,
     }
-    bundle.applicants.push(applicant)
 
     const files = formData.getAll('documents') as File[]
+    const newDocuments: JsonApplicantDocument[] = []
     let totalBytes = 0
     for (const file of files) {
+      if (!file || typeof file === 'string') continue
       if (file.size > 0) {
         const buf = Buffer.from(await file.arrayBuffer())
         totalBytes += buf.length
@@ -110,7 +133,7 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
             error: 'Die Gesamtgröße der hochgeladenen Dateien ist zu hoch (max. 7 MB).',
           }
         }
-        bundle.documents.push({
+        newDocuments.push({
           id: newId(),
           applicantId: applicant.id,
           fileName: file.name,
@@ -122,19 +145,54 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
       }
     }
 
-    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicants submit: ${t}`)
+    let bundle
+    try {
+      bundle = await repoLoadApplicants()
+    } catch (loadErr) {
+      console.error('[submitApplication] repoLoadApplicants failed', loadErr)
+      return {
+        success: false,
+        error: debug
+          ? `Daten konnten nicht geladen werden: ${safeErrorMessage(loadErr)}`
+          : 'Bewerbung konnte nicht gespeichert werden (Datenladefehler).',
+      }
+    }
+    bundle.applicants.push(applicant)
+    bundle.documents.push(...newDocuments)
 
-    await logAudit({
-      action: 'create',
-      entityType: 'applicant',
-      entityId: applicant.id,
-      metadata: { name: `${applicant.firstName} ${applicant.lastName}`, position: applicant.positionApplied },
-    })
+    try {
+      await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicants submit: ${t}`)
+    } catch (writeErr) {
+      console.error('[submitApplication] writeJsonFile failed', writeErr)
+      return {
+        success: false,
+        error: debug
+          ? `Speichern fehlgeschlagen: ${safeErrorMessage(writeErr)}`
+          : 'Bewerbung konnte nicht gespeichert werden. Bitte später erneut versuchen.',
+      }
+    }
 
+    try {
+      await logAudit({
+        action: 'create',
+        entityType: 'applicant',
+        entityId: applicant.id,
+        metadata: { name: `${applicant.firstName} ${applicant.lastName}`, position: applicant.positionApplied },
+      })
+    } catch (auditErr) {
+      console.warn('[submitApplication] audit log failed (non-fatal)', auditErr)
+    }
+
+    console.info('[submitApplication] success', { id: applicant.id })
     return { success: true, data: { id: applicant.id } }
   } catch (error) {
     logServerError('submitApplication error', error)
-    return { success: false, error: 'Bewerbung konnte nicht eingereicht werden' }
+    return {
+      success: false,
+      error: debug
+        ? `Bewerbung konnte nicht eingereicht werden: ${safeErrorMessage(error)}`
+        : 'Bewerbung konnte nicht eingereicht werden',
+    }
   }
 }
 
