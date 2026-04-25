@@ -92,5 +92,17 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-25T19:44:26.871Z"
+  },
+  {
+    "id": "0d62688a-ec0a-4990-89ff-1a4f4a9053c9",
+    "userId": "usr_admin",
+    "action": "status_change",
+    "entityType": "inquiry",
+    "entityId": "35070cc4-3109-400e-8f41-8aa7c0ca4401",
+    "metadata": {
+      "status": "RUECKRUF_GEPLANT"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:47:56.720Z"
   }
 ]
