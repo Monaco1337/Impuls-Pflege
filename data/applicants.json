@@ -20,25 +20,6 @@
       "updatedAt": "2026-04-24T10:33:08.712Z"
     },
     {
-      "id": "582e95ed-8948-46b0-a2e4-2e1790c59a23",
-      "firstName": "test",
-      "lastName": "test",
-      "email": "test@gmx.de",
-      "phone": "017664884415",
-      "address": "Hansastr. 34",
-      "positionApplied": "Pflegefachkraft",
-      "availability": "ab sofort",
-      "qualification": "pflegefachkraft",
-      "experience": "3 Jahre Berufserfahrung",
-      "motivation": "yxcvbhnjmkfgvbhnjmkftgzhu",
-      "source": "website",
-      "status": "GESICHTET",
-      "assignedToId": null,
-      "jobPostingId": null,
-      "createdAt": "2026-04-25T19:40:45.987Z",
-      "updatedAt": "2026-04-25T19:41:06.246Z"
-    },
-    {
       "id": "99728585-fbdb-40a5-aae1-92ab4a9a47b1",
       "firstName": "test",
       "lastName": "test",
@@ -68,15 +49,6 @@
       "changedById": "usr_admin",
       "note": "Automatisch: Detailansicht geöffnet",
       "changedAt": "2026-04-24T10:33:08.712Z"
-    },
-    {
-      "id": "b74f9165-12d2-4870-a620-c7339a9f4201",
-      "applicantId": "582e95ed-8948-46b0-a2e4-2e1790c59a23",
-      "fromStatus": "NEU_EINGEGANGEN",
-      "toStatus": "GESICHTET",
-      "changedById": "usr_admin",
-      "note": "Automatisch: Detailansicht geöffnet",
-      "changedAt": "2026-04-25T19:41:06.246Z"
     },
     {
       "id": "a67d24ac-3674-4c6f-b07a-0fc385268fce",
