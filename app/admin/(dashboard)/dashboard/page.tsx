@@ -5,9 +5,11 @@ import {
   getDashboardStats,
   getRecentInquiries,
   getRecentApplicants,
+  getRecentAnamnese,
   getRecentActivity,
   getPipelineSummary,
   getInquiryPipelineSummary,
+  getAnamnesePipelineSummary,
 } from '@/lib/actions/dashboard'
 import { CommandCenter } from '@/components/admin/command-center'
 
@@ -21,14 +23,16 @@ export default async function DashboardPage() {
   const user = await getCurrentUser()
   if (!user) redirect('/admin/login')
 
-  const [statsResult, inquiriesResult, applicantsResult, activityResult, pipelineResult, inqPipelineResult] =
+  const [statsResult, inquiriesResult, applicantsResult, anamneseResult, activityResult, pipelineResult, inqPipelineResult, anamPipelineResult] =
     await Promise.all([
       getDashboardStats(),
       getRecentInquiries(),
       getRecentApplicants(),
+      getRecentAnamnese(),
       getRecentActivity(),
       getPipelineSummary(),
       getInquiryPipelineSummary(),
+      getAnamnesePipelineSummary(),
     ])
 
   const stats = statsResult.data as Record<string, number> | undefined
@@ -47,6 +51,13 @@ export default async function DashboardPage() {
     status: string
     createdAt: string | Date
   }>
+  const anamnese = (anamneseResult.data ?? []) as Array<{
+    id: string
+    patientFirstName: string
+    patientLastName: string
+    status: string
+    createdAt: string | Date
+  }>
   const activity = (activityResult.data ?? []) as Array<{
     id: string
     action: string
@@ -58,15 +69,19 @@ export default async function DashboardPage() {
   }>
   const applicantPipeline = (pipelineResult.data ?? {}) as Record<string, number>
   const inquiryPipeline = (inqPipelineResult.data ?? {}) as Record<string, number>
+  const anamnesePipeline = (anamPipelineResult.data ?? {}) as Record<string, number>
 
   return (
     <CommandCenter
       firstName={user.firstName}
+      userRole={user.role}
       stats={stats}
       inquiryPipeline={inquiryPipeline}
       applicantPipeline={applicantPipeline}
+      anamnesePipeline={anamnesePipeline}
       inquiries={inquiries}
       applicants={applicants}
+      anamnese={anamnese}
       activity={activity}
     />
   )

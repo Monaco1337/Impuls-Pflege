@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Bell, Mail, UserPlus } from 'lucide-react'
+import { Bell, Mail, UserPlus, Stethoscope } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { hasPermission } from '@/lib/rbac/permissions'
 import type { RoleName } from '@/lib/types/enums'
@@ -15,33 +15,41 @@ import {
 
 const INQ_FILTER = '/admin/inquiries?status=NEU'
 const APP_FILTER = '/admin/applicants?status=NEU_EINGEGANGEN'
+const ANAM_FILTER = '/admin/anamnese?status=NEU_EINGEGANGEN'
 const INQ_LIST = '/admin/inquiries'
 const APP_LIST = '/admin/applicants'
+const ANAM_LIST = '/admin/anamnese'
 
 type Props = {
   userRole: RoleName
   newInquiries: number
   newApplicants: number
+  newAnamnese: number
   liveReady: boolean
   onAckInquiries: () => void | Promise<void>
   onAckApplicants: () => void | Promise<void>
+  onAckAnamnese: () => void | Promise<void>
 }
 
 export function InboxBellDropdown({
   userRole,
   newInquiries,
   newApplicants,
+  newAnamnese,
   liveReady,
   onAckInquiries,
   onAckApplicants,
+  onAckAnamnese,
 }: Props) {
   const router = useRouter()
   const canInq = hasPermission(userRole, 'inquiries', 'view')
   const canApp = hasPermission(userRole, 'applicants', 'view')
+  const canAnam = hasPermission(userRole, 'anamnese', 'view')
 
-  if (!canInq && !canApp) return null
+  if (!canInq && !canApp && !canAnam) return null
 
-  const total = (canInq ? newInquiries : 0) + (canApp ? newApplicants : 0)
+  const total =
+    (canInq ? newInquiries : 0) + (canApp ? newApplicants : 0) + (canAnam ? newAnamnese : 0)
   const hasUrgent = total > 0
 
   const handleInquiriesClick = () => {
@@ -56,6 +64,12 @@ export function InboxBellDropdown({
     router.push(target)
   }
 
+  const handleAnamneseClick = () => {
+    const target = newAnamnese > 0 ? ANAM_FILTER : ANAM_LIST
+    if (newAnamnese > 0) void onAckAnamnese()
+    router.push(target)
+  }
+
   return (
     <Dropdown>
       <DropdownTrigger
@@ -65,8 +79,8 @@ export function InboxBellDropdown({
             ? 'text-primary-600 hover:bg-primary-50'
             : 'text-warm-400 hover:bg-warm-50 hover:text-warm-600',
         )}
-        title="Eingang: neue Anfragen & Bewerbungen"
-        aria-label="Eingang, neue Anfragen und Bewerbungen"
+        title="Eingang: Anfragen, Anamnese, Bewerbungen"
+        aria-label="Eingang, neue Anfragen, Anamnesebögen und Bewerbungen"
       >
         <Bell className={cn('h-[18px] w-[18px]', hasUrgent && 'text-primary-600')} />
         {hasUrgent && liveReady && (
@@ -98,7 +112,18 @@ export function InboxBellDropdown({
             liveReady={liveReady}
           />
         )}
-        {canInq && canApp && <DropdownSeparator className="my-0" />}
+        {canInq && (canAnam || canApp) && <DropdownSeparator className="my-0" />}
+        {canAnam && (
+          <InboxItem
+            icon={Stethoscope}
+            label="Neue Anamnese"
+            count={newAnamnese}
+            onGo={handleAnamneseClick}
+            hasWork={newAnamnese > 0}
+            liveReady={liveReady}
+          />
+        )}
+        {canAnam && canApp && <DropdownSeparator className="my-0" />}
         {canApp && (
           <InboxItem
             icon={UserPlus}

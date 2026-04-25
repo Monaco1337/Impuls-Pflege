@@ -50,3 +50,12 @@ export const EmploymentType = {
   FREIBERUFLICH: 'FREIBERUFLICH',
 } as const
 export type EmploymentType = (typeof EmploymentType)[keyof typeof EmploymentType]
+
+export const AnamneseStatus = {
+  NEU_EINGEGANGEN: 'NEU_EINGEGANGEN',
+  GESICHTET: 'GESICHTET',
+  IN_BEARBEITUNG: 'IN_BEARBEITUNG',
+  ERLEDIGT: 'ERLEDIGT',
+  ARCHIVIERT: 'ARCHIVIERT',
+} as const
+export type AnamneseStatus = (typeof AnamneseStatus)[keyof typeof AnamneseStatus]

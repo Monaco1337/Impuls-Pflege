@@ -1,40 +1,30 @@
 import { NextResponse } from 'next/server'
+import { persistAnamneseSubmission } from '@/lib/public/persist-anamnese-submission'
+import { logServerError } from '@/lib/error-handling'
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json()
-
-    // Validate minimum required fields
-    if (!data.vorname || !data.nachname || !data.geburtsdatum || !data.telefon) {
-      return NextResponse.json(
-        { error: 'Pflichtfelder fehlen' },
-        { status: 400 },
-      )
+    let data: unknown
+    try {
+      data = await request.json()
+    } catch {
+      return NextResponse.json({ error: 'Ungültige Anfrage' }, { status: 400 })
+    }
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      return NextResponse.json({ error: 'Ungültige Formulardaten' }, { status: 400 })
     }
 
-    if (!data.datenschutz || !data.richtigkeit) {
-      return NextResponse.json(
-        { error: 'Einwilligungen fehlen' },
-        { status: 400 },
-      )
+    const result = await persistAnamneseSubmission(data as Record<string, unknown>)
+    if (!result.ok) {
+      return NextResponse.json({ error: result.error }, { status: result.status })
     }
-
-    // Log submission (in production: store to DB, send email notification, etc.)
-    console.log('[Anamnesebogen] Neue Einreichung:', {
-      name: `${data.vorname} ${data.nachname}`,
-      geburtsdatum: data.geburtsdatum,
-      telefon: data.telefon,
-      timestamp: new Date().toISOString(),
-    })
 
     return NextResponse.json(
-      { success: true, message: 'Anamnesebogen erfolgreich übermittelt' },
+      { success: true, message: 'Anamnesebogen erfolgreich übermittelt', id: result.id },
       { status: 200 },
     )
-  } catch {
-    return NextResponse.json(
-      { error: 'Fehler bei der Verarbeitung' },
-      { status: 500 },
-    )
+  } catch (e) {
+    logServerError('POST /api/anamnesebogen', e)
+    return NextResponse.json({ error: 'Fehler bei der Verarbeitung' }, { status: 500 })
   }
 }

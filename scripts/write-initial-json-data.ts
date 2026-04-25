@@ -10,6 +10,7 @@ import {
   defaultSettings,
   defaultTags,
   defaultUsers,
+  emptyAnamnese,
   emptyApplicants,
   emptyInquiries,
 } from '../lib/data/defaults'
@@ -26,6 +27,7 @@ const write = (name: string, data: unknown) => {
 write(DATA_FILES.users, defaultUsers())
 write(DATA_FILES.inquiries, emptyInquiries())
 write(DATA_FILES.applicants, emptyApplicants())
+write(DATA_FILES.anamnese, emptyAnamnese())
 write(DATA_FILES.applicantTags, [])
 write(DATA_FILES.tags, defaultTags())
 write(DATA_FILES.jobs, defaultJobs())

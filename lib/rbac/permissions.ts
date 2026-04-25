@@ -4,6 +4,7 @@ export type Resource =
   | 'dashboard'
   | 'inquiries'
   | 'applicants'
+  | 'anamnese'
   | 'jobs'
   | 'content'
   | 'users'
@@ -20,6 +21,7 @@ const permissions: PermissionMap = {
     dashboard: ['view', 'manage'],
     inquiries: ['view', 'create', 'edit', 'delete', 'manage'],
     applicants: ['view', 'create', 'edit', 'delete', 'manage'],
+    anamnese: ['view', 'create', 'edit', 'delete', 'manage'],
     jobs: ['view', 'create', 'edit', 'delete', 'manage'],
     content: ['view', 'create', 'edit', 'delete', 'manage'],
     users: ['view', 'create', 'edit', 'delete', 'manage'],
@@ -31,6 +33,7 @@ const permissions: PermissionMap = {
     dashboard: ['view', 'manage'],
     inquiries: ['view', 'create', 'edit', 'delete', 'manage'],
     applicants: ['view', 'create', 'edit', 'delete', 'manage'],
+    anamnese: ['view', 'create', 'edit', 'delete', 'manage'],
     jobs: ['view', 'create', 'edit', 'delete', 'manage'],
     content: ['view', 'create', 'edit', 'delete', 'manage'],
     users: ['view', 'create', 'edit'],
@@ -42,6 +45,7 @@ const permissions: PermissionMap = {
     dashboard: ['view'],
     inquiries: ['view'],
     applicants: ['view', 'create', 'edit', 'manage'],
+    anamnese: [],
     jobs: ['view', 'create', 'edit'],
     content: [],
     users: [],
@@ -53,6 +57,7 @@ const permissions: PermissionMap = {
     dashboard: ['view'],
     inquiries: ['view', 'create', 'edit', 'manage'],
     applicants: ['view'],
+    anamnese: ['view', 'create', 'edit', 'manage'],
     jobs: ['view'],
     content: [],
     users: [],
@@ -64,6 +69,7 @@ const permissions: PermissionMap = {
     dashboard: ['view'],
     inquiries: [],
     applicants: [],
+    anamnese: [],
     jobs: ['view', 'create', 'edit'],
     content: ['view', 'create', 'edit', 'delete', 'manage'],
     users: [],
@@ -75,6 +81,7 @@ const permissions: PermissionMap = {
     dashboard: ['view'],
     inquiries: ['view'],
     applicants: ['view'],
+    anamnese: ['view'],
     jobs: ['view'],
     content: ['view'],
     users: [],

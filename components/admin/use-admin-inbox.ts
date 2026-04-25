@@ -5,10 +5,11 @@ import { useCallback, useEffect, useState } from 'react'
 import type { InboxCounts } from '@/lib/admin/inbox-counts'
 import { acknowledgeAllNewInquiries } from '@/lib/actions/inquiries'
 import { acknowledgeAllNewApplicants } from '@/lib/actions/applicants'
+import { acknowledgeAllNewAnamnese } from '@/lib/actions/anamnese'
 
 const POLL_MS = 10_000
 
-const empty: InboxCounts = { newInquiries: 0, newApplicants: 0 }
+const empty: InboxCounts = { newInquiries: 0, newApplicants: 0, newAnamnese: 0 }
 
 export function useAdminInbox() {
   const pathname = usePathname()
@@ -23,11 +24,13 @@ export function useAdminInbox() {
       const data = (await res.json()) as InboxCounts
       if (
         typeof data?.newInquiries === 'number' &&
-        typeof data?.newApplicants === 'number'
+        typeof data?.newApplicants === 'number' &&
+        typeof data?.newAnamnese === 'number'
       ) {
         setCounts({
           newInquiries: data.newInquiries,
           newApplicants: data.newApplicants,
+          newAnamnese: data.newAnamnese,
         })
       }
     } finally {
@@ -54,6 +57,18 @@ export function useAdminInbox() {
     setCounts((c) => ({ ...c, newApplicants: 0 }))
     try {
       const r = await acknowledgeAllNewApplicants()
+      if (!r.success) {
+        await fetchCounts()
+      }
+    } catch {
+      await fetchCounts()
+    }
+  }, [fetchCounts])
+
+  const acknowledgeAnamnese = useCallback(async () => {
+    setCounts((c) => ({ ...c, newAnamnese: 0 }))
+    try {
+      const r = await acknowledgeAllNewAnamnese()
       if (!r.success) {
         await fetchCounts()
       }
@@ -95,5 +110,6 @@ export function useAdminInbox() {
     refresh: fetchCounts,
     acknowledgeInquiries,
     acknowledgeApplicants,
+    acknowledgeAnamnese,
   }
 }

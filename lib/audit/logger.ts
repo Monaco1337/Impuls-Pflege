@@ -20,6 +20,7 @@ type EntityType =
   | 'user'
   | 'inquiry'
   | 'applicant'
+  | 'anamnese_submission'
   | 'job_posting'
   | 'content_block'
   | 'document'

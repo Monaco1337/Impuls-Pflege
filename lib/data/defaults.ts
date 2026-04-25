@@ -2,6 +2,7 @@
  * Standard-Daten für frische data/*.json (Passwort aller Demo-User: Admin123!)
  */
 import type {
+  AnamneseData,
   ApplicantsData,
   InquiriesData,
   JsonContentBlock,
@@ -212,4 +213,8 @@ export function emptyInquiries(): InquiriesData {
 
 export function emptyApplicants(): ApplicantsData {
   return { applicants: [], notes: [], statusHistory: [], documents: [] }
+}
+
+export function emptyAnamnese(): AnamneseData {
+  return { submissions: [] }
 }

@@ -247,6 +247,7 @@ export function AnamnesebogenForm() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const topRef = useRef<HTMLDivElement>(null)
 
   const total = STEPS.length
@@ -291,10 +292,24 @@ export function AnamnesebogenForm() {
     e.preventDefault()
     if (!validate()) return
     setSubmitting(true)
+    setSubmitError(null)
     try {
       const res = await fetch('/api/anamnesebogen', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-      if (res.ok) setSubmitted(true)
-    } catch { /* handled */ } finally { setSubmitting(false) }
+      if (res.ok) {
+        setSubmitted(true)
+        return
+      }
+      let message = 'Übermittlung fehlgeschlagen. Bitte versuchen Sie es erneut.'
+      try {
+        const body = (await res.json()) as { error?: string }
+        if (body?.error) message = body.error
+      } catch { /* use default */ }
+      setSubmitError(message)
+    } catch {
+      setSubmitError('Keine Verbindung. Bitte prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   /* ───── Success ───── */
@@ -966,6 +981,21 @@ export function AnamnesebogenForm() {
                 {steps[step]()}
               </motion.div>
             </AnimatePresence>
+
+            {submitError && (
+              <div
+                className="mt-6 flex items-start gap-2.5 rounded-[16px] border px-4 py-3 text-[14px] font-[450] leading-relaxed"
+                style={{
+                  borderColor: 'rgba(225, 29, 72, 0.28)',
+                  background: 'rgba(255, 241, 242, 0.65)',
+                  color: '#9f1239',
+                }}
+                role="alert"
+              >
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                {submitError}
+              </div>
+            )}
 
             {/* Footer navigation */}
             <div className="mt-12 flex items-center justify-between rounded-[20px] border px-6 py-4 sm:px-7"

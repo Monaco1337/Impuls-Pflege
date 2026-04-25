@@ -43,6 +43,17 @@ export function formatAuditEventDescription(
   if (a === 'status_change' && e === 'applicant') {
     return 'Bewerbungsstatus geändert'
   }
+  if (a === 'create' && e === 'anamnese_submission') {
+    return detail
+      ? `Neuer Anamnesebogen: ${detail}`
+      : 'Neuer Anamnesebogen eingegangen'
+  }
+  if (a === 'status_change' && e === 'anamnese_submission') {
+    return 'Anamnese-Status geändert'
+  }
+  if (a === 'assign' && e === 'anamnese_submission') {
+    return 'Anamnesebogen zugewiesen'
+  }
   if (a === 'delete' && e === 'document') {
     return 'Dokument entfernt'
   }

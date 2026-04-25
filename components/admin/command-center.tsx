@@ -10,12 +10,19 @@ import {
   Sparkles,
   Inbox,
   FileEdit,
+  Stethoscope,
   type LucideIcon,
 } from 'lucide-react'
 import { cn, formatDate, formatDateTime } from '@/lib/utils'
-import { InquiryStatusBadge, ApplicantStatusBadge } from '@/components/ui/status-badge'
+import {
+  InquiryStatusBadge,
+  ApplicantStatusBadge,
+  AnamneseStatusBadge,
+} from '@/components/ui/status-badge'
 import { Avatar } from '@/components/ui/avatar'
 import { formatAuditEventDescription } from '@/lib/admin/audit-messages'
+import { hasPermission } from '@/lib/rbac/permissions'
+import type { RoleName } from '@/lib/types/enums'
 
 const MINT = 'rgb(24, 193, 163)'
 const ROSE = 'rgb(242, 75, 106)'
@@ -29,6 +36,7 @@ const kpiConfig: {
   { key: 'newInquiries', label: 'Neu • Anfragen', icon: MessageSquare, href: '/admin/inquiries?status=NEU' },
   { key: 'openInquiries', label: 'Offen • Anfragen', icon: AlertCircle, href: '/admin/inquiries' },
   { key: 'newApplicants', label: 'Neu • Bewerbungen', icon: UserPlus, href: '/admin/applicants?status=NEU_EINGEGANGEN' },
+  { key: 'newAnamnese', label: 'Neu • Anamnese', icon: Stethoscope, href: '/admin/anamnese?status=NEU_EINGEGANGEN' },
   { key: 'inReview', label: 'In Prüfung', icon: Search, href: '/admin/applicants?status=IN_PRUEFUNG' },
   { key: 'interviewsPlanned', label: 'Gespräche', icon: Calendar, href: '/admin/applicants?status=GESPRAECH_GEPLANT' },
   { key: 'activeJobs', label: 'Aktive Stellen', icon: Briefcase, href: '/admin/jobs' },
@@ -54,18 +62,29 @@ const inquiryPipelineStages: { key: string; label: string; className: string }[]
   { key: 'ARCHIVIERT', label: 'Archiv', className: 'from-slate-400 to-slate-300' },
 ]
 
-const quick: { href: string; label: string; sub: string; icon: LucideIcon }[] = [
+const quickAll: { href: string; label: string; sub: string; icon: LucideIcon; resource?: 'anamnese' }[] = [
   { href: '/admin/inquiries?status=NEU', label: 'Eingang Anfragen', sub: 'Neu eingegangen', icon: Inbox },
+  { href: '/admin/anamnese?status=NEU_EINGEGANGEN', label: 'Eingang Anamnese', sub: 'Von der Webseite', icon: Stethoscope, resource: 'anamnese' },
   { href: '/admin/applicants?status=NEU_EINGEGANGEN', label: 'Eingang Bewerbungen', sub: 'Neu eingereicht', icon: UserPlus },
   { href: '/admin/jobs/new', label: 'Stelle ausgeben', sub: 'Neue Ausschreibung', icon: Briefcase },
   { href: '/admin/files', label: 'Dokumente', sub: 'Alle Unterlagen', icon: FileEdit },
 ]
 
+const anamnesePipelineStages: { key: string; label: string; className: string }[] = [
+  { key: 'NEU_EINGEGANGEN', label: 'Neu', className: 'from-primary-500 to-primary-400' },
+  { key: 'GESICHTET', label: 'Gesichtet', className: 'from-cyan-500 to-cyan-400' },
+  { key: 'IN_BEARBEITUNG', label: 'In Bearb.', className: 'from-amber-500 to-amber-400' },
+  { key: 'ERLEDIGT', label: 'Erledigt', className: 'from-emerald-600 to-emerald-500' },
+  { key: 'ARCHIVIERT', label: 'Archiv', className: 'from-slate-400 to-slate-300' },
+]
+
 type Props = {
   firstName: string
+  userRole: RoleName
   stats: Record<string, number> | undefined
   inquiryPipeline: Record<string, number>
   applicantPipeline: Record<string, number>
+  anamnesePipeline: Record<string, number>
   inquiries: Array<{
     id: string
     fullName: string
@@ -78,6 +97,13 @@ type Props = {
     firstName: string
     lastName: string
     positionApplied: string
+    status: string
+    createdAt: string | Date
+  }>
+  anamnese: Array<{
+    id: string
+    patientFirstName: string
+    patientLastName: string
     status: string
     createdAt: string | Date
   }>
@@ -136,15 +162,34 @@ function pipelineBar(
 
 export function CommandCenter({
   firstName,
+  userRole,
   stats,
   inquiryPipeline,
   applicantPipeline,
+  anamnesePipeline,
   inquiries,
   applicants,
+  anamnese,
   activity,
 }: Props) {
+  const canAnamnese = hasPermission(userRole, 'anamnese', 'view')
+  const kpiRows = kpiConfig.filter(
+    (row) => row.key !== 'newAnamnese' || canAnamnese,
+  )
+  const quick = quickAll.filter(
+    (q) => !q.resource || (q.resource === 'anamnese' && canAnamnese),
+  )
   const tasks: { href: string; text: string; n: number }[] = [
     { href: '/admin/inquiries?status=NEU', text: 'neue Anfrage(n) warten', n: stats?.newInquiries ?? 0 },
+    ...(canAnamnese
+      ? [
+          {
+            href: '/admin/anamnese?status=NEU_EINGEGANGEN',
+            text: 'neue Anamnesebögen prüfen',
+            n: stats?.newAnamnese ?? 0,
+          },
+        ]
+      : []),
     {
       href: '/admin/applicants?status=NEU_EINGEGANGEN',
       text: 'neue Bewerbung(en) prüfen',
@@ -212,7 +257,7 @@ export function CommandCenter({
       <section>
         <h2 className="mb-4 text-sm font-semibold tracking-wide text-slate-500">Kennzahlen heute</h2>
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
-          {kpiConfig.map(({ key, label, icon: Icon, href }) => (
+          {kpiRows.map(({ key, label, icon: Icon, href }) => (
             <Link
               key={key}
               href={href}
@@ -230,7 +275,12 @@ export function CommandCenter({
         </div>
       </section>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div
+        className={cn(
+          'grid gap-6',
+          canAnamnese ? 'lg:grid-cols-2 xl:grid-cols-3' : 'lg:grid-cols-2',
+        )}
+      >
         <div className="overflow-hidden rounded-2xl border border-warm-200/50 bg-white/90 p-5 shadow-sm sm:p-6">
           <div className="mb-1 flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Anfragen-Pipeline</h2>
@@ -259,11 +309,32 @@ export function CommandCenter({
             <p className="py-6 text-center text-sm text-slate-400">Noch keine Bewerbungen in der Übersicht</p>
           )}
         </div>
+        {canAnamnese && (
+          <div className="overflow-hidden rounded-2xl border border-warm-200/50 bg-white/90 p-5 shadow-sm sm:p-6">
+            <div className="mb-1 flex items-center justify-between">
+              <h2 className="text-base font-semibold text-slate-900">Anamnese</h2>
+              <Link
+                className="text-xs font-medium text-primary-600 hover:underline"
+                href="/admin/anamnese"
+              >
+                Alle
+              </Link>
+            </div>
+            {pipelineBar(anamnesePipeline, anamnesePipelineStages) ?? (
+              <p className="py-6 text-center text-sm text-slate-400">Noch keine Anamnesebögen</p>
+            )}
+          </div>
+        )}
       </div>
 
       <section>
         <h2 className="mb-4 text-sm font-semibold tracking-wide text-slate-500">Schnellaktionen</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div
+          className={cn(
+            'grid grid-cols-1 gap-3 sm:grid-cols-2',
+            quick.length > 4 ? 'xl:grid-cols-5' : 'xl:grid-cols-4',
+          )}
+        >
           {quick.map((q) => (
             <Link
               key={q.href}
@@ -278,7 +349,12 @@ export function CommandCenter({
         </div>
       </section>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div
+        className={cn(
+          'grid gap-6',
+          canAnamnese ? 'lg:grid-cols-3' : 'lg:grid-cols-2',
+        )}
+      >
         <div className="overflow-hidden rounded-2xl border border-warm-200/50 bg-white/90 shadow-sm">
           <div className="flex items-center justify-between border-b border-warm-100/80 px-4 py-3.5 sm:px-5">
             <h2 className="text-sm font-semibold text-slate-900">Neueste Anfragen</h2>
@@ -314,6 +390,47 @@ export function CommandCenter({
             </ul>
           )}
         </div>
+
+        {canAnamnese && (
+          <div className="overflow-hidden rounded-2xl border border-warm-200/50 bg-white/90 shadow-sm">
+            <div className="flex items-center justify-between border-b border-warm-100/80 px-4 py-3.5 sm:px-5">
+              <h2 className="text-sm font-semibold text-slate-900">Neueste Anamnese</h2>
+              <Link
+                className="flex items-center gap-1 text-xs font-medium text-primary-600 hover:text-primary-700"
+                href="/admin/anamnese"
+              >
+                Alle
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+            {anamnese.length === 0 ? (
+              <p className="px-5 py-8 text-center text-sm text-slate-400">Keine Anamnesebögen</p>
+            ) : (
+              <ul className="divide-y divide-warm-50/90">
+                {anamnese.map((a) => (
+                  <li key={a.id}>
+                    <Link
+                      href={`/admin/anamnese/${a.id}`}
+                      className="block px-4 py-3.5 transition hover:bg-slate-50/80 sm:px-5"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="min-w-0 text-sm font-medium text-slate-900">
+                          {a.patientLastName}, {a.patientFirstName}
+                        </p>
+                        <time className="shrink-0 text-xs text-slate-400">
+                          {formatDate(a.createdAt)}
+                        </time>
+                      </div>
+                      <div className="mt-1.5">
+                        <AnamneseStatusBadge status={a.status as any} />
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
 
         <div className="overflow-hidden rounded-2xl border border-warm-200/50 bg-white/90 shadow-sm">
           <div className="flex items-center justify-between border-b border-warm-100/80 px-4 py-3.5 sm:px-5">

@@ -62,6 +62,29 @@ const inquiryColors: Record<InquiryStatus, string> = {
   ARCHIVIERT: 'bg-warm-100 text-warm-500',
 }
 
+type AnamneseStatus =
+  | 'NEU_EINGEGANGEN'
+  | 'GESICHTET'
+  | 'IN_BEARBEITUNG'
+  | 'ERLEDIGT'
+  | 'ARCHIVIERT'
+
+const anamneseLabels: Record<AnamneseStatus, string> = {
+  NEU_EINGEGANGEN: 'Neu eingegangen',
+  GESICHTET: 'Gesichtet',
+  IN_BEARBEITUNG: 'In Bearbeitung',
+  ERLEDIGT: 'Erledigt',
+  ARCHIVIERT: 'Archiviert',
+}
+
+const anamneseColors: Record<AnamneseStatus, string> = {
+  NEU_EINGEGANGEN: 'bg-primary-50 text-primary-700',
+  GESICHTET: 'bg-primary-100 text-primary-800',
+  IN_BEARBEITUNG: 'bg-warning-50 text-warning-700',
+  ERLEDIGT: 'bg-success-50 text-success-700',
+  ARCHIVIERT: 'bg-warm-100 text-warm-500',
+}
+
 export interface ApplicantStatusBadgeProps extends HTMLAttributes<HTMLSpanElement> {
   status: ApplicantStatus
 }
@@ -96,6 +119,25 @@ export function InquiryStatusBadge({ status, className, ...props }: InquiryStatu
       {...props}
     >
       {inquiryLabels[status]}
+    </span>
+  )
+}
+
+export interface AnamneseStatusBadgeProps extends HTMLAttributes<HTMLSpanElement> {
+  status: AnamneseStatus
+}
+
+export function AnamneseStatusBadge({ status, className, ...props }: AnamneseStatusBadgeProps) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium leading-5',
+        anamneseColors[status],
+        className,
+      )}
+      {...props}
+    >
+      {anamneseLabels[status]}
     </span>
   )
 }

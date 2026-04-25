@@ -10,6 +10,7 @@ import { getAdminPageTitle } from '@/lib/admin/admin-page-titles'
 import {
   LayoutGrid,
   MessageSquare,
+  Stethoscope,
   UserPlus,
   Briefcase,
   FileText,
@@ -42,16 +43,18 @@ interface AdminShellProps {
 
 const INQ_INBOX = '/admin/inquiries?status=NEU' as const
 const APP_INBOX = '/admin/applicants?status=NEU_EINGEGANGEN' as const
+const ANAM_INBOX = '/admin/anamnese?status=NEU_EINGEGANGEN' as const
 
 const navItems: {
   label: string
   href: string
   icon: React.ElementType
   resource: Resource
-  inbox?: 'inquiries' | 'applicants'
+  inbox?: 'inquiries' | 'applicants' | 'anamnese'
 }[] = [
   { label: 'Übersicht', href: '/admin/dashboard', icon: LayoutGrid, resource: 'dashboard' },
   { label: 'Anfragen', href: '/admin/inquiries', icon: MessageSquare, resource: 'inquiries', inbox: 'inquiries' },
+  { label: 'Anamnese', href: '/admin/anamnese', icon: Stethoscope, resource: 'anamnese', inbox: 'anamnese' },
   { label: 'Bewerbungen', href: '/admin/applicants', icon: UserPlus, resource: 'applicants', inbox: 'applicants' },
   { label: 'Stellenangebote', href: '/admin/jobs', icon: Briefcase, resource: 'jobs' },
   { label: 'Inhalte', href: '/admin/content', icon: FileText, resource: 'content' },
@@ -63,9 +66,11 @@ function hrefForInbox(
   item: (typeof navItems)[number],
   newInquiries: number,
   newApplicants: number,
+  newAnamnese: number,
 ) {
   if (item.inbox === 'inquiries' && newInquiries > 0) return INQ_INBOX
   if (item.inbox === 'applicants' && newApplicants > 0) return APP_INBOX
+  if (item.inbox === 'anamnese' && newAnamnese > 0) return ANAM_INBOX
   return item.href
 }
 
@@ -87,6 +92,7 @@ export function AdminShell({ user, children }: AdminShellProps) {
     ready: inboxReady,
     acknowledgeInquiries,
     acknowledgeApplicants,
+    acknowledgeAnamnese,
   } = useAdminInbox()
 
   const visibleItems = navItems.filter((item) =>
@@ -132,7 +138,12 @@ export function AdminShell({ user, children }: AdminShellProps) {
         <nav className="mt-1 flex-1 overflow-y-auto px-2.5 py-2 sm:px-3" aria-label="Hauptnavigation">
           <ul className="space-y-0.5">
             {visibleItems.map((item) => {
-              const href = hrefForInbox(item, counts.newInquiries, counts.newApplicants)
+              const href = hrefForInbox(
+                item,
+                counts.newInquiries,
+                counts.newApplicants,
+                counts.newAnamnese,
+              )
               const isActive = navActive(pathname, item)
               const Icon = item.icon
               const navCount =
@@ -140,7 +151,9 @@ export function AdminShell({ user, children }: AdminShellProps) {
                   ? counts.newInquiries
                   : item.inbox === 'applicants'
                     ? counts.newApplicants
-                    : 0
+                    : item.inbox === 'anamnese'
+                      ? counts.newAnamnese
+                      : 0
               const showBadge = inboxReady && item.inbox && navCount > 0
 
               const onNavClick = () => {
@@ -149,6 +162,8 @@ export function AdminShell({ user, children }: AdminShellProps) {
                   void acknowledgeInquiries()
                 } else if (item.inbox === 'applicants' && counts.newApplicants > 0) {
                   void acknowledgeApplicants()
+                } else if (item.inbox === 'anamnese' && counts.newAnamnese > 0) {
+                  void acknowledgeAnamnese()
                 }
               }
 
@@ -170,6 +185,9 @@ export function AdminShell({ user, children }: AdminShellProps) {
                             const n = navCount
                             if (item.inbox === 'inquiries') {
                               return `${n} ${n === 1 ? 'neue Anfrage' : 'neue Anfragen'}`
+                            }
+                            if (item.inbox === 'anamnese') {
+                              return `${n} ${n === 1 ? 'neuer Anamnesebogen' : 'neue Anamnesebögen'}`
                             }
                             return `${n} ${n === 1 ? 'neue Bewerbung' : 'neue Bewerbungen'}`
                           })()
@@ -245,9 +263,11 @@ export function AdminShell({ user, children }: AdminShellProps) {
               userRole={user.role}
               newInquiries={counts.newInquiries}
               newApplicants={counts.newApplicants}
+              newAnamnese={counts.newAnamnese}
               liveReady={inboxReady}
               onAckInquiries={acknowledgeInquiries}
               onAckApplicants={acknowledgeApplicants}
+              onAckAnamnese={acknowledgeAnamnese}
             />
             <Badge variant="primary" className="hidden sm:inline-flex">
               {getRoleLabel(user.role)}

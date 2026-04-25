@@ -1,11 +1,12 @@
 import { hasPermission } from '@/lib/rbac/permissions'
-import { repoLoadApplicants, repoLoadInquiries } from '@/lib/data/json-repository'
-import { ApplicantStatus, InquiryStatus } from '@/lib/types/enums'
+import { repoLoadAnamnese, repoLoadApplicants, repoLoadInquiries } from '@/lib/data/json-repository'
+import { AnamneseStatus, ApplicantStatus, InquiryStatus } from '@/lib/types/enums'
 import type { RoleName } from '@/lib/types/enums'
 
 export type InboxCounts = {
   newInquiries: number
   newApplicants: number
+  newAnamnese: number
 }
 
 /**
@@ -15,10 +16,12 @@ export type InboxCounts = {
 export async function getInboxCountsForRole(role: RoleName): Promise<InboxCounts> {
   const canInquiries = hasPermission(role, 'inquiries', 'view')
   const canApplicants = hasPermission(role, 'applicants', 'view')
+  const canAnamnese = hasPermission(role, 'anamnese', 'view')
 
-  const [inquiries, applicantsBundle] = await Promise.all([
+  const [inquiries, applicantsBundle, anamneseData] = await Promise.all([
     canInquiries ? repoLoadInquiries() : null,
     canApplicants ? repoLoadApplicants() : null,
+    canAnamnese ? repoLoadAnamnese() : null,
   ])
 
   const newInquiries = inquiries
@@ -31,5 +34,11 @@ export async function getInboxCountsForRole(role: RoleName): Promise<InboxCounts
       ).length
     : 0
 
-  return { newInquiries, newApplicants }
+  const newAnamnese = anamneseData
+    ? anamneseData.submissions.filter(
+        (x) => x.status === AnamneseStatus.NEU_EINGEGANGEN,
+      ).length
+    : 0
+
+  return { newInquiries, newApplicants, newAnamnese }
 }

@@ -5,6 +5,7 @@
 const EXACT: Record<string, string> = {
   '/admin/dashboard': 'Übersicht',
   '/admin/inquiries': 'Anfragen',
+  '/admin/anamnese': 'Anamnesebögen',
   '/admin/applicants': 'Bewerbungen',
   '/admin/jobs': 'Stellenangebote',
   '/admin/content': 'Inhalte',
@@ -23,6 +24,7 @@ const PREFIX: { prefix: string; title: string }[] = [
   { prefix: '/admin/settings/users/', title: 'Benutzer & Rollen' },
   { prefix: '/admin/users/', title: 'Benutzer & Rollen' },
   { prefix: '/admin/applicants/', title: 'Bewerbung' },
+  { prefix: '/admin/anamnese/', title: 'Anamnese' },
   { prefix: '/admin/inquiries/', title: 'Anfrage' },
   { prefix: '/admin/jobs/', title: 'Stellenangebot' },
   { prefix: '/admin/content', title: 'Inhalte' },

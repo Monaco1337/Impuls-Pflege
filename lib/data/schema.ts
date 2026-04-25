@@ -1,4 +1,5 @@
 import type {
+  AnamneseStatus,
   ApplicantStatus,
   EmploymentType,
   InquiryPriority,
@@ -103,6 +104,24 @@ export type ApplicantsData = {
   documents: JsonApplicantDocument[]
 }
 
+export type JsonAnamneseSubmission = {
+  id: string
+  status: AnamneseStatus
+  patientFirstName: string
+  patientLastName: string
+  birthDate: string
+  phone: string
+  email: string | null
+  payload: Record<string, unknown>
+  assignedToId: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export type AnamneseData = {
+  submissions: JsonAnamneseSubmission[]
+}
+
 export type JsonTag = {
   id: string
   name: string
@@ -167,6 +186,7 @@ export const DATA_FILES = {
   users: 'users.json',
   inquiries: 'inquiries.json',
   applicants: 'applicants.json',
+  anamnese: 'anamnese-submissions.json',
   applicantTags: 'applicant-tags.json',
   tags: 'tags.json',
   jobs: 'job-postings.json',

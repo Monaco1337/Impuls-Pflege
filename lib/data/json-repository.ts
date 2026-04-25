@@ -1,5 +1,6 @@
 import { readJsonFile, writeJsonFile } from '@/lib/storage/json-data-layer'
 import {
+  type AnamneseData,
   type ApplicantsData,
   type InquiriesData,
   type JsonApplicantDocument,
@@ -22,6 +23,8 @@ const emptyApplicants = (): ApplicantsData => ({
   statusHistory: [],
   documents: [],
 })
+
+const emptyAnamnese = (): AnamneseData => ({ submissions: [] })
 
 export function newId(): string {
   return globalThis.crypto.randomUUID()
@@ -102,6 +105,13 @@ export async function repoLoadApplicants(): Promise<ApplicantsData> {
     notes: Array.isArray(raw.notes) ? raw.notes : [],
     statusHistory: Array.isArray(raw.statusHistory) ? raw.statusHistory : [],
     documents: Array.isArray(raw.documents) ? raw.documents : [],
+  }
+}
+
+export async function repoLoadAnamnese(): Promise<AnamneseData> {
+  const raw = await readJsonFile<Partial<AnamneseData>>(DATA_FILES.anamnese, emptyAnamnese())
+  return {
+    submissions: Array.isArray(raw.submissions) ? raw.submissions : [],
   }
 }
 

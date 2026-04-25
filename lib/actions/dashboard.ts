@@ -1,14 +1,19 @@
 'use server'
 
-import { requireAccess } from '@/lib/rbac/check'
+import { getCurrentUser } from '@/lib/auth/session'
+import { checkAccess, requireAccess } from '@/lib/rbac/check'
+import { hasPermission } from '@/lib/rbac/permissions'
 import { logServerError } from '@/lib/error-handling'
 import {
   repoJoinUserBriefNoEmail,
+  repoLoadAnamnese,
   repoLoadApplicants,
   repoLoadAuditLogs,
   repoLoadInquiries,
   repoLoadJobs,
 } from '@/lib/data/json-repository'
+import { AnamneseStatus } from '@/lib/types/enums'
+import type { RoleName } from '@/lib/types/enums'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -32,12 +37,23 @@ export async function getDashboardStats(): Promise<ActionResult> {
     const totalApplicants = applicants.applicants.length
     const activeJobs = jobs.filter((j) => j.active).length
 
+    const sessionUser = await getCurrentUser()
+    const role = sessionUser?.role as RoleName | undefined
+    let newAnamnese = 0
+    if (role && hasPermission(role, 'anamnese', 'view')) {
+      const an = await repoLoadAnamnese()
+      newAnamnese = an.submissions.filter(
+        (s) => s.status === AnamneseStatus.NEU_EINGEGANGEN,
+      ).length
+    }
+
     return {
       success: true,
       data: {
         newInquiries,
         openInquiries,
         newApplicants,
+        newAnamnese,
         inReview,
         interviewsPlanned,
         totalApplicants,
@@ -118,6 +134,52 @@ export async function getRecentActivity(): Promise<ActionResult> {
   } catch (error) {
     logServerError('getRecentActivity error', error)
     return { success: false, error: 'Letzte Aktivitäten konnten nicht geladen werden' }
+  }
+}
+
+export async function getRecentAnamnese(): Promise<ActionResult> {
+  try {
+    await requireAccess('dashboard', 'view')
+    if (!(await checkAccess('anamnese', 'view'))) {
+      return { success: true, data: [] }
+    }
+    const bundle = await repoLoadAnamnese()
+    const list = [...bundle.submissions]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 5)
+      .map((s) => ({
+        id: s.id,
+        patientFirstName: s.patientFirstName,
+        patientLastName: s.patientLastName,
+        status: s.status,
+        createdAt: new Date(s.createdAt),
+      }))
+
+    return { success: true, data: list }
+  } catch (error) {
+    logServerError('getRecentAnamnese error', error)
+    return { success: false, error: 'Anamnese-Liste konnte nicht geladen werden' }
+  }
+}
+
+export async function getAnamnesePipelineSummary(): Promise<ActionResult> {
+  try {
+    await requireAccess('dashboard', 'view')
+    if (!(await checkAccess('anamnese', 'view'))) {
+      return { success: true, data: {} }
+    }
+    const bundle = await repoLoadAnamnese()
+    const pipeline = bundle.submissions.reduce(
+      (acc, s) => {
+        acc[s.status] = (acc[s.status] ?? 0) + 1
+        return acc
+      },
+      {} as Record<string, number>,
+    )
+    return { success: true, data: pipeline }
+  } catch (error) {
+    logServerError('getAnamnesePipelineSummary error', error)
+    return { success: false, error: 'Anamnese-Pipeline konnte nicht geladen werden' }
   }
 }
 
