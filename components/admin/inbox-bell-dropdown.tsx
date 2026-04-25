@@ -15,15 +15,26 @@ import {
 
 const INQ_FILTER = '/admin/inquiries?status=NEU'
 const APP_FILTER = '/admin/applicants?status=NEU_EINGEGANGEN'
+const INQ_LIST = '/admin/inquiries'
+const APP_LIST = '/admin/applicants'
 
 type Props = {
   userRole: RoleName
   newInquiries: number
   newApplicants: number
   liveReady: boolean
+  onAckInquiries: () => void | Promise<void>
+  onAckApplicants: () => void | Promise<void>
 }
 
-export function InboxBellDropdown({ userRole, newInquiries, newApplicants, liveReady }: Props) {
+export function InboxBellDropdown({
+  userRole,
+  newInquiries,
+  newApplicants,
+  liveReady,
+  onAckInquiries,
+  onAckApplicants,
+}: Props) {
   const router = useRouter()
   const canInq = hasPermission(userRole, 'inquiries', 'view')
   const canApp = hasPermission(userRole, 'applicants', 'view')
@@ -32,6 +43,18 @@ export function InboxBellDropdown({ userRole, newInquiries, newApplicants, liveR
 
   const total = (canInq ? newInquiries : 0) + (canApp ? newApplicants : 0)
   const hasUrgent = total > 0
+
+  const handleInquiriesClick = () => {
+    const target = newInquiries > 0 ? INQ_FILTER : INQ_LIST
+    if (newInquiries > 0) void onAckInquiries()
+    router.push(target)
+  }
+
+  const handleApplicantsClick = () => {
+    const target = newApplicants > 0 ? APP_FILTER : APP_LIST
+    if (newApplicants > 0) void onAckApplicants()
+    router.push(target)
+  }
 
   return (
     <Dropdown>
@@ -61,14 +84,16 @@ export function InboxBellDropdown({ userRole, newInquiries, newApplicants, liveR
       <DropdownContent align="right" className="min-w-64 p-0">
         <div className="border-b border-warm-100 px-3 py-2.5">
           <p className="text-sm font-semibold text-warm-900">Eingang</p>
-          <p className="text-xs text-warm-500">Aktualisiert automatisch, wenn der Tab sichtbar ist</p>
+          <p className="text-xs text-warm-500">
+            Klicken markiert die neuen Eingänge sofort als gesehen
+          </p>
         </div>
         {canInq && (
           <InboxItem
             icon={Mail}
             label="Neue Anfragen"
             count={newInquiries}
-            onGo={() => router.push(INQ_FILTER)}
+            onGo={handleInquiriesClick}
             hasWork={newInquiries > 0}
             liveReady={liveReady}
           />
@@ -79,7 +104,7 @@ export function InboxBellDropdown({ userRole, newInquiries, newApplicants, liveR
             icon={UserPlus}
             label="Neue Bewerbungen"
             count={newApplicants}
-            onGo={() => router.push(APP_FILTER)}
+            onGo={handleApplicantsClick}
             hasWork={newApplicants > 0}
             liveReady={liveReady}
           />

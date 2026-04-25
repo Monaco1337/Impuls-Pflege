@@ -80,7 +80,12 @@ function hrefForInbox(
 export function AdminShell({ user, children }: AdminShellProps) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { counts, ready: inboxReady } = useAdminInbox()
+  const {
+    counts,
+    ready: inboxReady,
+    acknowledgeInquiries,
+    acknowledgeApplicants,
+  } = useAdminInbox()
 
   const visibleItems = navItems.filter((item) =>
     hasPermission(user.role, item.resource, 'view'),
@@ -135,11 +140,20 @@ export function AdminShell({ user, children }: AdminShellProps) {
                     : 0
               const showBadge = inboxReady && item.inbox && navCount > 0
 
+              const onNavClick = () => {
+                setSidebarOpen(false)
+                if (item.inbox === 'inquiries' && counts.newInquiries > 0) {
+                  void acknowledgeInquiries()
+                } else if (item.inbox === 'applicants' && counts.newApplicants > 0) {
+                  void acknowledgeApplicants()
+                }
+              }
+
               return (
                 <li key={item.href}>
                   <Link
                     href={href}
-                    onClick={() => setSidebarOpen(false)}
+                    onClick={onNavClick}
                     className={cn(
                       'group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-150',
                       isActive
@@ -226,6 +240,8 @@ export function AdminShell({ user, children }: AdminShellProps) {
               newInquiries={counts.newInquiries}
               newApplicants={counts.newApplicants}
               liveReady={inboxReady}
+              onAckInquiries={acknowledgeInquiries}
+              onAckApplicants={acknowledgeApplicants}
             />
             <Badge variant="primary" className="hidden sm:inline-flex">
               {getRoleLabel(user.role)}

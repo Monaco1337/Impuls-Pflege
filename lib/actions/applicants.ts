@@ -326,6 +326,63 @@ export async function getApplicant(id: string): Promise<ActionResult> {
   }
 }
 
+/**
+ * Markiert alle aktuell „NEU_EINGEGANGEN“-Bewerber als gesehen (→ GESICHTET).
+ * Wird ausgelöst, sobald der/die User:in die Benachrichtigung anklickt.
+ * Returnt die Anzahl der so quittierten Bewerber.
+ */
+export async function acknowledgeAllNewApplicants(): Promise<ActionResult<{ acknowledged: number }>> {
+  try {
+    const user = await requireAccess('applicants', 'view')
+
+    const bundle = await repoLoadApplicants()
+    const t = nowIso()
+    const targets = bundle.applicants.filter((a) => a.status === ApplicantStatus.NEU_EINGEGANGEN)
+    if (targets.length === 0) {
+      return { success: true, data: { acknowledged: 0 } }
+    }
+
+    for (const a of targets) {
+      bundle.statusHistory.push({
+        id: newId(),
+        applicantId: a.id,
+        fromStatus: a.status,
+        toStatus: ApplicantStatus.GESICHTET,
+        changedById: user.id,
+        note: 'Automatisch quittiert (Eingang angeklickt)',
+        changedAt: t,
+      })
+      a.status = ApplicantStatus.GESICHTET
+      a.updatedAt = t
+    }
+
+    await writeJsonFile(DATA_FILES.applicants, bundle, `Data update applicants ack-all (${targets.length}): ${t}`)
+
+    await logAudit({
+      userId: user.id,
+      action: 'status_change',
+      entityType: 'applicant',
+      metadata: {
+        bulk: true,
+        count: targets.length,
+        fromStatus: ApplicantStatus.NEU_EINGEGANGEN,
+        toStatus: ApplicantStatus.GESICHTET,
+        source: 'inbox_click',
+      },
+    })
+
+    after(() => {
+      revalidatePath('/admin/applicants')
+      revalidatePath('/admin/dashboard')
+    })
+
+    return { success: true, data: { acknowledged: targets.length } }
+  } catch (error) {
+    logServerError('acknowledgeAllNewApplicants error', error)
+    return { success: false, error: 'Bewerbungen konnten nicht quittiert werden' }
+  }
+}
+
 /** Beim Öffnen der Detailseite: „Neu eingegangen“ → „Gesichtet“, Eingang-Badge sinkt. Mit `view` erlaubt. */
 export async function acknowledgeApplicantOnOpen(id: string): Promise<void> {
   try {

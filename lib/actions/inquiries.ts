@@ -159,6 +159,54 @@ export async function getInquiry(id: string): Promise<ActionResult> {
   }
 }
 
+/**
+ * Markiert alle aktuell „NEU“-Anfragen als gesehen (→ IN_BEARBEITUNG).
+ * Wird ausgelöst, sobald der/die User:in die Benachrichtigung anklickt.
+ * Returnt die Anzahl der so quittierten Anfragen.
+ */
+export async function acknowledgeAllNewInquiries(): Promise<ActionResult<{ acknowledged: number }>> {
+  try {
+    const user = await requireAccess('inquiries', 'view')
+
+    const bundle = await repoLoadInquiries()
+    const t = nowIso()
+    const targets = bundle.inquiries.filter((i) => i.status === InquiryStatus.NEU)
+    if (targets.length === 0) {
+      return { success: true, data: { acknowledged: 0 } }
+    }
+
+    for (const inv of targets) {
+      inv.status = InquiryStatus.IN_BEARBEITUNG
+      inv.updatedAt = t
+    }
+
+    await writeJsonFile(DATA_FILES.inquiries, bundle, `Data update inquiries ack-all (${targets.length}): ${t}`)
+
+    await logAudit({
+      userId: user.id,
+      action: 'status_change',
+      entityType: 'inquiry',
+      metadata: {
+        bulk: true,
+        count: targets.length,
+        fromStatus: InquiryStatus.NEU,
+        toStatus: InquiryStatus.IN_BEARBEITUNG,
+        source: 'inbox_click',
+      },
+    })
+
+    after(() => {
+      revalidatePath('/admin/inquiries')
+      revalidatePath('/admin/dashboard')
+    })
+
+    return { success: true, data: { acknowledged: targets.length } }
+  } catch (error) {
+    logServerError('acknowledgeAllNewInquiries error', error)
+    return { success: false, error: 'Anfragen konnten nicht quittiert werden' }
+  }
+}
+
 /** Beim Öffnen der Detailseite: „Neu“ → „In Bearbeitung“, Eingang-Badge sinkt. Mit `view` erlaubt. */
 export async function acknowledgeInquiryOnOpen(id: string): Promise<void> {
   try {

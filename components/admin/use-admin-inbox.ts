@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import type { InboxCounts } from '@/lib/admin/inbox-counts'
+import { acknowledgeAllNewInquiries } from '@/lib/actions/inquiries'
+import { acknowledgeAllNewApplicants } from '@/lib/actions/applicants'
 
 const POLL_MS = 10_000
 
@@ -33,6 +35,33 @@ export function useAdminInbox() {
     }
   }, [])
 
+  /** Quittiert sofort alle „neuen Anfragen“ – optimistisch im UI auf 0,
+   *  schreibt im Hintergrund am Server. Bei Fehler wird neu geladen. */
+  const acknowledgeInquiries = useCallback(async () => {
+    setCounts((c) => ({ ...c, newInquiries: 0 }))
+    try {
+      const r = await acknowledgeAllNewInquiries()
+      if (!r.success) {
+        await fetchCounts()
+      }
+    } catch {
+      await fetchCounts()
+    }
+  }, [fetchCounts])
+
+  /** Wie acknowledgeInquiries, aber für Bewerbungen. */
+  const acknowledgeApplicants = useCallback(async () => {
+    setCounts((c) => ({ ...c, newApplicants: 0 }))
+    try {
+      const r = await acknowledgeAllNewApplicants()
+      if (!r.success) {
+        await fetchCounts()
+      }
+    } catch {
+      await fetchCounts()
+    }
+  }, [fetchCounts])
+
   useEffect(() => {
     void fetchCounts()
   }, [fetchCounts, pathname])
@@ -60,5 +89,11 @@ export function useAdminInbox() {
     }
   }, [fetchCounts])
 
-  return { counts, ready, refresh: fetchCounts }
+  return {
+    counts,
+    ready,
+    refresh: fetchCounts,
+    acknowledgeInquiries,
+    acknowledgeApplicants,
+  }
 }
