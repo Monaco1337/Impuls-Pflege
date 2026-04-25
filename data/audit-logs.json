@@ -65,5 +65,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-25T19:41:06.930Z"
+  },
+  {
+    "id": "31334874-ee11-41f5-bd46-91afad11d67b",
+    "userId": null,
+    "action": "create",
+    "entityType": "inquiry",
+    "entityId": "35070cc4-3109-400e-8f41-8aa7c0ca4401",
+    "metadata": {
+      "fullName": "test test",
+      "inquiryType": "Allgemeine Anfrage"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:44:14.102Z"
   }
 ]
