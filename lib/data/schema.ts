@@ -177,4 +177,6 @@ export const DATA_FILES = {
 
 export const MAX_AUDIT_LOGS = 500
 /** Max. Binärgröße pro Bewerberdokument (Bytes), vor Base64 */
-export const MAX_APPLICANT_DOCUMENT_BYTES = 1_500_000
+export const MAX_APPLICANT_DOCUMENT_BYTES = 4_000_000
+/** Sicherheitslimit für die Summe aller Uploads pro Bewerbung (Bytes), vor Base64 */
+export const MAX_APPLICANT_TOTAL_UPLOAD_BYTES = 7_000_000

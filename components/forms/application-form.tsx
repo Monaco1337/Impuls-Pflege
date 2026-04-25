@@ -264,17 +264,17 @@ export function ApplicationForm({ preselectedPosition }: ApplicationFormProps) {
           <FileUpload
             label="Lebenslauf"
             accept=".pdf,.doc,.docx"
-            maxSizeMB={10}
+            maxSizeMB={4}
             onChange={onCvChange}
-            helperText="PDF, DOC oder DOCX – max. 10 MB"
+            helperText="PDF, DOC oder DOCX - max. 4 MB"
           />
           <FileUpload
             label="Weitere Dokumente"
             accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-            maxSizeMB={10}
+            maxSizeMB={4}
             multiple
             onChange={onDocsChange}
-            helperText="Zeugnisse, Zertifikate etc. – max. 10 MB pro Datei"
+            helperText="Zeugnisse, Zertifikate etc. - max. 4 MB pro Datei"
           />
         </div>
       </FormSection>

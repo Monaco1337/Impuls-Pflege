@@ -18,7 +18,11 @@ import {
   repoLoadTags,
 } from '@/lib/data/json-repository'
 import type { JsonApplicant, JsonApplicantDocument } from '@/lib/data/schema'
-import { DATA_FILES, MAX_APPLICANT_DOCUMENT_BYTES } from '@/lib/data/schema'
+import {
+  DATA_FILES,
+  MAX_APPLICANT_DOCUMENT_BYTES,
+  MAX_APPLICANT_TOTAL_UPLOAD_BYTES,
+} from '@/lib/data/schema'
 import { writeJsonFile } from '@/lib/storage/json-data-layer'
 
 type ActionResult<T = unknown> = {
@@ -89,11 +93,22 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
     bundle.applicants.push(applicant)
 
     const files = formData.getAll('documents') as File[]
+    let totalBytes = 0
     for (const file of files) {
       if (file.size > 0) {
         const buf = Buffer.from(await file.arrayBuffer())
+        totalBytes += buf.length
         if (buf.length > MAX_APPLICANT_DOCUMENT_BYTES) {
-          return { success: false, error: `Datei „${file.name}“ überschreitet die maximale Größe.` }
+          return {
+            success: false,
+            error: `Datei „${file.name}“ ist zu groß. Maximal erlaubt sind 4 MB pro Datei.`,
+          }
+        }
+        if (totalBytes > MAX_APPLICANT_TOTAL_UPLOAD_BYTES) {
+          return {
+            success: false,
+            error: 'Die Gesamtgröße der hochgeladenen Dateien ist zu hoch (max. 7 MB).',
+          }
         }
         bundle.documents.push({
           id: newId(),
