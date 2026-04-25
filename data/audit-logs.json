@@ -78,5 +78,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-25T19:44:14.102Z"
+  },
+  {
+    "id": "af0bb24f-b4e3-4328-abbd-e05daf486299",
+    "userId": "usr_admin",
+    "action": "status_change",
+    "entityType": "inquiry",
+    "entityId": "35070cc4-3109-400e-8f41-8aa7c0ca4401",
+    "metadata": {
+      "fromStatus": "NEU",
+      "toStatus": "IN_BEARBEITUNG",
+      "source": "detail_open"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:44:26.871Z"
   }
 ]
