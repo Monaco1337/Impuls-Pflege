@@ -104,5 +104,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-25T19:47:56.720Z"
+  },
+  {
+    "id": "4e3c1ad3-099b-4c9e-baef-bf71cb2e46f6",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "99728585-fbdb-40a5-aae1-92ab4a9a47b1",
+    "metadata": {
+      "name": "test test",
+      "position": "Pflegehilfskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:51:57.160Z"
   }
 ]
