@@ -17,8 +17,11 @@ function repo(): string {
 }
 
 function token(): string {
-  const t = process.env.GIT_TOKEN?.trim()
-  if (!t) throw new Error('GIT_TOKEN fehlt')
+  const t =
+    process.env.GIT_TOKEN?.trim() ||
+    process.env.GITHUB_TOKEN?.trim() ||
+    process.env.impulsPflegeToken?.trim()
+  if (!t) throw new Error('GIT_TOKEN/GITHUB_TOKEN/impulsPflegeToken fehlt')
   return t
 }
 

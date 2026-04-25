@@ -8,7 +8,15 @@ import path from 'path'
 import { githubGetFile, githubPutFile } from '@/lib/storage/git-storage'
 
 const memory = new Map<string, string>()
+const memoryFreshAt = new Map<string, number>()
 const lockChains = new Map<string, Promise<unknown>>()
+
+/** Wie lange der In-Memory-Cache pro Lambda als "frisch" gilt (ms).
+ *  Danach holen wir die Datei beim nächsten Lesen wieder von GitHub.
+ *  So sehen sowohl die öffentliche Seite als auch das Admin-Panel den
+ *  jeweils aktuellsten Stand – auch über mehrere Lambdas hinweg.
+ */
+const MEMORY_TTL_MS = 5_000
 
 function dataDir(): string {
   return path.join(process.cwd(), 'data')
@@ -23,10 +31,15 @@ export function isVercel(): boolean {
 }
 
 export function useGitHubPersistence(): boolean {
-  return Boolean(
-    process.env.GIT_TOKEN?.trim() &&
-      process.env.GITHUB_REPO_OWNER?.trim() &&
-      process.env.GITHUB_REPO_NAME?.trim(),
+  const hasToken = Boolean(
+    process.env.GIT_TOKEN?.trim() ||
+      process.env.GITHUB_TOKEN?.trim() ||
+      process.env.impulsPflegeToken?.trim(),
+  )
+  return (
+    hasToken &&
+    Boolean(process.env.GITHUB_REPO_OWNER?.trim()) &&
+    Boolean(process.env.GITHUB_REPO_NAME?.trim())
   )
 }
 
@@ -75,29 +88,41 @@ function runLocked<T>(fileName: string, fn: () => Promise<T>): Promise<T> {
   return next
 }
 
+function setMemory(fileName: string, text: string) {
+  memory.set(fileName, text)
+  memoryFreshAt.set(fileName, Date.now())
+}
+
+function isMemoryFresh(fileName: string): boolean {
+  const at = memoryFreshAt.get(fileName)
+  if (at === undefined) return false
+  return Date.now() - at < MEMORY_TTL_MS
+}
+
 export async function readJsonRaw(fileName: string, defaultWhenMissing = '{}'): Promise<string> {
   const cached = memory.get(fileName)
-  if (cached !== undefined) return cached
+  if (cached !== undefined && isMemoryFresh(fileName)) return cached
 
   if (isVercel() && useGitHubPersistence()) {
     try {
       const gh = await githubGetFile(repoPathForFile(fileName))
       if (gh) {
-        memory.set(fileName, gh.text)
+        setMemory(fileName, gh.text)
         await writeTmpFile(fileName, gh.text).catch(() => {})
         return gh.text
       }
-    } catch {
-      // Fallback unten
+    } catch (err) {
+      console.warn(`[readJsonRaw] GitHub read failed for ${fileName}:`, err)
     }
+    if (cached !== undefined) return cached
     const tmp = await readTmpFile(fileName)
     if (tmp !== null) {
-      memory.set(fileName, tmp)
+      setMemory(fileName, tmp)
       return tmp
     }
     const built = await readLocalFile(fileName)
     if (built !== null) {
-      memory.set(fileName, built)
+      setMemory(fileName, built)
       return built
     }
     return defaultWhenMissing
@@ -105,12 +130,12 @@ export async function readJsonRaw(fileName: string, defaultWhenMissing = '{}'): 
 
   const local = await readLocalFile(fileName)
   if (local !== null) {
-    memory.set(fileName, local)
+    setMemory(fileName, local)
     return local
   }
   const tmp = await readTmpFile(fileName)
   if (tmp !== null) {
-    memory.set(fileName, tmp)
+    setMemory(fileName, tmp)
     return tmp
   }
   return defaultWhenMissing
@@ -128,7 +153,7 @@ export async function readJsonFile<T>(fileName: string, fallback: T): Promise<T>
 export async function writeJsonFile(fileName: string, value: unknown, commitMessage: string): Promise<void> {
   const text = JSON.stringify(value, null, 2)
   await runLocked(fileName, async () => {
-    memory.set(fileName, text)
+    setMemory(fileName, text)
     await writeTmpFile(fileName, text)
 
     if (isVercel() && useGitHubPersistence()) {
@@ -160,4 +185,5 @@ export async function writeJsonFile(fileName: string, value: unknown, commitMess
 
 export function invalidateJsonFile(fileName: string): void {
   memory.delete(fileName)
+  memoryFreshAt.delete(fileName)
 }
