@@ -141,6 +141,25 @@ export async function getPipelineSummary(): Promise<ActionResult> {
   }
 }
 
+/** Zähler je Anfragestatus (für Dashboard-Pipeline) */
+export async function getInquiryPipelineSummary(): Promise<ActionResult> {
+  try {
+    await requireAccess('dashboard', 'view')
+    const bundle = await repoLoadInquiries()
+    const pipeline = bundle.inquiries.reduce(
+      (acc, i) => {
+        acc[i.status] = (acc[i.status] ?? 0) + 1
+        return acc
+      },
+      {} as Record<string, number>,
+    )
+    return { success: true, data: pipeline }
+  } catch (error) {
+    logServerError('getInquiryPipelineSummary error', error)
+    return { success: false, error: 'Anfragen-Pipeline konnte nicht geladen werden' }
+  }
+}
+
 export async function getJobStatusSummary(): Promise<ActionResult> {
   try {
     await requireAccess('dashboard', 'view')

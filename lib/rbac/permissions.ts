@@ -47,7 +47,7 @@ const permissions: PermissionMap = {
     users: [],
     files: ['view', 'create'],
     activity: ['view'],
-    settings: [],
+    settings: ['view'],
   },
   OFFICE_STAFF: {
     dashboard: ['view'],
@@ -58,7 +58,7 @@ const permissions: PermissionMap = {
     users: [],
     files: ['view'],
     activity: ['view'],
-    settings: [],
+    settings: ['view'],
   },
   CONTENT_MANAGER: {
     dashboard: ['view'],
@@ -69,7 +69,7 @@ const permissions: PermissionMap = {
     users: [],
     files: ['view', 'create'],
     activity: ['view'],
-    settings: [],
+    settings: ['view'],
   },
   READ_ONLY: {
     dashboard: ['view'],
@@ -80,7 +80,7 @@ const permissions: PermissionMap = {
     users: [],
     files: ['view'],
     activity: ['view'],
-    settings: [],
+    settings: ['view'],
   },
 }
 

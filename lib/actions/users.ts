@@ -115,6 +115,7 @@ export async function createUser(data: unknown): Promise<ActionResult> {
     })
 
     revalidatePath('/admin/users')
+    revalidatePath('/admin/settings/users')
     return { success: true, data: pick(user) }
   } catch (error) {
     logServerError('createUser error', error)
@@ -169,6 +170,7 @@ export async function updateUser(id: string, data: unknown): Promise<ActionResul
     })
 
     revalidatePath('/admin/users')
+    revalidatePath('/admin/settings/users')
     return { success: true, data: pick(u) }
   } catch (error) {
     logServerError('updateUser error', error)
@@ -203,6 +205,7 @@ export async function toggleUserActive(id: string): Promise<ActionResult> {
     })
 
     revalidatePath('/admin/users')
+    revalidatePath('/admin/settings/users')
     return { success: true, data: pick(target) }
   } catch (error) {
     logServerError('toggleUserActive error', error)

@@ -76,7 +76,7 @@ export function UserForm({ user, onSuccess }: UserFormProps) {
         if (onSuccess) {
           onSuccess()
         } else {
-          router.push('/admin/users')
+          router.push('/admin/settings/users')
         }
       } else {
         setServerError(result.error ?? 'Ein Fehler ist aufgetreten')
@@ -154,7 +154,7 @@ export function UserForm({ user, onSuccess }: UserFormProps) {
           <Button
             type="button"
             variant="outline"
-            onClick={() => router.push('/admin/users')}
+            onClick={() => router.push('/admin/settings/users')}
             disabled={isPending}
           >
             Abbrechen

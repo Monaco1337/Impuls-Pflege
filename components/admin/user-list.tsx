@@ -106,7 +106,7 @@ export function UserList({ users, currentUserId }: UserListProps) {
                       size="sm"
                     />
                     <Link
-                      href={`/admin/users/${user.id}`}
+                      href={`/admin/settings/users/${user.id}`}
                       className="group inline-flex items-center gap-1.5 font-medium text-warm-900 hover:text-primary-600"
                     >
                       {user.firstName} {user.lastName}
@@ -132,7 +132,7 @@ export function UserList({ users, currentUserId }: UserListProps) {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <Link href={`/admin/users/${user.id}`}>
+                    <Link href={`/admin/settings/users/${user.id}`}>
                       <Button variant="ghost" size="sm">
                         <Pencil className="h-3.5 w-3.5" />
                       </Button>

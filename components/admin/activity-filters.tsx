@@ -35,12 +35,15 @@ interface ActivityFiltersProps {
   currentPage: number
   totalPages: number
   total: number
+  /** Standard: /admin/settings/activity */
+  basePath?: string
 }
 
 export function ActivityFilters({
   currentPage,
   totalPages,
   total,
+  basePath = '/admin/settings/activity',
 }: ActivityFiltersProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -69,15 +72,15 @@ export function ActivityFilters({
       }
       params.delete('page')
       startTransition(() => {
-        router.push(`/admin/activity?${params.toString()}`)
+        router.push(`${basePath}?${params.toString()}`)
       })
     },
-    [router, searchParams, startTransition],
+    [router, searchParams, startTransition, basePath],
   )
 
   function handleReset() {
     startTransition(() => {
-      router.push('/admin/activity')
+      router.push(basePath)
     })
   }
 
@@ -89,7 +92,7 @@ export function ActivityFilters({
       params.delete('page')
     }
     startTransition(() => {
-      router.push(`/admin/activity?${params.toString()}`)
+      router.push(`${basePath}?${params.toString()}`)
     })
   }
 

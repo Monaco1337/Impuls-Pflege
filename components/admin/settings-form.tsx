@@ -11,9 +11,11 @@ import { updateSettings } from '@/lib/actions/settings'
 
 interface SettingsFormProps {
   initialValues: SettingsFormData
+  /** Kein Speichern (nur Anzeige) */
+  readOnly?: boolean
 }
 
-export function SettingsForm({ initialValues }: SettingsFormProps) {
+export function SettingsForm({ initialValues, readOnly = false }: SettingsFormProps) {
   const [isPending, startTransition] = useTransition()
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
@@ -39,11 +41,12 @@ export function SettingsForm({ initialValues }: SettingsFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={readOnly ? (e) => e.preventDefault() : handleSubmit(onSubmit)} className="space-y-4">
       <Input
         label="Organisationsname *"
         placeholder="IMPULS Soziales Management"
         error={errors.org_name?.message}
+        disabled={readOnly}
         {...register('org_name')}
       />
 
@@ -51,6 +54,7 @@ export function SettingsForm({ initialValues }: SettingsFormProps) {
         label="Adresse *"
         placeholder="Massener Str. 147, 12345 Musterstadt"
         error={errors.org_address?.message}
+        disabled={readOnly}
         {...register('org_address')}
       />
 
@@ -59,6 +63,7 @@ export function SettingsForm({ initialValues }: SettingsFormProps) {
         type="tel"
         placeholder="+49 123 456789"
         error={errors.org_phone?.message}
+        disabled={readOnly}
         {...register('org_phone')}
       />
 
@@ -67,6 +72,7 @@ export function SettingsForm({ initialValues }: SettingsFormProps) {
         type="email"
         placeholder="info@beispiel.de"
         error={errors.org_email?.message}
+        disabled={readOnly}
         {...register('org_email')}
       />
 
@@ -84,15 +90,17 @@ export function SettingsForm({ initialValues }: SettingsFormProps) {
         </div>
       )}
 
-      <div className="flex justify-end pt-2">
-        <Button
-          type="submit"
-          loading={isPending}
-          icon={<Save className="h-4 w-4" />}
-        >
-          Speichern
-        </Button>
-      </div>
+      {!readOnly && (
+        <div className="flex justify-end pt-2">
+          <Button
+            type="submit"
+            loading={isPending}
+            icon={<Save className="h-4 w-4" />}
+          >
+            Speichern
+          </Button>
+        </div>
+      )}
     </form>
   )
 }
