@@ -261,12 +261,43 @@ function DocumentPreviewModal({
           )}
 
           {isPdf && (
-            <iframe
-              src={inlineUrl}
-              title={doc.fileName}
+            <object
+              data={inlineUrl}
+              type="application/pdf"
               className="h-full w-full bg-white"
               onLoad={() => setLoading(false)}
-            />
+            >
+              <iframe
+                src={inlineUrl}
+                title={doc.fileName}
+                className="h-full w-full bg-white"
+                onLoad={() => setLoading(false)}
+              />
+              <div className="flex h-full flex-col items-center justify-center gap-3 p-10 text-center">
+                <p className="text-sm text-warm-700">
+                  Ihr Browser kann PDFs nicht inline anzeigen.
+                </p>
+                <div className="flex gap-2">
+                  <a
+                    href={inlineUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-warm-200 px-4 py-2 text-xs font-semibold text-warm-700 hover:bg-warm-50"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    In neuem Tab öffnen
+                  </a>
+                  <a
+                    href={downloadUrl}
+                    download={doc.fileName}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2 text-xs font-semibold text-white hover:bg-primary-700"
+                  >
+                    <Download className="h-3.5 w-3.5" />
+                    Download
+                  </a>
+                </div>
+              </div>
+            </object>
           )}
 
           {!isImage && !isPdf && (

@@ -15,7 +15,9 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          { key: 'X-Frame-Options', value: 'DENY' },
+          // SAMEORIGIN statt DENY, damit das Admin-Panel Bewerber-PDFs in einem
+          // eigenen <iframe> als Vorschau einbetten kann.
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
@@ -29,7 +31,10 @@ const nextConfig: NextConfig = {
               "media-src 'self'",
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self'",
-              "frame-ancestors 'none'",
+              // Eigene PDFs dürfen in eigenen Iframes/Objects geladen werden:
+              "frame-src 'self' blob:",
+              "object-src 'self' blob:",
+              "frame-ancestors 'self'",
             ].join('; '),
           },
         ],
