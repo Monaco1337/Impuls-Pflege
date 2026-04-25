@@ -38,5 +38,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-25T19:12:34.092Z"
+  },
+  {
+    "id": "3276fe8c-3a75-4e99-85e8-b16672e36b14",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "582e95ed-8948-46b0-a2e4-2e1790c59a23",
+    "metadata": {
+      "name": "test test",
+      "position": "Pflegefachkraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-25T19:40:46.873Z"
   }
 ]
