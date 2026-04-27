@@ -1,19 +1,4 @@
 {
-  "inquiries": [
-    {
-      "id": "35070cc4-3109-400e-8f41-8aa7c0ca4401",
-      "fullName": "test test",
-      "phone": "017664884415",
-      "email": "test@gmx.de",
-      "inquiryType": "Allgemeine Anfrage",
-      "message": "aysxdxgddtrre",
-      "preferredCallback": "Montag, 12Uhr",
-      "status": "RUECKRUF_GEPLANT",
-      "priority": "NORMAL",
-      "assignedToId": null,
-      "createdAt": "2026-04-25T19:44:13.578Z",
-      "updatedAt": "2026-04-25T19:47:56.212Z"
-    }
-  ],
+  "inquiries": [],
   "notes": []
 }
