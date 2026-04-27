@@ -1,17 +1,5 @@
 [
   {
-    "id": "10c6935a-c691-4758-a348-308377663b4c",
-    "userId": "usr_elena",
-    "action": "status_change",
-    "entityType": "anamnese_submission",
-    "entityId": "6c0e689d-5b63-4427-bd2b-640b4f362a5e",
-    "metadata": {
-      "status": "IN_BEARBEITUNG"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T20:29:04.198Z"
-  },
-  {
     "id": "915a7df9-fea2-4de9-bd5e-73c176e45151",
     "userId": "usr_elena",
     "action": "assign",
@@ -6002,5 +5990,18 @@
     "metadata": null,
     "ipAddress": null,
     "createdAt": "2026-04-27T14:15:29.010Z"
+  },
+  {
+    "id": "39255e75-07ed-4105-95c9-d12beb3e8ab3",
+    "userId": "usr_management",
+    "action": "delete",
+    "entityType": "anamnese_submission",
+    "entityId": "6c0e689d-5b63-4427-bd2b-640b4f362a5e",
+    "metadata": {
+      "patient": "test, test",
+      "status": "IN_BEARBEITUNG"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-27T14:20:14.636Z"
   }
 ]
