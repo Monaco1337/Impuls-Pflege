@@ -1,17 +1,5 @@
 [
   {
-    "id": "e7fffef4-7346-409d-9a6d-5041fba0c8ea",
-    "userId": "usr_admin",
-    "action": "delete",
-    "entityType": "applicant",
-    "entityId": "582e95ed-8948-46b0-a2e4-2e1790c59a23",
-    "metadata": {
-      "documentsDeleted": 0
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-25T19:56:00.050Z"
-  },
-  {
     "id": "787df9c4-56f4-446f-86fc-36882fbc5791",
     "userId": "usr_admin",
     "action": "delete",
@@ -6002,5 +5990,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-26T21:23:02.445Z"
+  },
+  {
+    "id": "db5e10d8-5f5e-4acd-81ba-9369db519105",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "b8f9fd22-ef64-4891-ac55-6e9eca8a0f67",
+    "metadata": {
+      "name": "test test",
+      "position": "Pflegehilfskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-27T14:03:57.748Z"
   }
 ]
