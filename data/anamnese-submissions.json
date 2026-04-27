@@ -1,3 +1,30 @@
 {
-  "submissions": []
+  "submissions": [
+    {
+      "id": "f83f6d8d-e480-4575-8075-3c89faaa528c",
+      "status": "NEU_EINGEGANGEN",
+      "patientFirstName": "Celina",
+      "patientLastName": "Siebeneicher",
+      "birthDate": "2001-04-17",
+      "phone": "01639166073",
+      "email": "celina.siebeneicher@outlook.de",
+      "payload": {
+        "telefon": "01639166073",
+        "vorname": "Celina",
+        "nachname": "Siebeneicher",
+        "strasse": "Hemmerder Dorfstraße 111",
+        "plz": "59427",
+        "ort": "Unna",
+        "email": "celina.siebeneicher@outlook.de",
+        "geburtsdatum": "2001-04-17",
+        "kontakt_vollmacht": true,
+        "datenschutz": true,
+        "richtigkeit": true,
+        "kontakt_erlaubnis": true
+      },
+      "assignedToId": null,
+      "createdAt": "2026-04-27T15:04:17.434Z",
+      "updatedAt": "2026-04-27T15:04:17.434Z"
+    }
+  ]
 }
