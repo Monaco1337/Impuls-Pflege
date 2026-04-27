@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 import { LogOut } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import {
   Dialog,
   DialogHeader,
@@ -13,20 +15,34 @@ import {
   DialogClose,
 } from '@/components/ui/dialog'
 
-export function LogoutConfirmButton() {
+export function LogoutConfirmButton({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState(false)
+  const [pending, setPending] = useState(false)
+
+  async function confirmLogout() {
+    setPending(true)
+    try {
+      await signOut({ redirectTo: '/admin/login' })
+    } catch {
+      setPending(false)
+    }
+  }
 
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border border-warm-200/80 bg-white/80 py-2.5 text-sm font-medium text-warm-600 transition hover:border-warm-300 hover:bg-warm-50 hover:text-warm-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/30"
-        title="Vom Konto abmelden"
-        aria-label="Abmelden"
+        className={cn(
+          'flex w-full items-center justify-center gap-2 rounded-xl border-2 border-slate-800 bg-white py-2.5 text-sm font-semibold text-slate-900 shadow-sm transition',
+          'hover:bg-slate-900 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 focus-visible:ring-offset-2',
+          compact && 'lg:gap-0',
+        )}
+        title="Sitzung beenden und abmelden"
+        aria-label="Abmelden – Dialog öffnen"
       >
-        <LogOut className="h-4 w-4 shrink-0" />
-        <span>Abmelden</span>
+        <LogOut className="h-4 w-4 shrink-0" aria-hidden />
+        <span className={cn(compact && 'lg:sr-only')}>Abmelden</span>
       </button>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
@@ -42,14 +58,12 @@ export function LogoutConfirmButton() {
           <p className="text-sm text-warm-600">Möchten Sie wirklich fortfahren?</p>
         </DialogContent>
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+          <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
             Abbrechen
           </Button>
-          <form action="/api/auth/signout" method="post" className="inline">
-            <Button type="submit" variant="destructive">
-              Abmelden
-            </Button>
-          </form>
+          <Button type="button" variant="destructive" loading={pending} onClick={() => void confirmLogout()}>
+            Abmelden
+          </Button>
         </DialogFooter>
       </Dialog>
     </>

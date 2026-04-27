@@ -11,6 +11,8 @@ import type {
   JsonTag,
   JsonUser,
 } from '@/lib/data/schema'
+import { defaultSiteImageMap } from '@/lib/content/site-image-slots'
+import { DEFAULT_TEAM_FEATURED, DEFAULT_TEAM_MEMBERS } from '@/lib/content/team-cms'
 import { RoleName } from '@/lib/types/enums'
 import { EmploymentType } from '@/lib/types/enums'
 
@@ -23,10 +25,26 @@ export function defaultUsers(): JsonUser[] {
   return [
     {
       id: 'usr_admin',
+      username: 'admin',
       email: 'admin@impuls-pflege.de',
       passwordHash: DEMO_PASSWORD_HASH,
-      firstName: 'System',
-      lastName: 'Administrator',
+      firstName: 'Admin',
+      lastName: 'Technik',
+      avatar: null,
+      active: true,
+      role: RoleName.OWNER,
+      hidden: true,
+      lastLoginAt: null,
+      createdAt: t0,
+      updatedAt: t0,
+    },
+    {
+      id: 'usr_elena',
+      username: 'elena',
+      email: 'elena@impuls-pflege.de',
+      passwordHash: DEMO_PASSWORD_HASH,
+      firstName: 'Elena',
+      lastName: 'Tschupina',
       avatar: null,
       active: true,
       role: RoleName.SUPER_ADMIN,
@@ -35,7 +53,22 @@ export function defaultUsers(): JsonUser[] {
       updatedAt: t0,
     },
     {
+      id: 'usr_management',
+      username: 'daniel',
+      email: 'daniel@impuls-pflege.de',
+      passwordHash: DEMO_PASSWORD_HASH,
+      firstName: 'Daniel',
+      lastName: 'Tschupina',
+      avatar: null,
+      active: true,
+      role: RoleName.ADMIN,
+      lastLoginAt: null,
+      createdAt: t0,
+      updatedAt: t0,
+    },
+    {
       id: 'usr_recruiting',
+      username: 'recruiting',
       email: 'recruiting@impuls-pflege.de',
       passwordHash: DEMO_PASSWORD_HASH,
       firstName: 'Lisa',
@@ -49,6 +82,7 @@ export function defaultUsers(): JsonUser[] {
     },
     {
       id: 'usr_office',
+      username: 'buero',
       email: 'buero@impuls-pflege.de',
       passwordHash: DEMO_PASSWORD_HASH,
       firstName: 'Thomas',
@@ -159,10 +193,9 @@ export function defaultContentBlocks(): JsonContentBlock[] {
       key: 'hero',
       title: 'Hero Section',
       content: {
-        headline: 'Herzlich willkommen beim Impuls Ambulanten Pflegedienst in Unna',
-        subheadline:
-          'Ihr vertrauensvoller Partner für Betreuung, Pflege und Unterstützung in den eigenen vier Wänden.',
-        body: 'Unser erfahrenes und einfühlsames Team begleitet Menschen im vertrauten Zuhause – mit fachlicher Kompetenz, Respekt und echter Menschlichkeit.',
+        headline: 'Pflege, die Menschen bewegt.',
+        subheadline: 'Ein Arbeitsplatz,\nder Sinn schafft.',
+        body: 'Wir begleiten Menschen im Alltag – mit Respekt,\nFachwissen und echter Menschlichkeit. Und wir suchen\nPflegekräfte, die genauso denken.',
       },
       imageUrl: null,
       sortOrder: 1,
@@ -173,11 +206,40 @@ export function defaultContentBlocks(): JsonContentBlock[] {
       key: 'intro',
       title: 'Intro Section',
       content: {
-        headline: 'Pflege, die Vertrauen schafft',
-        body: 'Wir bei IMPULS verstehen, dass die Entscheidung für einen ambulanten Pflegedienst ein Schritt ist, der Vertrauen erfordert.',
+        eyebrow: 'Über IMPULS',
+        headline: 'Menschlichkeit ist\nkeine Zusatzleistung.',
+        body:
+          'IMPULS ist mehr als ein Pflegedienst. Wir sind der verlässliche\nBegleiter, der morgens da ist – und der am Abend ans Telefon geht.\n\nJede Beziehung bei uns beginnt mit Zuhören. Wir lernen zuerst den\nMenschen kennen – erst dann entsteht der Pflegeplan. Weil echte\nFürsorge nur wächst, wenn Vertrauen an erster Stelle steht.',
+        quote:
+          '„Pflege ist dann wirklich gut, wenn man vergisst, dass man gepflegt wird – und nur noch spürt, dass jemand wirklich für einen da ist."',
+        quoteBy: 'Das IMPULS-Versprechen',
       },
       imageUrl: null,
       sortOrder: 2,
+      updatedById: null,
+    },
+    {
+      id: 'blk_site_images',
+      key: 'site-images',
+      title: 'Website-Fotos (Startseite)',
+      content: defaultSiteImageMap(),
+      imageUrl: null,
+      sortOrder: 3,
+      updatedById: null,
+    },
+    {
+      id: 'blk_team',
+      key: 'team',
+      title: 'Team (Team-Seite)',
+      content: {
+        featured: {
+          ...DEFAULT_TEAM_FEATURED,
+          tags: [...DEFAULT_TEAM_FEATURED.tags],
+        },
+        members: DEFAULT_TEAM_MEMBERS.map((m) => ({ ...m })),
+      },
+      imageUrl: null,
+      sortOrder: 4,
       updatedById: null,
     },
     {

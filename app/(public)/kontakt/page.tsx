@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { LucideIcon } from 'lucide-react'
 import { Phone, Mail, MapPin, Clock, Heart, Shield, ArrowRight, FileText, Navigation } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
@@ -6,6 +7,9 @@ import { TextReveal } from '@/components/animations/text-reveal'
 import { ContactForm } from '@/components/forms/contact-form'
 import { PremiumCta } from '@/components/sections/premium-cta'
 import { LocationMapClient } from '@/components/sections/location-map-client'
+import { loadContactInfo } from '@/lib/content/load-site-bundle'
+import { mapsHrefFromAddress } from '@/lib/content/contact-cms'
+import { telHrefFromDisplay } from '@/lib/content/tel-href'
 
 export const metadata = {
   title: 'Kontakt – IMPULS Ambulanter Pflegedienst in Unna',
@@ -13,37 +17,56 @@ export const metadata = {
     'Nehmen Sie Kontakt mit IMPULS auf – für Pflegeberatung, Leistungsanfragen oder allgemeine Fragen. Wir sind telefonisch rund um die Uhr erreichbar.',
 }
 
-const contactCards = [
-  {
-    icon: Phone,
-    label: 'Telefon',
-    value: '02303 2920589',
-    sub: 'Rund um die Uhr erreichbar',
-    href: 'tel:+4923032920589',
-    accent: true,
-  },
-  {
-    icon: Mail,
-    label: 'E-Mail',
-    value: 'info@impuls-pflege.de',
-    sub: 'Antwort innerhalb von 24 Stunden',
-    href: 'mailto:info@impuls-pflege.de',
-  },
-  {
-    icon: MapPin,
-    label: 'Adresse',
-    value: 'Massener Str. 147',
-    sub: '59423 Unna',
-  },
-  {
-    icon: Clock,
-    label: 'Bürozeiten',
-    value: 'Mo–Fr: 08:00–16:00 Uhr',
-    sub: 'Telefonisch: 24/7',
-  },
-]
+export const dynamic = 'force-dynamic'
 
-export default function KontaktPage() {
+export default async function KontaktPage() {
+  const c = await loadContactInfo()
+  const tel = telHrefFromDisplay(c.phone)
+  const mapsUrl = mapsHrefFromAddress(c.address)
+  const addrParts = c.address.split(',').map((s) => s.trim()).filter(Boolean)
+  const addrLine1 = addrParts[0] ?? c.address
+  const addrLine2 = addrParts.slice(1).join(', ')
+  const hourLines = c.hours.split('\n').map((s) => s.trim()).filter(Boolean)
+  const hoursLine1 = hourLines[0] ?? c.hours
+  const hoursLine2 = hourLines.slice(1).join(' · ') || 'Telefonisch: 24/7'
+
+  const contactCards = [
+    {
+      icon: Phone,
+      label: 'Telefon',
+      value: c.phone,
+      sub: 'Rund um die Uhr erreichbar',
+      href: tel,
+      accent: true,
+    },
+    {
+      icon: Mail,
+      label: 'E-Mail',
+      value: c.email,
+      sub: 'Antwort innerhalb von 24 Stunden',
+      href: `mailto:${c.email}`,
+    },
+    {
+      icon: MapPin,
+      label: 'Adresse',
+      value: addrLine1,
+      sub: addrLine2 || ' ',
+    },
+    {
+      icon: Clock,
+      label: 'Bürozeiten',
+      value: hoursLine1,
+      sub: hoursLine2,
+    },
+  ]
+
+  const locationInfoRows: { icon: LucideIcon; label: string; href?: string }[] = [
+    { icon: MapPin, label: c.address },
+    { icon: Phone, label: c.phone, href: tel },
+    { icon: Mail, label: c.email, href: `mailto:${c.email}` },
+    { icon: Clock, label: hoursLine1 },
+  ]
+
   return (
     <>
       {/* ─── Hero ─── */}
@@ -258,7 +281,7 @@ export default function KontaktPage() {
                     </p>
 
                     <a
-                      href="tel:+4923032920589"
+                      href={tel}
                       className="group mt-6 inline-flex h-[50px] w-full items-center justify-center gap-2.5 rounded-full text-[14px] font-[620] tracking-[-0.01em] text-white transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_14px_28px_-6px_rgba(24,193,163,0.36)]"
                       style={{
                         background: 'linear-gradient(135deg, #18C1A3, #20C9AA)',
@@ -373,12 +396,7 @@ export default function KontaktPage() {
               {/* Info rows */}
               <FadeIn delay={0.18}>
                 <div className="icon-list-stack mt-8 space-y-3.5">
-                  {[
-                    { icon: MapPin, label: 'Massener Str. 147, 59423 Unna', href: undefined },
-                    { icon: Phone, label: '02303 2920589', href: 'tel:+4923032920589' },
-                    { icon: Mail, label: 'info@impuls-pflege.de', href: 'mailto:info@impuls-pflege.de' },
-                    { icon: Clock, label: 'Mo–Fr: 08:00–16:00 Uhr', href: undefined },
-                  ].map((item) => {
+                  {locationInfoRows.map((item) => {
                     const inner = (
                       <div className="flex items-start gap-3">
                         <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
@@ -405,7 +423,7 @@ export default function KontaktPage() {
               <FadeIn delay={0.24}>
                 <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
                   <a
-                    href="https://maps.google.com/?q=Massener+Str.+147,+59423+Unna"
+                    href={mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full px-6 py-3 text-[14px] font-[620] tracking-[-0.01em] text-white transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_12px_24px_-4px_rgba(24,193,163,0.34)] sm:w-auto sm:max-w-none"
@@ -418,7 +436,7 @@ export default function KontaktPage() {
                     Route planen
                   </a>
                   <a
-                    href="tel:+4923032920589"
+                    href={tel}
                     className="group inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full border px-6 py-3 text-[14px] font-[540] tracking-[-0.01em] transition-all duration-300 hover:-translate-y-[1px] hover:border-[rgba(24,193,163,0.25)] hover:bg-[rgba(24,193,163,0.04)] sm:w-auto sm:max-w-none"
                     style={{ borderColor: 'rgba(0,0,0,0.09)', color: '#334155' }}
                   >
@@ -466,12 +484,12 @@ export default function KontaktPage() {
                           IMPULS Ambulante Pflege
                         </p>
                         <p className="text-[11.5px] font-[420]" style={{ color: '#64748b' }}>
-                          Massener Str. 147, 59423 Unna
+                          {c.address}
                         </p>
                       </div>
                     </div>
                     <a
-                      href="https://maps.google.com/?q=Massener+Str.+147,+59423+Unna"
+                      href={mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group shrink-0 flex items-center gap-1.5 rounded-full px-4 py-2 text-[12px] font-[600] tracking-[-0.005em] text-white transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_8px_20px_-4px_rgba(24,193,163,0.42)]"
@@ -494,6 +512,7 @@ export default function KontaktPage() {
         headline="Lassen Sie uns gemeinsam die passende Unterstützung finden."
         subtext="Wir nehmen uns Zeit für Ihre Situation und beraten Sie persönlich, verständlich und unverbindlich."
         primaryLabel="Jetzt unverbindlich anfragen"
+        phone={c.phone}
         background="#F7FAFA"
       />
     </>

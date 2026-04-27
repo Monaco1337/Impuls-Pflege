@@ -15,6 +15,7 @@ import { formatDateTime } from '@/lib/utils'
 import { getAuditLogs } from '@/lib/actions/audit'
 import { ActivityFilters } from '@/components/admin/activity-filters'
 import { formatAuditEventDescription } from '@/lib/admin/audit-messages'
+import { requireFullSettingsAdmin } from '@/lib/auth/require-full-settings-admin'
 
 export const metadata: Metadata = {
   title: 'Aktivitätsprotokoll',
@@ -56,6 +57,7 @@ export default async function SettingsActivityPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+  await requireFullSettingsAdmin()
   const params = await searchParams
   const page = Number(params.page) || 1
   const userId = typeof params.userId === 'string' ? params.userId : undefined

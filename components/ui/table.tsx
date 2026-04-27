@@ -36,12 +36,18 @@ export const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTML
 )
 TableBody.displayName = 'TableBody'
 
-export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
-  ({ className, ...props }, ref) => (
+export type TableRowProps = HTMLAttributes<HTMLTableRowElement> & {
+  /** Ohne Standard-Zeilen-Hover (z. B. für klickbare Admin-Zeilen mit eigenem Hover). */
+  variant?: 'default' | 'plain'
+}
+
+export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
+  ({ className, variant = 'default', ...props }, ref) => (
     <tr
       ref={ref}
       className={cn(
-        'border-b border-warm-100 transition-colors hover:bg-warm-50/60',
+        'border-b border-warm-100 transition-colors',
+        variant === 'default' && 'hover:bg-warm-50/60',
         className,
       )}
       {...props}

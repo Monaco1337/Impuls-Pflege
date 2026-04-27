@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import { ArrowRight } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
@@ -38,7 +38,9 @@ const points = [
   'Mehr Lebensqualität im eigenen Zuhause',
 ]
 
-export function QualitySection() {
+const DEF_SUPPORT = '/images/care-support.jpg'
+
+export function QualitySection({ supportImageSrc = DEF_SUPPORT }: { supportImageSrc?: string } = {}) {
   return (
     <section
       className="relative overflow-hidden py-28 sm:py-36 lg:py-44"
@@ -204,8 +206,8 @@ export function QualitySection() {
                   boxShadow: '0 8px 40px rgba(0,0,0,0.09)',
                 }}
               >
-                <Image
-                  src="/images/care-support.jpg"
+                <CmsImage
+                  src={supportImageSrc}
                   alt="Pflegerin unterstützt Patientin im Alltag"
                   width={640}
                   height={460}

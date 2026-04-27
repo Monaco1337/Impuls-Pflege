@@ -120,7 +120,7 @@ export function DataTable<T>({
       <div className="rounded-lg border border-warm-200 overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent">
+            <TableRow variant="plain">
               {columns.map((col) => (
                 <TableHead
                   key={col.id}
@@ -152,7 +152,7 @@ export function DataTable<T>({
           </TableHeader>
           <TableBody>
             {paginated.length === 0 ? (
-              <TableRow className="hover:bg-transparent">
+              <TableRow variant="plain">
                 <TableCell colSpan={columns.length} className="py-12 text-center text-warm-400">
                   {emptyMessage}
                 </TableCell>

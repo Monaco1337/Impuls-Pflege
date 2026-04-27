@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 
 export default function AdminLoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -20,7 +20,7 @@ export default function AdminLoginPage() {
 
     try {
       const result = await signIn('credentials', {
-        email: email.trim(),
+        username: username.trim(),
         password,
         redirect: false,
       })
@@ -50,6 +50,7 @@ export default function AdminLoginPage() {
         return
       }
 
+      setPassword('')
       router.refresh()
       router.push('/admin/dashboard')
     } catch {
@@ -68,45 +69,50 @@ export default function AdminLoginPage() {
         <div className="rounded-xl border border-warm-200 bg-white p-8 shadow-sm">
           <h1 className="mb-1 text-xl font-semibold text-warm-900">Anmeldung</h1>
           <p className="mb-6 text-sm text-warm-500">
-            Melden Sie sich mit Ihrem Konto an
+            Melden Sie sich mit Benutzername und Passwort an
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="admin-username"
                 className="mb-1.5 block text-sm font-medium text-warm-700"
               >
-                E-Mail-Adresse
+                Benutzername
               </label>
               <input
-                id="email"
-                type="email"
-                autoComplete="email"
+                id="admin-username"
+                name="username"
+                type="text"
+                inputMode="text"
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="block w-full rounded-lg border border-warm-300 bg-white px-3.5 py-2.5 text-sm text-warm-900 placeholder:text-warm-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors"
-                placeholder="name@impuls-pflege.de"
+                placeholder="Benutzername"
               />
             </div>
 
             <div>
               <label
-                htmlFor="password"
+                htmlFor="admin-password"
                 className="mb-1.5 block text-sm font-medium text-warm-700"
               >
                 Passwort
               </label>
               <input
-                id="password"
+                id="admin-password"
+                name="password"
                 type="password"
                 autoComplete="current-password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="block w-full rounded-lg border border-warm-300 bg-white px-3.5 py-2.5 text-sm text-warm-900 placeholder:text-warm-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors"
-                placeholder="••••••••"
               />
             </div>
 

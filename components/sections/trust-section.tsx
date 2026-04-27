@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import { Heart, Users, Home, Shield, HandHeart, Clock } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
@@ -42,7 +42,9 @@ const pillars = [
   },
 ]
 
-export function TrustSection() {
+const DEF_FEATURE = '/images/care-hands.jpg'
+
+export function TrustSection({ featureImageSrc = DEF_FEATURE }: { featureImageSrc?: string } = {}) {
   return (
     <section
       className="relative overflow-hidden py-28 sm:py-36 lg:py-44"
@@ -114,8 +116,8 @@ export function TrustSection() {
             <div className="relative h-full min-h-[280px] overflow-hidden rounded-[22px] lg:min-h-0"
               style={{ boxShadow: '0 24px 60px -12px rgba(0,0,0,0.12)' }}
             >
-              <Image
-                src="/images/care-hands.jpg"
+              <CmsImage
+                src={featureImageSrc}
                 alt="Hände halten – Pflege mit Vertrauen"
                 fill
                 className="object-cover transition-transform duration-700 hover:scale-[1.02]"

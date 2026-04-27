@@ -17,6 +17,18 @@ export type Action = 'view' | 'create' | 'edit' | 'delete' | 'manage'
 type PermissionMap = Record<RoleName, Partial<Record<Resource, Action[]>>>
 
 const permissions: PermissionMap = {
+  OWNER: {
+    dashboard: ['view', 'manage'],
+    inquiries: ['view', 'create', 'edit', 'delete', 'manage'],
+    applicants: ['view', 'create', 'edit', 'delete', 'manage'],
+    anamnese: ['view', 'create', 'edit', 'delete', 'manage'],
+    jobs: ['view', 'create', 'edit', 'delete', 'manage'],
+    content: ['view', 'create', 'edit', 'delete', 'manage'],
+    users: ['view', 'create', 'edit', 'delete', 'manage'],
+    files: ['view', 'create', 'edit', 'delete', 'manage'],
+    activity: ['view', 'manage'],
+    settings: ['view', 'edit', 'manage'],
+  },
   SUPER_ADMIN: {
     dashboard: ['view', 'manage'],
     inquiries: ['view', 'create', 'edit', 'delete', 'manage'],
@@ -111,8 +123,28 @@ export function getAccessibleResources(role: RoleName): Resource[] {
     .map(([resource]) => resource as Resource)
 }
 
+/**
+ * Technischer System-Admin (eigene ID in users.json).
+ * Bleibt zusätzlich zur Rolle als ID-Anker erhalten, damit der Account
+ * auch dann hidden bleibt, wenn die Rolle versehentlich geändert wird.
+ */
+export const SYSTEM_ADMIN_USER_ID = 'usr_admin'
+
+/**
+ * Vollständiger Einstellungs-Bereich (Benutzer, Protokoll, System, …)
+ * ist ausschließlich der OWNER-Rolle vorbehalten. SUPER_ADMINs sehen
+ * lediglich „Profil & Sicherheit“.
+ */
+export function isFullSettingsAdmin(user: {
+  id: string
+  role: RoleName
+}): boolean {
+  return user.role === 'OWNER'
+}
+
 export function getRoleLabel(role: RoleName): string {
   const labels: Record<RoleName, string> = {
+    OWNER: 'Owner',
     SUPER_ADMIN: 'Super Admin',
     ADMIN: 'Administrator',
     RECRUITING: 'Recruiting',

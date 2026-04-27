@@ -54,7 +54,17 @@ export function Dropdown({ children, className }: { children: ReactNode; classNa
 
   return (
     <DropdownContext.Provider value={{ open, toggle, close }}>
-      <div ref={containerRef} className={cn('relative inline-block', className)}>
+      <div
+        ref={containerRef}
+        className={cn(
+          'relative inline-block',
+          // Wenn offen, eigenen Stacking-Context hochziehen, damit das
+          // Popover zuverlässig über umliegende Karten / Sektionen mit
+          // eigenen Stacking-Contexts (transform, backdrop-blur, …) liegt.
+          open && 'z-[60]',
+          className,
+        )}
+      >
         {children}
       </div>
     </DropdownContext.Provider>
@@ -94,7 +104,7 @@ export function DropdownContent({ align = 'right', className, ...props }: Dropdo
     <div
       role="menu"
       className={cn(
-        'absolute z-50 mt-1 min-w-[180px] rounded-lg border border-warm-200 bg-white py-1 shadow-lg',
+        'absolute z-[70] mt-1 min-w-[180px] rounded-lg border border-warm-200 bg-white py-1 shadow-lg',
         'animate-in fade-in zoom-in-95 duration-150',
         align === 'right' && 'right-0',
         align === 'left' && 'left-0',

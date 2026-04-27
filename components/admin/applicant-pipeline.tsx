@@ -107,7 +107,8 @@ export function ApplicantPipeline({ applicants }: ApplicantPipelineProps) {
                     <Link
                       key={applicant.id}
                       href={`/admin/applicants/${applicant.id}`}
-                      className="block rounded-lg border border-warm-200 bg-white p-3 shadow-sm transition-all hover:border-warm-300 hover:shadow-md"
+                      prefetch
+                      className="block rounded-xl border border-warm-200/90 bg-white p-3 shadow-sm ring-1 ring-black/[0.02] transition-all duration-200 hover:border-primary-300/80 hover:bg-gradient-to-br hover:from-primary-50/50 hover:to-white hover:shadow-md hover:ring-primary-500/10 active:scale-[0.99]"
                     >
                       <p className="text-sm font-medium text-warm-900">
                         {applicant.firstName} {applicant.lastName}

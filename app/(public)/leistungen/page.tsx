@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import {
   Heart,
   Stethoscope,
@@ -14,6 +15,9 @@ import {
 import { FadeIn } from '@/components/animations/fade-in'
 import { PremiumCta } from '@/components/sections/premium-cta'
 import { LeistungenHeroSection } from '@/components/sections/leistungen-hero-section'
+import { loadSiteImageMap } from '@/lib/content/load-site-bundle'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Leistungen – IMPULS Ambulanter Pflegedienst in Unna',
@@ -21,7 +25,7 @@ export const metadata = {
     'Umfassende ambulante Pflege und Betreuung in Unna: Grundpflege, Behandlungspflege, Betreuungsangebote, hauswirtschaftliche Unterstützung und individuelle Beratung.',
 }
 
-const services = [
+const servicesBase = [
   {
     id: 'grundpflege',
     icon: Heart,
@@ -138,10 +142,29 @@ const services = [
   },
 ]
 
-export default function LeistungenPage() {
+const LEISTUNG_SLOT: Record<string, string> = {
+  grundpflege: 'leistungGrundpflege',
+  behandlungspflege: 'leistungBehandlungspflege',
+  betreuung: 'leistungBetreuung',
+  hauswirtschaft: 'leistungHauswirtschaft',
+  beratung: 'leistungBeratung',
+  zuhause: 'leistungZuhause',
+}
+
+function servicesWithCms(sites: Record<string, string>) {
+  return servicesBase.map((s) => {
+    const slot = LEISTUNG_SLOT[s.id]
+    const fromCms = slot ? sites[slot] : undefined
+    return { ...s, image: fromCms?.trim() || s.image }
+  })
+}
+
+export default async function LeistungenPage() {
+  const sites = await loadSiteImageMap()
+  const services = servicesWithCms(sites)
   return (
     <>
-      <LeistungenHeroSection />
+      <LeistungenHeroSection heroSrc={sites.leistungenPageHero} />
 
       {/* ── Trust Strip ── */}
       <section className="relative py-14 sm:py-16" style={{ background: '#ffffff' }}>
@@ -200,15 +223,12 @@ export default function LeistungenPage() {
                           borderRadius: '28px',
                           boxShadow: '0 24px 64px -12px rgba(0,0,0,0.11)',
                         }}>
-                        <Image
+                        <CmsImage
                           src={service.image}
                           alt={service.imageAlt}
                           width={700}
                           height={520}
                           className={`w-full object-cover ${(service as typeof service & { imageRatio?: string }).imageRatio ? 'aspect-[4/3] lg:aspect-[3/4]' : 'aspect-[4/3]'}`}
-                          style={{
-                            objectPosition: (service as typeof service & { imagePosition?: string }).imagePosition ?? 'center center',
-                          }}
                           sizes="(min-width: 1024px) 50vw, 100vw"
                         />
                       </div>

@@ -45,18 +45,10 @@ export default async function JobsPage({
   const result = await getJobs({ page, search })
 
   const jobs = (result.data as any)?.jobs ?? []
-  const total = (result.data as any)?.total ?? 0
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-warm-900">Stellenanzeigen</h2>
-          <p className="mt-1 text-sm text-warm-500">
-            {total} {total === 1 ? 'Stelle' : 'Stellen'} verwalten
-          </p>
-        </div>
-
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
         <Link href="/admin/jobs/new">
           <Button icon={<Plus className="h-4 w-4" />}>Neue Stelle</Button>
         </Link>

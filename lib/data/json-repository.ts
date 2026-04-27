@@ -1,4 +1,5 @@
 import { readJsonFile, writeJsonFile } from '@/lib/storage/json-data-layer'
+import { signInNameForUser } from '@/lib/data/user-login'
 import {
   type AnamneseData,
   type ApplicantsData,
@@ -142,11 +143,13 @@ export async function repoLoadAuditLogs(): Promise<JsonAuditLog[]> {
 export function repoPickUser(u: JsonUser) {
   return {
     id: u.id,
+    username: u.username ?? null,
     email: u.email,
     firstName: u.firstName,
     lastName: u.lastName,
     role: u.role,
     active: u.active,
+    hidden: u.hidden ?? false,
     avatar: u.avatar,
     lastLoginAt: u.lastLoginAt ? new Date(u.lastLoginAt) : null,
     createdAt: new Date(u.createdAt),
@@ -154,9 +157,30 @@ export function repoPickUser(u: JsonUser) {
   }
 }
 
+/**
+ * Liefert die IDs aller hidden user (inkl. OWNER + ID-Fallback).
+ * Wird für Server-side-Filter in Audit/Activity/Notifications verwendet.
+ */
+export async function repoLoadHiddenUserIds(): Promise<Set<string>> {
+  const users = await repoLoadUsers()
+  const ids = new Set<string>()
+  for (const u of users) {
+    if (u.hidden === true || u.role === 'OWNER') ids.add(u.id)
+  }
+  return ids
+}
+
 export async function repoFindUserByEmail(email: string): Promise<JsonUser | null> {
   const users = await repoLoadUsers()
   return users.find((u) => u.email.toLowerCase() === email.toLowerCase()) ?? null
+}
+
+/** Login über Benutzername (normalisiert), optional Legacy-Match über E-Mail-Lokalteil. */
+export async function repoFindUserBySignInName(login: string): Promise<JsonUser | null> {
+  const normalized = login.trim().toLowerCase()
+  if (!normalized) return null
+  const users = await repoLoadUsers()
+  return users.find((u) => signInNameForUser(u) === normalized) ?? null
 }
 
 export async function repoFindUserById(id: string): Promise<JsonUser | null> {
@@ -197,17 +221,41 @@ export async function repoAppendAudit(entry: {
   await saveAudit(logs)
 }
 
-export async function repoJoinUserBrief(id: string | null) {
+/**
+ * Auflösung einer User-ID zu einem öffentlich anzeigbaren Brief.
+ *
+ * Hidden user (Owner-Konten) werden für Nicht-Owner auf `null` abgebildet,
+ * damit sie in Listen, Notizen, Status-History, Zuweisungen, Kontaktpersonen
+ * etc. nicht als „geändert/erstellt von …“ erscheinen.
+ *
+ * Audit-Schreibungen und IDs in den JSON-Dateien bleiben davon unberührt –
+ * Filterung passiert ausschließlich beim Lesen.
+ *
+ * @param viewerRole Wenn `'OWNER'`, wird auch hidden user als Brief zurückgegeben.
+ */
+export async function repoJoinUserBrief(
+  id: string | null,
+  viewerRole?: string,
+) {
   if (!id) return null
   const u = await repoFindUserById(id)
   if (!u) return null
+  if ((u.hidden === true || u.role === 'OWNER') && viewerRole !== 'OWNER') {
+    return null
+  }
   return { id: u.id, firstName: u.firstName, lastName: u.lastName, email: u.email }
 }
 
-export async function repoJoinUserBriefNoEmail(id: string | null) {
+export async function repoJoinUserBriefNoEmail(
+  id: string | null,
+  viewerRole?: string,
+) {
   if (!id) return null
   const u = await repoFindUserById(id)
   if (!u) return null
+  if ((u.hidden === true || u.role === 'OWNER') && viewerRole !== 'OWNER') {
+    return null
+  }
   return { id: u.id, firstName: u.firstName, lastName: u.lastName }
 }
 

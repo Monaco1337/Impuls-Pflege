@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "data:init": "npx tsx scripts/write-initial-json-data.ts"
+    "data:init": "npx tsx scripts/write-initial-json-data.ts",
+    "hash-password": "npx tsx scripts/hash-password.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

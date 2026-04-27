@@ -6,6 +6,7 @@ import { hasPermission } from '@/lib/rbac/permissions'
 import { SettingsForm } from '@/components/admin/settings-form'
 import { Building2 } from 'lucide-react'
 import type { RoleName } from '@/lib/types/enums'
+import { requireFullSettingsAdmin } from '@/lib/auth/require-full-settings-admin'
 
 export const metadata: Metadata = {
   title: 'System & Organisation',
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic'
 
 export default async function SettingsSystemPage() {
+  await requireFullSettingsAdmin()
   const [settingsResult, user] = await Promise.all([getSettings(), getCurrentUser()])
   const settings = (settingsResult.data ?? {}) as Record<string, unknown>
   const canEdit = user ? hasPermission(user.role as RoleName, 'settings', 'edit') : false

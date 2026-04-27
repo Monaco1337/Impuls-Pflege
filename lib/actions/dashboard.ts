@@ -9,11 +9,13 @@ import {
   repoLoadAnamnese,
   repoLoadApplicants,
   repoLoadAuditLogs,
+  repoLoadHiddenUserIds,
   repoLoadInquiries,
   repoLoadJobs,
 } from '@/lib/data/json-repository'
 import { AnamneseStatus } from '@/lib/types/enums'
 import type { RoleName } from '@/lib/types/enums'
+import { filterAuditLogsForViewer } from '@/lib/rbac/visibility'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -116,17 +118,19 @@ export async function getRecentApplicants(): Promise<ActionResult> {
 
 export async function getRecentActivity(): Promise<ActionResult> {
   try {
-    await requireAccess('dashboard', 'view')
+    const viewer = await requireAccess('dashboard', 'view')
 
     const logsRaw = await repoLoadAuditLogs()
+    const hiddenIds = await repoLoadHiddenUserIds()
+    const visibleLogs = filterAuditLogsForViewer(logsRaw, viewer, hiddenIds)
     const logs = await Promise.all(
-      [...logsRaw]
+      [...visibleLogs]
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .slice(0, 10)
         .map(async (log) => ({
           ...log,
           createdAt: new Date(log.createdAt),
-          user: await repoJoinUserBriefNoEmail(log.userId),
+          user: await repoJoinUserBriefNoEmail(log.userId, viewer.role),
         })),
     )
 

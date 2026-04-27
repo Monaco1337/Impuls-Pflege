@@ -37,6 +37,7 @@ import { UserForm } from './user-form'
 
 interface User {
   id: string
+  username?: string | null
   email: string
   firstName: string
   lastName: string
@@ -88,6 +89,7 @@ export function UserList({ users, currentUserId }: UserListProps) {
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
+              <TableHead>Benutzername</TableHead>
               <TableHead>E-Mail</TableHead>
               <TableHead>Rolle</TableHead>
               <TableHead>Status</TableHead>
@@ -113,6 +115,9 @@ export function UserList({ users, currentUserId }: UserListProps) {
                       <ArrowRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
                     </Link>
                   </div>
+                </TableCell>
+                <TableCell className="font-mono text-sm text-warm-700">
+                  {user.username?.trim() || '—'}
                 </TableCell>
                 <TableCell className="text-warm-600">{user.email}</TableCell>
                 <TableCell>

@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import {
   Users,
   History,
@@ -9,7 +10,7 @@ import {
   ArrowUpRight,
 } from 'lucide-react'
 import { getCurrentUser } from '@/lib/auth/session'
-import { hasPermission } from '@/lib/rbac/permissions'
+import { hasPermission, isFullSettingsAdmin } from '@/lib/rbac/permissions'
 import type { RoleName } from '@/lib/types/enums'
 import { cn } from '@/lib/utils'
 
@@ -75,6 +76,9 @@ export default async function SettingsHubPage() {
   const user = await getCurrentUser()
   if (!user) return null
   const role = user.role as RoleName
+  if (!isFullSettingsAdmin({ id: user.id, role })) {
+    redirect('/admin/settings/profile')
+  }
   const visible = cards.filter((c) => c.can(role))
 
   return (

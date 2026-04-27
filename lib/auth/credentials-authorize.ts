@@ -1,18 +1,19 @@
 import { compare } from 'bcryptjs'
 import { AuthDatabaseUnavailable } from '@/lib/auth/database-signin-error'
 import { logServerError } from '@/lib/error-handling'
-import { repoFindUserByEmail, repoUpdateUserLastLogin } from '@/lib/data/json-repository'
+import { normalizeSignInLogin } from '@/lib/data/user-login'
+import { repoFindUserBySignInName, repoUpdateUserLastLogin } from '@/lib/data/json-repository'
 
 export async function credentialsAuthorize(
-  credentials: Partial<Record<'email' | 'password', unknown>>,
+  credentials: Partial<Record<'username' | 'password', unknown>>,
 ) {
-  if (!credentials?.email || !credentials?.password) return null
+  if (!credentials?.username || !credentials?.password) return null
 
-  const email = String(credentials.email).trim().toLowerCase()
+  const login = normalizeSignInLogin(String(credentials.username))
   const password = String(credentials.password)
 
   try {
-    const user = await repoFindUserByEmail(email)
+    const user = await repoFindUserBySignInName(login)
 
     if (!user?.active) return null
 

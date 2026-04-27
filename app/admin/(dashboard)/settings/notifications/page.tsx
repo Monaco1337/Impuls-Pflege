@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { Bell, RefreshCw, ShieldCheck } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { requireFullSettingsAdmin } from '@/lib/auth/require-full-settings-admin'
 
 export const metadata: Metadata = {
   title: 'Benachrichtigungen',
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic'
 
-export default function SettingsNotificationsPage() {
+export default async function SettingsNotificationsPage() {
+  await requireFullSettingsAdmin()
   return (
     <div className="space-y-6">
       <div>

@@ -10,7 +10,10 @@ import { FadeIn } from '@/components/animations/fade-in'
 const MINT = '#18C1A3'
 const PINK = '#F24B6A'
 
-export function AboutHeroSection() {
+const DEF_HERO = '/images/about-hero.jpg'
+
+export function AboutHeroSection({ heroSrc }: { heroSrc?: string }) {
+  const bg = heroSrc?.trim() || DEF_HERO
   const sectionRef = useRef<HTMLElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -39,7 +42,7 @@ export function AboutHeroSection() {
         }}
       >
         <Image
-          src="/images/about-hero.jpg"
+          src={bg}
           alt="Pflegekraft mit älterer Dame und Angehörigem"
           fill
           className="object-cover object-center"

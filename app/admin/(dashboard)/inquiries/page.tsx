@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
 import { MessageSquare, ArrowRight } from 'lucide-react'
 import { cn, formatDate } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/card'
@@ -16,6 +15,7 @@ import {
 } from '@/components/ui/table'
 import { getInquiries } from '@/lib/actions/inquiries'
 import { InquiryFilters } from '@/components/admin/inquiry-filters'
+import { AdminDataTableRow } from '@/components/admin/admin-data-table-row'
 
 export const metadata: Metadata = {
   title: 'Anfragen',
@@ -67,13 +67,6 @@ export default async function InquiriesPage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-warm-900">Anfragen</h2>
-        <p className="mt-1 text-sm text-warm-500">
-          Verwalten Sie eingehende Kontakt- und Pflegeanfragen
-        </p>
-      </div>
-
       <InquiryFilters
         currentPage={currentPage}
         totalPages={totalPages}
@@ -109,15 +102,19 @@ export default async function InquiriesPage({
             </TableHeader>
             <TableBody>
               {inquiries.map((inquiry: any) => (
-                <TableRow key={inquiry.id}>
+                <AdminDataTableRow
+                  key={inquiry.id}
+                  href={`/admin/inquiries/${inquiry.id}`}
+                  label={inquiry.fullName}
+                >
                   <TableCell>
-                    <Link
-                      href={`/admin/inquiries/${inquiry.id}`}
-                      className="group inline-flex items-center gap-1.5 font-medium text-warm-900 hover:text-primary-600"
-                    >
+                    <span className="inline-flex items-center gap-2 font-semibold text-warm-900 transition-colors group-hover:text-primary-800">
                       {inquiry.fullName}
-                      <ArrowRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
-                    </Link>
+                      <ArrowRight
+                        className="h-3.5 w-3.5 shrink-0 text-primary-600 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100"
+                        aria-hidden
+                      />
+                    </span>
                   </TableCell>
                   <TableCell className="text-warm-600">
                     {inquiryTypeLabels[inquiry.inquiryType] ?? inquiry.inquiryType}
@@ -133,10 +130,10 @@ export default async function InquiriesPage({
                       ? `${inquiry.assignedTo.firstName} ${inquiry.assignedTo.lastName}`
                       : <span className="text-warm-400">—</span>}
                   </TableCell>
-                  <TableCell className="text-right text-warm-500">
+                  <TableCell className="text-right text-warm-500 tabular-nums">
                     {formatDate(inquiry.createdAt)}
                   </TableCell>
-                </TableRow>
+                </AdminDataTableRow>
               ))}
             </TableBody>
           </Table>

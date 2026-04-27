@@ -9,7 +9,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Credentials({
       name: 'credentials',
       credentials: {
-        email: { label: 'E-Mail', type: 'email' },
+        username: { label: 'Benutzername', type: 'text' },
         password: { label: 'Passwort', type: 'password' },
       },
       authorize: credentialsAuthorize,

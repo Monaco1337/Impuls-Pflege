@@ -9,6 +9,8 @@ import type {
 
 export type JsonUser = {
   id: string
+  /** Eindeutiger Anmeldename (ohne Leerzeichen); empfohlen für alle Konten. */
+  username?: string | null
   email: string
   passwordHash: string
   firstName: string
@@ -16,6 +18,12 @@ export type JsonUser = {
   avatar: string | null
   active: boolean
   role: RoleName
+  /**
+   * Wenn true, ist dieser Benutzer für alle Nicht-OWNER unsichtbar
+   * (UI-Listen, Activity-Logs, Content-Metadaten, Direkt-Zugriff via ID).
+   * Audit bleibt serverseitig vollständig erhalten und ist für OWNER abrufbar.
+   */
+  hidden?: boolean
   lastLoginAt: string | null
   createdAt: string
   updatedAt: string

@@ -2,8 +2,7 @@ import { Metadata } from 'next'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { PasswordForm } from '@/components/admin/password-form'
 import { getCurrentUser } from '@/lib/auth/session'
-import { getRoleLabel } from '@/lib/rbac/permissions'
-import { Mail, Shield, User } from 'lucide-react'
+import { Mail, User } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Profil & Sicherheit',
@@ -43,7 +42,7 @@ export default async function SettingsProfilePage() {
                 </p>
               </div>
             </div>
-            <div className="flex items-start gap-3 py-3">
+            <div className="flex items-start gap-3 py-3 last:pb-0">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-warm-100 text-warm-600">
                 <Mail className="h-4 w-4" strokeWidth={1.8} />
               </div>
@@ -55,15 +54,6 @@ export default async function SettingsProfilePage() {
                 >
                   {user.email}
                 </a>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 py-3 last:pb-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-warm-100 text-warm-600">
-                <Shield className="h-4 w-4" strokeWidth={1.8} />
-              </div>
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-warm-400">Rolle</p>
-                <p className="text-sm font-medium text-warm-900">{getRoleLabel(user.role)}</p>
               </div>
             </div>
           </CardContent>

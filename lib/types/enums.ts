@@ -1,6 +1,13 @@
 /** Ersetzt frühere @prisma/client-Enums (kein Prisma mehr). */
 
 export const RoleName = {
+  /**
+   * Technischer Owner / interner System-Zugang.
+   * Hat dieselben Rechte wie SUPER_ADMIN, ist aber gegenüber allen
+   * anderen Rollen (auch SUPER_ADMIN) UI-seitig unsichtbar.
+   * Nur OWNER selbst sieht andere OWNER-Konten und deren Aktivitäten.
+   */
+  OWNER: 'OWNER',
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   RECRUITING: 'RECRUITING',

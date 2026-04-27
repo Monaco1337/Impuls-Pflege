@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import { ArrowRight, Phone, Users, HeartHandshake } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
@@ -31,7 +31,9 @@ const steps = [
   },
 ]
 
-export function ProcessSection() {
+const DEF_NURSE = '/images/care-process-nurse.jpg'
+
+export function ProcessSection({ nurseImageSrc = DEF_NURSE }: { nurseImageSrc?: string } = {}) {
   return (
     <section className="relative overflow-hidden py-28 sm:py-36 lg:py-44" style={{ background: '#ffffff' }}>
 
@@ -112,8 +114,8 @@ export function ProcessSection() {
                   boxShadow: '0 12px 40px rgba(0,0,0,0.10)',
                 }}
               >
-                <Image
-                  src="/images/care-process-nurse.jpg"
+                <CmsImage
+                  src={nurseImageSrc}
                   alt="Pflegekraft im Erstgespräch"
                   width={540}
                   height={380}

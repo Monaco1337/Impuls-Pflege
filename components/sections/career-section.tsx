@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import { MapPin, ArrowUpRight, ArrowRight, Sparkles } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
@@ -11,7 +11,9 @@ const jobs = [
   { title: 'Hauswirtschaftskraft', suffix: '(m/w/d)', type: 'Minijob / Teilzeit', location: 'Unna', slug: 'hauswirtschaftskraft' },
 ]
 
-export function CareerSection() {
+const DEF_TEAM = '/images/care-team.jpg'
+
+export function CareerSection({ teamImageSrc = DEF_TEAM }: { teamImageSrc?: string } = {}) {
   return (
     <section className="grain relative overflow-hidden bg-warm-50/80 py-28 sm:py-36 lg:py-44">
       <Container size="xl" className="relative z-[2]">
@@ -65,8 +67,8 @@ export function CareerSection() {
             {/* Team image */}
             <FadeIn delay={0.26}>
               <div className="mt-10 overflow-hidden rounded-2xl">
-                <Image
-                  src="/images/care-team.jpg"
+                <CmsImage
+                  src={teamImageSrc}
                   alt="Unser Pflegeteam bei IMPULS"
                   width={600}
                   height={400}

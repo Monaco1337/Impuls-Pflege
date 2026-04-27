@@ -11,7 +11,11 @@ import {
   Server,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { hasPermission, type Resource } from '@/lib/rbac/permissions'
+import {
+  hasPermission,
+  isFullSettingsAdmin,
+  type Resource,
+} from '@/lib/rbac/permissions'
 import type { RoleName } from '@/lib/types/enums'
 
 type SubItem = {
@@ -39,14 +43,22 @@ function pathActive(pathname: string, item: SubItem): boolean {
 }
 
 export function SettingsArea({
+  userId,
   userRole,
   children,
 }: {
+  userId: string
   userRole: RoleName
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const visible = subItems.filter((i) => hasPermission(userRole, i.resource, 'view'))
+  const fullAdmin = isFullSettingsAdmin({ id: userId, role: userRole })
+  const visible = subItems.filter((i) => {
+    if (!hasPermission(userRole, i.resource, 'view')) return false
+    if (fullAdmin) return true
+    return i.href === '/admin/settings/profile'
+  })
+  const sectionLabel = fullAdmin ? 'Einstellungen' : 'Mein Konto'
 
   return (
     <div className="flex min-h-0 flex-col gap-6 lg:flex-row lg:gap-8">
@@ -55,7 +67,7 @@ export function SettingsArea({
         aria-label="Bereich Einstellungen"
       >
         <p className="mb-2 px-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-warm-400">
-          Einstellungen
+          {sectionLabel}
         </p>
         <ul className="flex flex-row gap-1 overflow-x-auto pb-1 lg:flex-col lg:pb-0 lg:overflow-visible">
           {visible.map((item) => {

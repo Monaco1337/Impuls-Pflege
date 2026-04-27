@@ -4,9 +4,9 @@
     "key": "hero",
     "title": "Hero Section",
     "content": {
-      "headline": "Herzlich willkommen beim Impuls Ambulanten Pflegedienst in Unna",
-      "subheadline": "Ihr vertrauensvoller Partner für Betreuung, Pflege und Unterstützung in den eigenen vier Wänden.",
-      "body": "Unser erfahrenes und einfühlsames Team begleitet Menschen im vertrauten Zuhause – mit fachlicher Kompetenz, Respekt und echter Menschlichkeit."
+      "headline": "Pflege, die Menschen bewegt.",
+      "subheadline": "Ein Arbeitsplatz,\nder Sinn schafft.",
+      "body": "Wir begleiten Menschen im Alltag – mit Respekt,\nFachwissen und echter Menschlichkeit. Und wir suchen\nPflegekräfte, die genauso denken."
     },
     "imageUrl": null,
     "sortOrder": 1,
@@ -18,11 +18,195 @@
     "key": "intro",
     "title": "Intro Section",
     "content": {
-      "headline": "Pflege, die Vertrauen schafft",
-      "body": "Wir bei IMPULS verstehen, dass die Entscheidung für einen ambulanten Pflegedienst ein Schritt ist, der Vertrauen erfordert."
+      "eyebrow": "Über IMPULS",
+      "headline": "Menschlichkeit ist\nkeine Zusatzleistung.",
+      "body": "IMPULS ist mehr als ein Pflegedienst. Wir sind der verlässliche\nBegleiter, der morgens da ist – und der am Abend ans Telefon geht.\n\nJede Beziehung bei uns beginnt mit Zuhören. Wir lernen zuerst den\nMenschen kennen – erst dann entsteht der Pflegeplan. Weil echte\nFürsorge nur wächst, wenn Vertrauen an erster Stelle steht.",
+      "quote": "„Pflege ist dann wirklich gut, wenn man vergisst, dass man gepflegt wird – und nur noch spürt, dass jemand wirklich für einen da ist.\"",
+      "quoteBy": "Das IMPULS-Versprechen"
     },
     "imageUrl": null,
     "sortOrder": 2,
+    "updatedById": null,
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "blk_site_images",
+    "key": "site-images",
+    "title": "Website-Fotos (Startseite)",
+    "content": {
+      "heroDesktop": {
+        "src": "/images/hero-care.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "heroMobile": {
+        "src": "/images/hero-care-mobile.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "introEditorial": {
+        "src": "/images/care-editorial.jpg",
+        "focusX": 52.3,
+        "focusY": 30.6
+      },
+      "trustFeature": {
+        "src": "/images/care-hands.jpg",
+        "focusX": 58.6,
+        "focusY": 49.1
+      },
+      "servicesHero": {
+        "src": "/images/care-services-hero.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "processNurse": {
+        "src": "/images/care-process-nurse.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "qualitySupport": {
+        "src": "/images/care-support.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "careerTeam": {
+        "src": "/images/care-team.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "aboutHero": {
+        "src": "/images/about-hero.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "ueberTogether": {
+        "src": "/images/care-together.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "ueberValues": {
+        "src": "/images/care-values.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "ueberPortrait": {
+        "src": "/images/team-elena-tschupina.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "ueberTeamGroup": {
+        "src": "/images/care-team-group.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "ueberRegional": {
+        "src": "/images/care-regional.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "leistungenPageHero": {
+        "src": "/images/care-leistungen-hero.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "leistungGrundpflege": {
+        "src": "/images/care-grundpflege.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "leistungBehandlungspflege": {
+        "src": "/images/care-behandlungspflege.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "leistungBetreuung": {
+        "src": "/images/care-betreuung.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "leistungHauswirtschaft": {
+        "src": "/images/care-hauswirtschaft.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "leistungBeratung": {
+        "src": "/images/care-beratung.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "leistungZuhause": {
+        "src": "/images/care-zuhause.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "karriereHero": {
+        "src": "/images/care-karriere-hero.jpg",
+        "focusX": 50,
+        "focusY": 50
+      },
+      "karriereSmile": {
+        "src": "/images/care-smile.jpg",
+        "focusX": 50,
+        "focusY": 50
+      }
+    },
+    "imageUrl": null,
+    "sortOrder": 3,
+    "updatedById": "usr_elena",
+    "updatedAt": "2026-04-26T21:23:02.442Z"
+  },
+  {
+    "id": "blk_team",
+    "key": "team",
+    "title": "Team (Team-Seite)",
+    "content": {
+      "featured": {
+        "name": "Elena Tschupina",
+        "role": "Geschäftsführerin",
+        "quote": "„Pflege bedeutet für mich, Menschen in ihrer schwersten Zeit mit Würde und echter Fürsorge zu begleiten.\"",
+        "bio": "Als Gründerin und Geschäftsführerin von IMPULS trägt Elena die Verantwortung für die Qualität jedes einzelnen Pflegeeinsatzes. Ihre Überzeugung: Gute Pflege beginnt mit Zuhören und wird getragen von Menschen, die ihren Beruf wirklich lieben.",
+        "image": "/images/team-elena-tschupina.jpg",
+        "tags": [
+          "Examinierte Pflegefachkraft",
+          "Langjährige Führungserfahrung",
+          "Regionaler Pflegedienst"
+        ]
+      },
+      "members": [
+        {
+          "name": "Natalia Tschupina",
+          "position": "Pflegedienstleiterin",
+          "description": "Mit Herz, Fachwissen und einem offenen Ohr koordiniert Natalia den täglichen Pflegeeinsatz und sorgt dafür, dass jeder Klient die Betreuung bekommt, die er verdient.",
+          "image": "/images/care-smile.jpg"
+        },
+        {
+          "name": "Teammitglied",
+          "position": "Pflegefachkraft",
+          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
+          "image": null
+        },
+        {
+          "name": "Teammitglied",
+          "position": "Pflegehilfskraft",
+          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
+          "image": null
+        },
+        {
+          "name": "Teammitglied",
+          "position": "Betreuungsassistenz",
+          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
+          "image": null
+        },
+        {
+          "name": "Teammitglied",
+          "position": "Pflegefachkraft",
+          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
+          "image": null
+        }
+      ]
+    },
+    "imageUrl": null,
+    "sortOrder": 4,
     "updatedById": null,
     "updatedAt": "2026-01-01T00:00:00.000Z"
   },

@@ -10,6 +10,8 @@ import { FadeIn } from '@/components/animations/fade-in'
 const MINT = '#18C1A3'
 const PINK = '#F24B6A'
 
+const DEF_LEISTUNGEN_HERO = '/images/care-leistungen-hero.jpg'
+
 const TRUST_ITEMS = [
   'Persönliche Ansprechpartner',
   'Individuelle Pflegeplanung',
@@ -17,7 +19,8 @@ const TRUST_ITEMS = [
   'Kurze Wege in Unna',
 ]
 
-export function LeistungenHeroSection() {
+export function LeistungenHeroSection({ heroSrc }: { heroSrc?: string }) {
+  const bg = heroSrc?.trim() || DEF_LEISTUNGEN_HERO
   const sectionRef = useRef<HTMLElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -46,7 +49,7 @@ export function LeistungenHeroSection() {
         }}
       >
         <Image
-          src="/images/care-leistungen-hero.jpg"
+          src={bg}
           alt="Zwei Pflegekräfte im einfühlsamen Gespräch mit einem Patienten"
           fill
           className="object-cover"

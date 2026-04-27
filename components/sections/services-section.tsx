@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import { ArrowRight, Stethoscope, HeartPulse, Smile, Home, MessageCircle, ShieldCheck } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
@@ -37,7 +37,9 @@ const services = [
   },
 ]
 
-export function ServicesSection() {
+const DEF_HERO = '/images/care-services-hero.jpg'
+
+export function ServicesSection({ heroImageSrc = DEF_HERO }: { heroImageSrc?: string } = {}) {
   return (
     <section className="relative bg-white py-28 sm:py-36 lg:py-44">
       <Container size="xl">
@@ -97,8 +99,8 @@ export function ServicesSection() {
                   boxShadow: '0 20px 56px -12px rgba(0,0,0,0.12)',
                 }}
               >
-                <Image
-                  src="/images/care-services-hero.jpg"
+                <CmsImage
+                  src={heroImageSrc}
                   alt="Pflegerin bespricht Pflegeplan mit älterem Herrn und Angehöriger am Tisch"
                   fill
                   className="object-cover"

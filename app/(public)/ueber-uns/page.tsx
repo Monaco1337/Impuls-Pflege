@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import {
   Heart,
   Shield,
@@ -20,6 +21,9 @@ import { FadeIn } from '@/components/animations/fade-in'
 import { TextReveal } from '@/components/animations/text-reveal'
 import { AboutHeroSection } from '@/components/sections/about-hero-section'
 import { PremiumCta } from '@/components/sections/premium-cta'
+import { loadSiteImageMap } from '@/lib/content/load-site-bundle'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Über uns – IMPULS Ambulanter Pflegedienst in Unna',
@@ -71,10 +75,11 @@ const areas = [
   'Weitere Ortsteile',
 ]
 
-export default function UeberUnsPage() {
+export default async function UeberUnsPage() {
+  const site = await loadSiteImageMap()
   return (
     <>
-      <AboutHeroSection />
+      <AboutHeroSection heroSrc={site.aboutHero} />
 
       {/* ── Unsere Geschichte ── */}
       <section className="relative bg-white py-24 sm:py-32 lg:py-44">
@@ -86,8 +91,8 @@ export default function UeberUnsPage() {
             {/* Image — col 1–5, slightly oversize for visual weight */}
             <div className="lg:col-span-5 lg:pl-8 lg:pr-4 xl:pl-12">
               <FadeIn direction="left" distance={32}>
-                <Image
-                  src="/images/care-together.jpg"
+                <CmsImage
+                  src={site.ueberTogether}
                   alt="Pflegerin im vertrauensvollen Gespräch mit Patient"
                   width={760}
                   height={940}
@@ -96,7 +101,6 @@ export default function UeberUnsPage() {
                     borderRadius: '32px',
                     boxShadow: '0 32px 80px -16px rgba(0,0,0,0.12), 0 8px 24px -4px rgba(0,0,0,0.06)',
                     aspectRatio: '4/5',
-                    objectPosition: '15% 20%',
                   }}
                   sizes="(min-width: 1024px) 44vw, 0vw"
                 />
@@ -240,8 +244,8 @@ export default function UeberUnsPage() {
             </FadeIn>
 
             <FadeIn direction="up" distance={22} delay={0.28}>
-              <Image
-                src="/images/care-together.jpg"
+              <CmsImage
+                src={site.ueberTogether}
                 alt="Pflegerin im vertrauensvollen Gespräch mit Patient"
                 width={800}
                 height={560}
@@ -249,7 +253,6 @@ export default function UeberUnsPage() {
                 style={{
                   borderRadius: '20px',
                   aspectRatio: '4/3',
-                  objectPosition: 'center 20%',
                   boxShadow: '0 16px 48px -8px rgba(0,0,0,0.10)',
                 }}
                 sizes="100vw"
@@ -311,8 +314,8 @@ export default function UeberUnsPage() {
                   boxShadow: '0 32px 80px -16px rgba(0,0,0,0.16)',
                 }}
               >
-                <Image
-                  src="/images/care-values.jpg"
+                <CmsImage
+                  src={site.ueberValues}
                   alt="Pflegerin und ältere Dame im vertrauensvollen Gespräch"
                   fill
                   className="object-cover object-center"
@@ -393,8 +396,8 @@ export default function UeberUnsPage() {
                   boxShadow: '0 16px 48px -8px rgba(0,0,0,0.13)',
                 }}
               >
-                <Image
-                  src="/images/care-values.jpg"
+                <CmsImage
+                  src={site.ueberValues}
                   alt="Pflegerin und ältere Dame im vertrauensvollen Gespräch"
                   fill
                   className="object-cover object-center"
@@ -504,13 +507,12 @@ export default function UeberUnsPage() {
               <div className="group relative h-full overflow-hidden rounded-[28px]"
                 style={{ boxShadow: '0 24px 64px -12px rgba(0,0,0,0.14)', minHeight: '520px' }}>
 
-                {/* Portrait photo */}
-                <Image
-                  src="/images/team-elena-tschupina.jpg"
+                {/* Portrait photo – Position über CMS-Fokuspunkt steuerbar */}
+                <CmsImage
+                  src={site.ueberPortrait}
                   alt="Elena Tschupina – Geschäftsführerin IMPULS"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                  style={{ objectPosition: '30% 15%' }}
                   sizes="(min-width: 1024px) 40vw, 100vw"
                 />
 
@@ -555,8 +557,8 @@ export default function UeberUnsPage() {
               <FadeIn direction="right" distance={24} delay={0.14}>
                 <div className="relative overflow-hidden rounded-[24px]"
                   style={{ boxShadow: '0 16px 48px -8px rgba(0,0,0,0.11)' }}>
-                  <Image
-                    src="/images/care-team-group.jpg"
+                  <CmsImage
+                    src={site.ueberTeamGroup}
                     alt="Das IMPULS-Pflegeteam"
                     width={900}
                     height={500}
@@ -767,8 +769,8 @@ export default function UeberUnsPage() {
                     boxShadow: '0 28px 72px -12px rgba(0,0,0,0.14)',
                   }}
                 >
-                  <Image
-                    src="/images/care-regional.jpg"
+                  <CmsImage
+                    src={site.ueberRegional}
                     alt="Pflegekraft begleitet ältere Dame spazieren in Unna"
                     fill
                     className="object-cover object-center"

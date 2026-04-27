@@ -9,5 +9,9 @@ export default async function SettingsGroupLayout({
   const user = await getCurrentUser()
   if (!user) return null
 
-  return <SettingsArea userRole={user.role}>{children}</SettingsArea>
+  return (
+    <SettingsArea userId={user.id} userRole={user.role}>
+      {children}
+    </SettingsArea>
+  )
 }

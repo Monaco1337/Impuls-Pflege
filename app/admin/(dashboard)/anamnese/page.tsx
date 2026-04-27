@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { checkAccess } from '@/lib/rbac/check'
 import { Stethoscope, ArrowRight } from 'lucide-react'
@@ -18,6 +17,7 @@ import {
 import { getAnamneseSubmissions } from '@/lib/actions/anamnese'
 import { getUsers } from '@/lib/actions/users'
 import { AnamneseFilters } from '@/components/admin/anamnese-filters'
+import { AdminDataTableRow } from '@/components/admin/admin-data-table-row'
 import { AnamneseStatus } from '@/lib/types/enums'
 
 export const metadata: Metadata = {
@@ -71,14 +71,6 @@ export default async function AnamnesePage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-warm-900">Anamnesebögen</h2>
-        <p className="mt-1 text-sm text-warm-500">
-          Eingereichte Patientenanamnesen von der Webseite – gleich wie Eingang bei Anfragen und
-          Bewerbungen.
-        </p>
-      </div>
-
       <AnamneseFilters
         currentPage={currentPage}
         totalPages={totalPages}
@@ -114,16 +106,22 @@ export default async function AnamnesePage({
             </TableHeader>
             <TableBody>
               {submissions.map((s) => (
-                <TableRow key={s.id}>
+                <AdminDataTableRow
+                  key={s.id}
+                  href={`/admin/anamnese/${s.id}`}
+                  label={`Anamnese ${s.patientLastName}, ${s.patientFirstName}`}
+                >
                   <TableCell>
-                    <Link
-                      href={`/admin/anamnese/${s.id}`}
-                      className="group inline-flex items-center gap-1.5 font-medium text-warm-900 hover:text-primary-600"
-                    >
-                      {s.patientLastName}, {s.patientFirstName}
-                      <ArrowRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
-                    </Link>
-                    <p className="text-xs text-warm-500">geb. {s.birthDate}</p>
+                    <div>
+                      <span className="inline-flex items-center gap-2 font-semibold text-warm-900 transition-colors group-hover:text-primary-800">
+                        {s.patientLastName}, {s.patientFirstName}
+                        <ArrowRight
+                          className="h-3.5 w-3.5 shrink-0 text-primary-600 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100"
+                          aria-hidden
+                        />
+                      </span>
+                      <p className="mt-0.5 text-xs text-warm-500">geb. {s.birthDate}</p>
+                    </div>
                   </TableCell>
                   <TableCell className="text-warm-600 tabular-nums">{s.phone}</TableCell>
                   <TableCell>
@@ -134,10 +132,10 @@ export default async function AnamnesePage({
                       ? `${s.assignedTo.firstName} ${s.assignedTo.lastName}`
                       : <span className="text-warm-400">—</span>}
                   </TableCell>
-                  <TableCell className="text-right text-warm-500">
+                  <TableCell className="text-right text-warm-500 tabular-nums">
                     {formatDate(s.createdAt)}
                   </TableCell>
-                </TableRow>
+                </AdminDataTableRow>
               ))}
             </TableBody>
           </Table>

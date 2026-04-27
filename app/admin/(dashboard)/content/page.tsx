@@ -1,9 +1,9 @@
 import { Metadata } from 'next'
 import { FileText } from 'lucide-react'
-import { formatDateTime } from '@/lib/utils'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { getContentBlocks } from '@/lib/actions/content'
+import { CONTENT_BLOCK_GROUPS } from './content-block-groups'
 import { ContentManagement } from './content-management'
 
 export const metadata: Metadata = {
@@ -16,34 +16,19 @@ interface ContentBlock {
   id: string
   key: string
   title: string | null
-  content: Record<string, string>
+  content: unknown
   imageUrl: string | null
   sortOrder: number | null
   updatedAt: string | Date
   updatedBy: { firstName: string; lastName: string } | null
 }
 
-const blockGroups: { label: string; keys: string[] }[] = [
-  { label: 'Startseite', keys: ['hero', 'intro'] },
-  { label: 'Kontakt', keys: ['contact-info'] },
-]
-
 export default async function ContentPage() {
   const result = await getContentBlocks()
   const blocks = (result.data ?? []) as ContentBlock[]
 
-  const groupedKeys = new Set(blockGroups.flatMap((g) => g.keys))
-  const ungrouped = blocks.filter((b) => !groupedKeys.has(b.key))
-
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-warm-900">Inhaltsverwaltung</h2>
-        <p className="mt-1 text-sm text-warm-500">
-          Bearbeiten Sie die Inhalte der öffentlichen Website
-        </p>
-      </div>
-
+    <div className="space-y-8">
       {!result.success ? (
         <Card>
           <CardContent className="py-0">
@@ -65,11 +50,7 @@ export default async function ContentPage() {
           </CardContent>
         </Card>
       ) : (
-        <ContentManagement
-          blocks={blocks}
-          blockGroups={blockGroups}
-          ungrouped={ungrouped}
-        />
+        <ContentManagement blocks={blocks} groups={CONTENT_BLOCK_GROUPS} />
       )}
     </div>
   )

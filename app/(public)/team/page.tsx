@@ -1,8 +1,12 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowRight, Heart, Phone, Users } from 'lucide-react'
 import { FadeIn } from '@/components/animations/fade-in'
 import { TextReveal } from '@/components/animations/text-reveal'
+import { CmsImage } from '@/components/site-content/cms-image'
+import { loadTeamCmsBundle } from '@/lib/content/load-site-bundle'
+import type { TeamFeaturedCms, TeamMemberCms } from '@/lib/content/team-cms'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Unser Team – IMPULS Ambulanter Pflegedienst',
@@ -12,50 +16,6 @@ export const metadata = {
 
 const MINT = '#18C1A3'
 const PINK = '#F24B6A'
-
-// ─── Team data ──────────────────────────────────────────────────────────────
-// Fügen Sie hier neue Teammitglieder ein.
-// Felder: name, position, description, image (Pfad zu /public/images/...)
-// Wenn noch kein Foto vorhanden: image auf null setzen → Placeholder-Karte erscheint automatisch
-
-const teamMembers: {
-  name: string
-  position: string
-  description: string
-  image: string | null
-}[] = [
-  {
-    name: 'Natalia Tschupina',
-    position: 'Pflegedienstleiterin',
-    description:
-      'Mit Herz, Fachwissen und einem offenen Ohr koordiniert Natalia den täglichen Pflegeeinsatz und sorgt dafür, dass jeder Klient die Betreuung bekommt, die er verdient.',
-    image: '/images/care-smile.jpg',
-  },
-  {
-    name: 'Teammitglied',
-    position: 'Pflegefachkraft',
-    description: 'Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.',
-    image: null,
-  },
-  {
-    name: 'Teammitglied',
-    position: 'Pflegehilfskraft',
-    description: 'Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.',
-    image: null,
-  },
-  {
-    name: 'Teammitglied',
-    position: 'Betreuungsassistenz',
-    description: 'Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.',
-    image: null,
-  },
-  {
-    name: 'Teammitglied',
-    position: 'Pflegefachkraft',
-    description: 'Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.',
-    image: null,
-  },
-]
 
 // ─── Placeholder card ────────────────────────────────────────────────────────
 function PlaceholderCard({ name, position, description }: { name: string; position: string; description: string }) {
@@ -134,7 +94,7 @@ function TeamCard({
       >
         {/* Photo */}
         <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
-          <Image
+          <CmsImage
             src={image}
             alt={`${name} – ${position}`}
             fill
@@ -186,7 +146,13 @@ function TeamCard({
 }
 
 // ─── Page ────────────────────────────────────────────────────────────────────
-export default function TeamPage() {
+function TeamPageView({
+  featured,
+  members,
+}: {
+  featured: TeamFeaturedCms
+  members: TeamMemberCms[]
+}) {
   return (
     <main className="min-h-screen bg-white">
 
@@ -340,9 +306,9 @@ export default function TeamPage() {
 
               {/* Photo */}
               <div className="relative overflow-hidden lg:rounded-l-[32px]" style={{ minHeight: '480px' }}>
-                <Image
-                  src="/images/team-elena-tschupina.jpg"
-                  alt="Elena Tschupina – Geschäftsführerin IMPULS"
+                <CmsImage
+                  src={featured.image}
+                  alt={`${featured.name} – ${featured.role} IMPULS`}
                   fill
                   className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                   sizes="(min-width: 1024px) 420px, 100vw"
@@ -363,14 +329,14 @@ export default function TeamPage() {
                   className="mx-auto mb-6 inline-flex w-fit items-center rounded-full px-4 py-1.5 text-[11px] font-[660] uppercase tracking-[0.16em] lg:mx-0"
                   style={{ background: 'rgba(24,193,163,0.10)', color: MINT, border: `1px solid rgba(24,193,163,0.22)` }}
                 >
-                  Geschäftsführerin
+                  {featured.role}
                 </span>
 
                 <h2
                   className="mx-auto max-w-xl text-[clamp(2rem,3.5vw,2.9rem)] font-[800] leading-[1.07] tracking-[-0.044em] lg:mx-0"
                   style={{ color: '#0F172A' }}
                 >
-                  Elena Tschupina
+                  {featured.name}
                 </h2>
 
                 {/* Mint divider */}
@@ -384,8 +350,7 @@ export default function TeamPage() {
                   className="mx-auto max-w-xl text-[17px] font-[440] italic leading-[1.72] tracking-[-0.012em] lg:mx-0"
                   style={{ color: '#334155', borderLeft: `3px solid rgba(24,193,163,0.35)`, paddingLeft: '1.2rem' }}
                 >
-                  „Pflege bedeutet für mich, Menschen in ihrer schwersten Zeit mit Würde
-                  und echter Fürsorge zu begleiten."
+                  {featured.quote}
                 </blockquote>
 
                 {/* Bio text */}
@@ -393,15 +358,12 @@ export default function TeamPage() {
                   className="mx-auto mt-6 max-w-xl text-[15px] font-[400] leading-[1.80] tracking-[-0.01em] lg:mx-0"
                   style={{ color: '#64748B' }}
                 >
-                  Als Gründerin und Geschäftsführerin von IMPULS trägt Elena die Verantwortung
-                  für die Qualität jedes einzelnen Pflegeeinsatzes. Ihre Überzeugung: Gute
-                  Pflege beginnt mit Zuhören und wird getragen von Menschen, die ihren Beruf
-                  wirklich lieben.
+                  {featured.bio}
                 </p>
 
                 {/* Trust items */}
                 <div className="mt-8 flex flex-wrap justify-center gap-2.5 lg:justify-start">
-                  {['Examinierte Pflegefachkraft', 'Langjährige Führungserfahrung', 'Regionaler Pflegedienst'].map((tag) => (
+                  {featured.tags.map((tag) => (
                     <span
                       key={tag}
                       className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] font-[520]"
@@ -443,7 +405,7 @@ export default function TeamPage() {
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {teamMembers.map((member, i) =>
+            {members.map((member, i) =>
               member.image ? (
                 <TeamCard
                   key={`${member.name}-${i}`}
@@ -538,4 +500,9 @@ export default function TeamPage() {
 
     </main>
   )
+}
+
+export default async function TeamPage() {
+  const { featured, members } = await loadTeamCmsBundle()
+  return <TeamPageView featured={featured} members={members} />
 }

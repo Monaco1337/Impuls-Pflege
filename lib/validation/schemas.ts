@@ -56,7 +56,17 @@ export type JobPostingFormData = z.infer<typeof jobPostingSchema>
 
 // ─── User Management ────────────────────────────────
 
+const usernameField = z
+  .string()
+  .min(2, 'Benutzername mindestens 2 Zeichen')
+  .max(64)
+  .regex(
+    /^[a-zA-Z0-9._-]+$/,
+    'Nur Buchstaben, Zahlen, Punkt, Unterstrich und Bindestrich (keine Leerzeichen)',
+  )
+
 export const userSchema = z.object({
+  username: usernameField,
   email: z.string().email('Ungültige E-Mail-Adresse'),
   firstName: z.string().min(1, 'Vorname ist erforderlich').max(50),
   lastName: z.string().min(1, 'Nachname ist erforderlich').max(50),
@@ -70,7 +80,7 @@ export type UserFormData = z.infer<typeof userSchema>
 // ─── Login ──────────────────────────────────────────
 
 export const loginSchema = z.object({
-  email: z.string().email('Bitte geben Sie eine gültige E-Mail-Adresse ein'),
+  username: z.string().min(1, 'Benutzername ist erforderlich').max(64),
   password: z.string().min(1, 'Passwort ist erforderlich'),
 })
 
@@ -79,11 +89,11 @@ export type LoginFormData = z.infer<typeof loginSchema>
 // ─── Content Block ──────────────────────────────────
 
 export const contentBlockSchema = z.object({
-  key: z.string().min(1).max(100),
+  key: z.string().min(1).max(100).optional(),
   title: z.string().max(200).optional(),
   content: z.any(),
   imageUrl: z.string().max(500).optional(),
-  sortOrder: z.number().int().default(0),
+  sortOrder: z.number().int().optional(),
 })
 
 export type ContentBlockFormData = z.infer<typeof contentBlockSchema>

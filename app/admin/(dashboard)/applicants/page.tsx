@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Users, ArrowRight, LayoutList, Kanban } from 'lucide-react'
+import { AdminDataTableRow } from '@/components/admin/admin-data-table-row'
 import { cn, formatDate } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -74,58 +75,54 @@ export default async function ApplicantsPage({
     return `/admin/applicants${p.toString() ? `?${p.toString()}` : ''}`
   }
 
+  const viewToggle = (
+    <div className="inline-flex items-center gap-1 rounded-lg border border-warm-200 bg-warm-50 p-1">
+      <Link
+        href={viewHref('table')}
+        className={cn(
+          'inline-flex h-10 items-center gap-2 rounded-md px-3 text-sm font-medium transition-colors',
+          view === 'table'
+            ? 'bg-white text-warm-900 shadow-sm'
+            : 'text-warm-500 hover:text-warm-700',
+        )}
+      >
+        <LayoutList className="h-4 w-4" />
+        Tabelle
+      </Link>
+      <Link
+        href={viewHref('pipeline')}
+        className={cn(
+          'inline-flex h-10 items-center gap-2 rounded-md px-3 text-sm font-medium transition-colors',
+          view === 'pipeline'
+            ? 'bg-white text-warm-900 shadow-sm'
+            : 'text-warm-500 hover:text-warm-700',
+        )}
+      >
+        <Kanban className="h-4 w-4" />
+        Pipeline
+      </Link>
+    </div>
+  )
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-warm-900">Bewerber</h2>
-          <p className="mt-1 text-sm text-warm-500">
-            Übersicht und Verwaltung aller Bewerbungen
-          </p>
-        </div>
-
-        <div className="inline-flex items-center gap-1 rounded-lg border border-warm-200 bg-warm-50 p-1">
-          <Link
-            href={viewHref('table')}
-            className={cn(
-              'inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
-              view === 'table'
-                ? 'bg-white text-warm-900 shadow-sm'
-                : 'text-warm-500 hover:text-warm-700',
-            )}
-          >
-            <LayoutList className="h-4 w-4" />
-            Tabelle
-          </Link>
-          <Link
-            href={viewHref('pipeline')}
-            className={cn(
-              'inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
-              view === 'pipeline'
-                ? 'bg-white text-warm-900 shadow-sm'
-                : 'text-warm-500 hover:text-warm-700',
-            )}
-          >
-            <Kanban className="h-4 w-4" />
-            Pipeline
-          </Link>
-        </div>
-      </div>
-
       {isPipeline ? (
-        applicants.length === 0 ? (
-          <Card>
-            <CardContent className="py-0">
-              <EmptyState
-                icon={<Users className="h-6 w-6" />}
-                title="Keine Bewerber vorhanden"
-                description="Es sind noch keine Bewerbungen eingegangen."
-              />
-            </CardContent>
-          </Card>
-        ) : (
-          <ApplicantPipeline applicants={applicants} />
-        )
+        <>
+          <div className="flex justify-end">{viewToggle}</div>
+          {applicants.length === 0 ? (
+            <Card>
+              <CardContent className="py-0">
+                <EmptyState
+                  icon={<Users className="h-6 w-6" />}
+                  title="Keine Bewerber vorhanden"
+                  description="Es sind noch keine Bewerbungen eingegangen."
+                />
+              </CardContent>
+            </Card>
+          ) : (
+            <ApplicantPipeline applicants={applicants} />
+          )}
+        </>
       ) : (
         <>
           <ApplicantFilters
@@ -134,6 +131,7 @@ export default async function ApplicantsPage({
             total={total}
             positions={positions}
             users={users}
+            toolbarEnd={viewToggle}
           />
 
           {applicants.length === 0 ? (
@@ -165,15 +163,19 @@ export default async function ApplicantsPage({
                 </TableHeader>
                 <TableBody>
                   {applicants.map((applicant: any) => (
-                    <TableRow key={applicant.id}>
+                    <AdminDataTableRow
+                      key={applicant.id}
+                      href={`/admin/applicants/${applicant.id}`}
+                      label={`${applicant.firstName} ${applicant.lastName}`}
+                    >
                       <TableCell>
-                        <Link
-                          href={`/admin/applicants/${applicant.id}`}
-                          className="group inline-flex items-center gap-1.5 font-medium text-warm-900 hover:text-primary-600"
-                        >
+                        <span className="inline-flex items-center gap-2 font-semibold text-warm-900 transition-colors group-hover:text-primary-800">
                           {applicant.firstName} {applicant.lastName}
-                          <ArrowRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
-                        </Link>
+                          <ArrowRight
+                            className="h-3.5 w-3.5 shrink-0 text-primary-600 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100"
+                            aria-hidden
+                          />
+                        </span>
                         {applicant.tags?.length > 0 && (
                           <div className="mt-1 flex gap-1">
                             {applicant.tags.slice(0, 3).map((t: any) => (
@@ -214,10 +216,10 @@ export default async function ApplicantsPage({
                           <span className="text-warm-400">—</span>
                         )}
                       </TableCell>
-                      <TableCell className="text-right text-warm-500">
+                      <TableCell className="text-right text-warm-500 tabular-nums">
                         {formatDate(applicant.createdAt)}
                       </TableCell>
-                    </TableRow>
+                    </AdminDataTableRow>
                   ))}
                 </TableBody>
               </Table>

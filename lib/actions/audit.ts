@@ -2,7 +2,15 @@
 
 import { requireAccess } from '@/lib/rbac/check'
 import { logServerError } from '@/lib/error-handling'
-import { repoJoinUserBrief, repoLoadAuditLogs } from '@/lib/data/json-repository'
+import {
+  repoJoinUserBrief,
+  repoLoadAuditLogs,
+  repoLoadHiddenUserIds,
+} from '@/lib/data/json-repository'
+import {
+  filterAuditLogsForViewer,
+  isOwnerViewer,
+} from '@/lib/rbac/visibility'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -20,15 +28,29 @@ export async function getAuditLogs(filters?: {
   dateTo?: string
 }): Promise<ActionResult> {
   try {
-    await requireAccess('activity', 'view')
+    const viewer = await requireAccess('activity', 'view')
 
     const page = filters?.page ?? 1
     const pageSize = filters?.pageSize ?? 30
     const skip = (page - 1) * pageSize
 
     let logs = await repoLoadAuditLogs()
+    const hiddenIds = await repoLoadHiddenUserIds()
 
-    if (filters?.userId) logs = logs.filter((l) => l.userId === filters.userId)
+    // Audit bleibt SERVERSEITIG immer vollständig (audit-logs.json wird
+    // unverändert geschrieben). Lediglich beim Lesen filtern wir Einträge
+    // versteckter Konten für alle Nicht-OWNER aus.
+    logs = filterAuditLogsForViewer(logs, viewer, hiddenIds)
+
+    if (filters?.userId) {
+      // Wenn ein Nicht-OWNER nach einer hidden ID filtert, geben wir
+      // bewusst null zurück, statt einen 403-artigen Hinweis.
+      if (!isOwnerViewer(viewer) && hiddenIds.has(filters.userId)) {
+        logs = []
+      } else {
+        logs = logs.filter((l) => l.userId === filters.userId)
+      }
+    }
     if (filters?.action) logs = logs.filter((l) => l.action === filters.action)
     if (filters?.entityType) logs = logs.filter((l) => l.entityType === filters.entityType)
     if (filters?.dateFrom) {
@@ -48,7 +70,8 @@ export async function getAuditLogs(filters?: {
       slice.map(async (log) => ({
         ...log,
         createdAt: new Date(log.createdAt),
-        user: await repoJoinUserBrief(log.userId),
+        // Owner sieht alle Actors, Nicht-Owner sehen hidden user als null.
+        user: await repoJoinUserBrief(log.userId, viewer.role),
       })),
     )
 

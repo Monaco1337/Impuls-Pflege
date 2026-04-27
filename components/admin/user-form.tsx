@@ -23,6 +23,7 @@ const ROLE_OPTIONS = [
 interface UserFormProps {
   user?: {
     id: string
+    username?: string | null
     email: string
     firstName: string
     lastName: string
@@ -47,6 +48,9 @@ export function UserForm({ user, onSuccess }: UserFormProps) {
     defaultValues: {
       firstName: user?.firstName ?? '',
       lastName: user?.lastName ?? '',
+      username:
+        (user?.username && user.username.trim()) ||
+        (user?.email ? user.email.split('@')[0] ?? '' : ''),
       email: user?.email ?? '',
       role: (user?.role as UserFormData['role']) ?? 'READ_ONLY',
       active: user?.active ?? true,
@@ -108,9 +112,19 @@ export function UserForm({ user, onSuccess }: UserFormProps) {
       </div>
 
       <Input
+        label="Benutzername (Anmeldung) *"
+        placeholder="z. B. elena"
+        autoComplete="username"
+        helperText="Nur Buchstaben, Zahlen, Punkt, Unterstrich und Bindestrich. Für die Anmeldung am Admin-Panel."
+        error={errors.username?.message}
+        {...register('username')}
+      />
+
+      <Input
         label="E-Mail *"
         type="email"
         placeholder="max@beispiel.de"
+        autoComplete="email"
         error={errors.email?.message}
         {...register('email')}
       />
@@ -125,11 +139,12 @@ export function UserForm({ user, onSuccess }: UserFormProps) {
       <Input
         label={isEditing ? 'Passwort' : 'Passwort *'}
         type="password"
-        placeholder={isEditing ? 'Neues Passwort eingeben' : 'Passwort'}
+        autoComplete={isEditing ? 'new-password' : 'new-password'}
+        placeholder={isEditing ? 'Unverändert lassen' : ''}
         helperText={
           isEditing
             ? 'Nur ausfüllen, wenn das Passwort geändert werden soll'
-            : 'Mindestens 8 Zeichen'
+            : 'Mindestens 8 Zeichen. Wird nur serverseitig geprüft und nicht angezeigt.'
         }
         error={errors.password?.message}
         {...register('password')}

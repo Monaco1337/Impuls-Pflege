@@ -2,8 +2,8 @@
 
 import React, { useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { CmsImage } from '@/components/site-content/cms-image'
 import { ArrowRight, Phone, Clock, Users, Shield, Star, Heart, MapPin } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
@@ -62,7 +62,27 @@ function HeroBadge() {
   )
 }
 
-export function HeroSection() {
+const DEF_DESKTOP = '/images/hero-care.jpg'
+const DEF_MOBILE = '/images/hero-care-mobile.jpg'
+
+const DEF_HEADLINE = 'Pflege, die Menschen bewegt.'
+const DEF_SUBHEADLINE = 'Ein Arbeitsplatz,\nder Sinn schafft.'
+const DEF_BODY =
+  'Wir begleiten Menschen im Alltag – mit Respekt,\nFachwissen und echter Menschlichkeit. Und wir suchen\nPflegekräfte, die genauso denken.'
+
+export function HeroSection({
+  imageDesktop = DEF_DESKTOP,
+  imageMobile = DEF_MOBILE,
+  headline = DEF_HEADLINE,
+  subheadline = DEF_SUBHEADLINE,
+  body = DEF_BODY,
+}: {
+  imageDesktop?: string
+  imageMobile?: string
+  headline?: string
+  subheadline?: string
+  body?: string
+} = {}) {
   const sectionRef = useRef<HTMLElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -89,8 +109,8 @@ export function HeroSection() {
           }}
           className="absolute inset-0 hidden lg:block"
         >
-          <Image
-            src="/images/hero-care.jpg"
+          <CmsImage
+            src={imageDesktop}
             alt="Pflegekraft mit Patient und Angehöriger"
             fill
             className="object-cover object-center"
@@ -108,8 +128,8 @@ export function HeroSection() {
           className="absolute inset-0 lg:hidden"
           style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
         >
-          <Image
-            src="/images/hero-care-mobile.jpg"
+          <CmsImage
+            src={imageMobile}
             alt="Pflegekraft bei der Betreuung"
             fill
             className="object-cover object-[center_30%]"
@@ -168,7 +188,7 @@ export function HeroSection() {
                   className="text-[clamp(2rem,5.2vw,3.75rem)] font-[820] leading-[1.05] tracking-[-0.04em]"
                   style={{ color: '#0F172A' }}
                 >
-                  Pflege, die Menschen bewegt.
+                  {headline}
                 </h1>
               </TextReveal>
 
@@ -180,7 +200,12 @@ export function HeroSection() {
                     textShadow: `0 1px 4px rgba(255,255,255,0.95), 0 0 40px rgba(24,193,163,0.10)`,
                   }}
                 >
-                  Ein Arbeitsplatz,<br className="hidden sm:block" /> der Sinn schafft.
+                  {subheadline.split('\n').map((line, i, arr) => (
+                    <React.Fragment key={i}>
+                      {line}
+                      {i < arr.length - 1 && <br className="hidden sm:block" />}
+                    </React.Fragment>
+                  ))}
                 </h1>
               </TextReveal>
 
@@ -196,12 +221,10 @@ export function HeroSection() {
             {/* Subline */}
             <FadeIn delay={0.48}>
               <p
-                className="mt-8 max-w-[460px] text-[clamp(0.98rem,1.4vw,1.08rem)] font-[440] leading-[1.82] tracking-[-0.01em]"
+                className="mt-8 max-w-[460px] whitespace-pre-line text-[clamp(0.98rem,1.4vw,1.08rem)] font-[440] leading-[1.82] tracking-[-0.01em]"
                 style={{ color: '#334155' }}
               >
-                Wir begleiten Menschen im Alltag – mit Respekt,
-                Fachwissen und echter Menschlichkeit. Und wir suchen
-                Pflegekräfte, die genauso denken.
+                {body}
               </p>
             </FadeIn>
 

@@ -42,6 +42,9 @@ prisma/migrations/
 # uploads
 /uploads/
 
+# CMS-Website-Bilder (lokal generiert, nicht versionieren)
+/public/uploads/site/
+
 # IDE
 .idea/
 .vscode/

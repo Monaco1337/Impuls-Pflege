@@ -29,13 +29,6 @@ export default async function FilesPage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-warm-900">Dokumente</h2>
-        <p className="mt-1 text-sm text-warm-500">
-          Übersicht aller hochgeladenen Dokumente
-        </p>
-      </div>
-
       {files.length === 0 && !fileType ? (
         <Card>
           <CardContent className="py-0">

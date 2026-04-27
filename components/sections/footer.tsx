@@ -16,6 +16,9 @@ import {
 import { cn } from '@/lib/utils'
 import { Container } from '@/components/ui/container'
 import { Logo } from '@/components/ui/logo'
+import type { PublicContactInfo } from '@/lib/content/contact-cms'
+import { mergeContactContent } from '@/lib/content/contact-cms'
+import { telHrefFromDisplay } from '@/lib/content/tel-href'
 
 const MINT = '#18C1A3'
 
@@ -40,14 +43,17 @@ const nav = {
   ],
 }
 
-const contactItems = [
-  { icon: Phone, label: '02303 2920589', href: 'tel:+4923032920589' },
-  { icon: Mail, label: 'info@impuls-pflege.de', href: 'mailto:info@impuls-pflege.de' },
-  { icon: MapPin, label: 'Massener Str. 147, 59423 Unna', href: undefined },
-  { icon: Clock, label: 'Mo–Fr 08:00–16:00 · Tel. 24/7', href: undefined },
-] as const
+export function Footer({ contact }: { contact?: PublicContactInfo }) {
+  const c = contact ?? mergeContactContent(null)
+  const tel = telHrefFromDisplay(c.phone)
+  const hoursOneLine = c.hours.replace(/\s*\n+\s*/g, ' · ')
+  const contactItems = [
+    { icon: Phone, label: c.phone, href: tel },
+    { icon: Mail, label: c.email, href: `mailto:${c.email}` },
+    { icon: MapPin, label: c.address, href: undefined },
+    { icon: Clock, label: hoursOneLine, href: undefined },
+  ] as const
 
-export function Footer() {
   const mainRef = useRef<HTMLDivElement>(null)
   const mainInView = useInView(mainRef, { once: true, margin: '-16px' })
 
@@ -100,7 +106,7 @@ export function Footer() {
                 </div>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-2">
                   <a
-                    href="tel:+4923032920589"
+                    href={tel}
                     className="inline-flex h-[3.25rem] w-full shrink-0 items-center justify-center gap-2 rounded-2xl px-6 text-[15px] font-[620] tracking-[-0.01em] text-white transition-transform duration-200 active:scale-[0.98] sm:h-9 sm:rounded-full sm:px-4 sm:text-[12.5px]"
                     style={{
                       background: 'linear-gradient(135deg, #18C1A3, #20C9AA)',
@@ -108,7 +114,7 @@ export function Footer() {
                     }}
                   >
                     <Phone className="h-4 w-4 sm:h-3.5 sm:w-3.5" strokeWidth={2} />
-                    02303 2920589
+                    {c.phone}
                   </a>
                   <Link
                     href="/kontakt"

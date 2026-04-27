@@ -8,6 +8,7 @@ import {
   CalendarDays,
   Clock,
   Activity,
+  KeyRound,
 } from 'lucide-react'
 import { formatDateTime } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -17,6 +18,7 @@ import { Button } from '@/components/ui/button'
 import { getUser } from '@/lib/actions/users'
 import { getRoleLabel } from '@/lib/rbac/permissions'
 import { UserForm } from '@/components/admin/user-form'
+import { requireFullSettingsAdmin } from '@/lib/auth/require-full-settings-admin'
 
 export async function generateMetadata({
   params,
@@ -62,6 +64,7 @@ export default async function SettingsUserDetailPage({
 }: {
   params: Promise<{ id: string }>
 }) {
+  await requireFullSettingsAdmin()
   const { id } = await params
   const result = await getUser(id)
 
@@ -131,6 +134,9 @@ export default async function SettingsUserDetailPage({
               <CardTitle className="text-base">Informationen</CardTitle>
             </CardHeader>
             <CardContent className="space-y-0 divide-y divide-warm-100 pt-0">
+              <InfoRow icon={KeyRound} label="Benutzername (Anmeldung)">
+                <span className="font-mono text-sm">{user.username ?? '—'}</span>
+              </InfoRow>
               <InfoRow icon={Mail} label="E-Mail">
                 <a
                   href={`mailto:${user.email}`}

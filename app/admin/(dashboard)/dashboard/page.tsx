@@ -6,7 +6,6 @@ import {
   getRecentInquiries,
   getRecentApplicants,
   getRecentAnamnese,
-  getRecentActivity,
   getPipelineSummary,
   getInquiryPipelineSummary,
   getAnamnesePipelineSummary,
@@ -23,13 +22,12 @@ export default async function DashboardPage() {
   const user = await getCurrentUser()
   if (!user) redirect('/admin/login')
 
-  const [statsResult, inquiriesResult, applicantsResult, anamneseResult, activityResult, pipelineResult, inqPipelineResult, anamPipelineResult] =
+  const [statsResult, inquiriesResult, applicantsResult, anamneseResult, pipelineResult, inqPipelineResult, anamPipelineResult] =
     await Promise.all([
       getDashboardStats(),
       getRecentInquiries(),
       getRecentApplicants(),
       getRecentAnamnese(),
-      getRecentActivity(),
       getPipelineSummary(),
       getInquiryPipelineSummary(),
       getAnamnesePipelineSummary(),
@@ -58,15 +56,6 @@ export default async function DashboardPage() {
     status: string
     createdAt: string | Date
   }>
-  const activity = (activityResult.data ?? []) as Array<{
-    id: string
-    action: string
-    entityType: string
-    entityId: string
-    metadata: unknown
-    createdAt: string | Date
-    user: { firstName: string; lastName: string } | null
-  }>
   const applicantPipeline = (pipelineResult.data ?? {}) as Record<string, number>
   const inquiryPipeline = (inqPipelineResult.data ?? {}) as Record<string, number>
   const anamnesePipeline = (anamPipelineResult.data ?? {}) as Record<string, number>
@@ -82,7 +71,6 @@ export default async function DashboardPage() {
       inquiries={inquiries}
       applicants={applicants}
       anamnese={anamnese}
-      activity={activity}
     />
   )
 }

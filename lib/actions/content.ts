@@ -14,6 +14,7 @@ import {
 import type { JsonContentBlock } from '@/lib/data/schema'
 import { DATA_FILES } from '@/lib/data/schema'
 import { writeJsonFile } from '@/lib/storage/json-data-layer'
+import { getCurrentUser } from '@/lib/auth/session'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -21,12 +22,24 @@ type ActionResult<T = unknown> = {
   error?: string
 }
 
+/**
+ * Nur JSON-serialisierbare Felder (kein Date), damit RSC → Client-Komponenten
+ * nicht abstürzen. `updatedBy` wird über `repoJoinUserBriefNoEmail` aufgelöst,
+ * das hidden user für Nicht-OWNER automatisch auf `null` mappt – die UI zeigt
+ * dann nur noch „zuletzt aktualisiert“ statt eines Bearbeiternamens.
+ */
 async function withUpdatedBy(blocks: JsonContentBlock[]) {
+  const viewer = await getCurrentUser()
   return Promise.all(
     blocks.map(async (b) => ({
-      ...b,
-      updatedAt: new Date(b.updatedAt),
-      updatedBy: await repoJoinUserBriefNoEmail(b.updatedById),
+      id: b.id,
+      key: b.key,
+      title: b.title,
+      content: b.content,
+      imageUrl: b.imageUrl,
+      sortOrder: b.sortOrder,
+      updatedAt: b.updatedAt,
+      updatedBy: await repoJoinUserBriefNoEmail(b.updatedById, viewer?.role),
     })),
   )
 }
@@ -74,6 +87,9 @@ export async function updateContentBlock(key: string, data: unknown): Promise<Ac
     const blocks = await repoLoadContentBlocks()
     let idx = blocks.findIndex((b) => b.key === key)
     const t = nowIso()
+    const prev = idx !== -1 ? blocks[idx] : null
+    const sortOrder = parsed.data.sortOrder ?? prev?.sortOrder ?? 0
+
     if (idx === -1) {
       blocks.push({
         id: newId(),
@@ -81,7 +97,7 @@ export async function updateContentBlock(key: string, data: unknown): Promise<Ac
         title: parsed.data.title ?? null,
         content: parsed.data.content ?? {},
         imageUrl: parsed.data.imageUrl ?? null,
-        sortOrder: parsed.data.sortOrder,
+        sortOrder,
         updatedAt: t,
         updatedById: user.id,
       })
@@ -92,7 +108,7 @@ export async function updateContentBlock(key: string, data: unknown): Promise<Ac
         title: parsed.data.title ?? null,
         content: parsed.data.content ?? {},
         imageUrl: parsed.data.imageUrl ?? null,
-        sortOrder: parsed.data.sortOrder,
+        sortOrder,
         updatedAt: t,
         updatedById: user.id,
       }
@@ -115,7 +131,13 @@ export async function updateContentBlock(key: string, data: unknown): Promise<Ac
     })
 
     revalidatePath('/admin/content')
+    revalidatePath('/', 'layout')
     revalidatePath('/')
+    revalidatePath('/team')
+    revalidatePath('/ueber-uns')
+    revalidatePath('/leistungen')
+    revalidatePath('/karriere')
+    revalidatePath('/kontakt')
     const [withUser] = await withUpdatedBy([block])
     return { success: true, data: withUser }
   } catch (error) {

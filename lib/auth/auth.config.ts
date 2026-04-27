@@ -1,9 +1,22 @@
 import type { NextAuthConfig } from 'next-auth'
 
 /**
+ * Ohne AUTH_SECRET schlägt /api/auth/session mit 500 fehl → ClientFetchError im SessionProvider.
+ * In Produktion muss AUTH_SECRET gesetzt sein (z. B. Vercel).
+ */
+function resolveAuthSecret(): string | undefined {
+  if (process.env.AUTH_SECRET) return process.env.AUTH_SECRET
+  if (process.env.NODE_ENV === 'development') {
+    return 'impuls-pflege-dev-only-secret-min-32-chars!!'
+  }
+  return undefined
+}
+
+/**
  * Nur für Middleware / Edge: keine Provider, kein Prisma — gleiche Session-/JWT-Logik wie in lib/auth/config.ts.
  */
 export const authEdgeConfig = {
+  secret: resolveAuthSecret(),
   trustHost: true,
   pages: {
     signIn: '/admin/login',
@@ -19,6 +32,10 @@ export const authEdgeConfig = {
         token.role = (user as { role?: string }).role
         token.firstName = (user as { firstName?: string }).firstName
         token.lastName = (user as { lastName?: string }).lastName
+        token.email = (user as { email?: string }).email ?? token.email
+        token.name =
+          (user as { name?: string }).name ??
+          `${(user as { firstName?: string }).firstName ?? ''} ${(user as { lastName?: string }).lastName ?? ''}`.trim()
       }
       return token
     },
@@ -28,6 +45,8 @@ export const authEdgeConfig = {
         session.user.role = token.role as string
         session.user.firstName = token.firstName as string
         session.user.lastName = token.lastName as string
+        if (token.email) session.user.email = token.email as string
+        if (token.name) session.user.name = token.name as string
       }
       return session
     },

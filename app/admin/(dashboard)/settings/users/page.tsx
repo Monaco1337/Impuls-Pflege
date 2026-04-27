@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { getUsers } from '@/lib/actions/users'
 import { getCurrentUser } from '@/lib/auth/session'
+import { requireFullSettingsAdmin } from '@/lib/auth/require-full-settings-admin'
 import { UserList } from '@/components/admin/user-list'
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic'
 
 export default async function SettingsUsersPage() {
+  await requireFullSettingsAdmin()
   const [result, currentUser] = await Promise.all([
     getUsers(),
     getCurrentUser(),

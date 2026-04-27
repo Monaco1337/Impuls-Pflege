@@ -1,7 +1,15 @@
 import type { NextConfig } from 'next'
+import path from 'node:path'
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  poweredByHeader: false,
+  reactStrictMode: true,
+  // Pinnt Turbopack auf diesen Projekt-Root, damit ein fremdes
+  // package-lock.json im Home-Verzeichnis nicht als Workspace-Root erkannt wird.
+  turbopack: {
+    root: path.resolve(process.cwd()),
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: '8mb',
@@ -9,6 +17,8 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Pflicht ab Next.js 16: alle in <Image quality={...}/> verwendeten Werte vorab deklarieren.
+    qualities: [75, 88, 100],
   },
   async headers() {
     return [

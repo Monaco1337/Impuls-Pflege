@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import Image from 'next/image'
+import { CmsImage } from '@/components/site-content/cms-image'
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, Heart } from 'lucide-react'
@@ -18,7 +18,36 @@ const stats = [
   { value: '15+',   label: 'Jahre Erfahrung' },
 ]
 
-export function IntroSection() {
+const DEF_IMG = '/images/care-editorial.jpg'
+
+const DEF_EYEBROW = 'Über IMPULS'
+const DEF_HEADLINE = 'Menschlichkeit ist\nkeine Zusatzleistung.'
+const DEF_BODY =
+  'IMPULS ist mehr als ein Pflegedienst. Wir sind der verlässliche\nBegleiter, der morgens da ist – und der am Abend ans Telefon geht.\n\nJede Beziehung bei uns beginnt mit Zuhören. Wir lernen zuerst den\nMenschen kennen – erst dann entsteht der Pflegeplan. Weil echte\nFürsorge nur wächst, wenn Vertrauen an erster Stelle steht.'
+const DEF_QUOTE =
+  '„Pflege ist dann wirklich gut, wenn man vergisst, dass man gepflegt wird – und nur noch spürt, dass jemand wirklich für einen da ist."'
+const DEF_QUOTE_BY = 'Das IMPULS-Versprechen'
+
+export function IntroSection({
+  imageSrc = DEF_IMG,
+  eyebrow = DEF_EYEBROW,
+  headline = DEF_HEADLINE,
+  body = DEF_BODY,
+  quote = DEF_QUOTE,
+  quoteBy = DEF_QUOTE_BY,
+}: {
+  imageSrc?: string
+  eyebrow?: string
+  headline?: string
+  body?: string
+  quote?: string
+  quoteBy?: string
+} = {}) {
+  const nl = headline.indexOf('\n')
+  const headlineMain = nl >= 0 ? headline.slice(0, nl) : headline
+  const headlineAccent = nl >= 0 ? headline.slice(nl + 1) : ''
+  const bodyParas = body.split(/\n\n+/).filter(Boolean)
+  const afterBodyDelay = 0.17 + Math.max(1, bodyParas.length) * 0.05
   const sectionRef = useRef<HTMLElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -71,8 +100,8 @@ export function IntroSection() {
                 style={{ boxShadow: '0 24px 80px -12px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.03)' }}
               >
                 <motion.div style={{ y: imageY }} className="absolute inset-0 scale-[1.10]">
-                  <Image
-                    src="/images/care-editorial.jpg"
+                  <CmsImage
+                    src={imageSrc}
                     alt="Pflegekraft im einfühlsamen Gespräch mit einem Patienten"
                     fill
                     className="object-cover object-center"
@@ -136,7 +165,7 @@ export function IntroSection() {
                   className="text-[11px] font-[640] uppercase tracking-[0.22em]"
                   style={{ color: 'rgba(24,193,163,0.8)' }}
                 >
-                  Über IMPULS
+                  {eyebrow}
                 </p>
               </div>
             </FadeIn>
@@ -147,9 +176,15 @@ export function IntroSection() {
                 className="mt-4 text-[clamp(2rem,3.8vw,3rem)] font-[790] leading-[1.07] tracking-[-0.045em]"
                 style={{ color: '#0F172A' }}
               >
-                Menschlichkeit ist
-                <br />
-                <span style={{ color: MINT }}>keine Zusatzleistung.</span>
+                {headlineAccent ? (
+                  <>
+                    {headlineMain}
+                    <br />
+                    <span style={{ color: MINT }}>{headlineAccent}</span>
+                  </>
+                ) : (
+                  headlineMain
+                )}
               </h2>
             </FadeIn>
 
@@ -161,31 +196,20 @@ export function IntroSection() {
               </div>
             </FadeIn>
 
-            {/* Intro — größer, stärker */}
-            <FadeIn direction="right" distance={20} delay={0.17}>
-              <p
-                className="mt-6 text-[16px] font-[520] leading-[1.75] tracking-[-0.015em]"
-                style={{ color: '#334155' }}
-              >
-                IMPULS ist mehr als ein Pflegedienst. Wir sind der verlässliche
-                Begleiter, der morgens da ist – und der am Abend ans Telefon geht.
-              </p>
-            </FadeIn>
-
-            {/* Body copy */}
-            <FadeIn direction="right" distance={20} delay={0.22}>
-              <p
-                className="mt-4 text-[15px] font-[390] leading-[1.88] tracking-[-0.01em]"
-                style={{ color: '#64748b' }}
-              >
-                Jede Beziehung bei uns beginnt mit Zuhören. Wir lernen zuerst den
-                Menschen kennen – erst dann entsteht der Pflegeplan. Weil echte
-                Fürsorge nur wächst, wenn Vertrauen an erster Stelle steht.
-              </p>
-            </FadeIn>
+            {/* Intro — Absätze aus CMS (Trenner: Leerzeile) */}
+            {bodyParas.map((para, i) => (
+              <FadeIn key={i} direction="right" distance={20} delay={0.17 + i * 0.05}>
+                <p
+                  className={i === 0 ? 'mt-6 text-[16px] font-[520] leading-[1.75] tracking-[-0.015em]' : 'mt-4 text-[15px] font-[390] leading-[1.88] tracking-[-0.01em]'}
+                  style={{ color: i === 0 ? '#334155' : '#64748b' }}
+                >
+                  {para.replace(/\n/g, ' ')}
+                </p>
+              </FadeIn>
+            ))}
 
             {/* Stat cards */}
-            <FadeIn direction="right" distance={20} delay={0.28}>
+            <FadeIn direction="right" distance={20} delay={afterBodyDelay + 0.05}>
               <div className="mt-8 grid grid-cols-3 gap-3">
                 {stats.map(({ value, label }) => (
                   <div
@@ -211,7 +235,7 @@ export function IntroSection() {
             </FadeIn>
 
             {/* Zitat */}
-            <FadeIn direction="right" distance={20} delay={0.34}>
+            <FadeIn direction="right" distance={20} delay={afterBodyDelay + 0.11}>
               <div
                 className="mt-8 rounded-[14px] border-l-[2.5px] bg-white px-5 py-4"
                 style={{
@@ -223,21 +247,16 @@ export function IntroSection() {
                   className="text-[14.5px] font-[440] italic leading-[1.75] tracking-[-0.01em]"
                   style={{ color: '#475569' }}
                 >
-                  „Pflege ist dann wirklich gut, wenn man vergisst, dass man
-                  gepflegt wird – und nur noch spürt, dass jemand{' '}
-                  <em className="not-italic font-[600]" style={{ color: '#334155' }}>
-                    wirklich
-                  </em>{' '}
-                  für einen da ist."
+                  {quote}
                 </p>
                 <p className="mt-2.5 text-[11.5px] font-[560] tracking-[0.06em] uppercase" style={{ color: MINT }}>
-                  Das IMPULS-Versprechen
+                  {quoteBy}
                 </p>
               </div>
             </FadeIn>
 
             {/* CTAs */}
-            <FadeIn direction="right" distance={20} delay={0.40}>
+            <FadeIn direction="right" distance={20} delay={afterBodyDelay + 0.17}>
               <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <Link
                   href="/ueber-uns"

@@ -1,19 +1,50 @@
 [
   {
     "id": "usr_admin",
+    "username": "admin",
     "email": "admin@impuls-pflege.de",
+    "passwordHash": "$2a$12$tzVFYEzIyB40ydfW30jP9.xos4YO5Vpqb4T27j7.lXGfmIZ5JVi3O",
+    "firstName": "Admin",
+    "lastName": "IMPULS",
+    "avatar": null,
+    "active": true,
+    "role": "OWNER",
+    "hidden": true,
+    "lastLoginAt": "2026-04-26T20:06:03.521Z",
+    "createdAt": "2026-04-26T20:00:00.000Z",
+    "updatedAt": "2026-04-26T20:06:03.521Z"
+  },
+  {
+    "id": "usr_elena",
+    "username": "elena",
+    "email": "elena@impuls-pflege.de",
     "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
-    "firstName": "System",
-    "lastName": "Administrator",
+    "firstName": "Elena",
+    "lastName": "Tschupina",
     "avatar": null,
     "active": true,
     "role": "SUPER_ADMIN",
-    "lastLoginAt": "2026-04-26T17:44:25.580Z",
+    "lastLoginAt": "2026-04-27T13:35:45.755Z",
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-04-26T17:44:25.580Z"
+    "updatedAt": "2026-04-27T13:35:45.755Z"
+  },
+  {
+    "id": "usr_management",
+    "username": "daniel",
+    "email": "daniel@impuls-pflege.de",
+    "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
+    "firstName": "Daniel",
+    "lastName": "Tschupina",
+    "avatar": null,
+    "active": true,
+    "role": "ADMIN",
+    "lastLoginAt": "2026-04-27T13:47:06.171Z",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-04-27T13:47:06.171Z"
   },
   {
     "id": "usr_recruiting",
+    "username": "recruiting",
     "email": "recruiting@impuls-pflege.de",
     "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
     "firstName": "Lisa",
@@ -27,6 +58,7 @@
   },
   {
     "id": "usr_office",
+    "username": "buero",
     "email": "buero@impuls-pflege.de",
     "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
     "firstName": "Thomas",

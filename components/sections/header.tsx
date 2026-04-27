@@ -8,6 +8,9 @@ import { Menu, X, Phone, ArrowRight, Briefcase } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from '@/components/ui/logo'
 import { Container } from '@/components/ui/container'
+import type { PublicContactInfo } from '@/lib/content/contact-cms'
+import { mergeContactContent } from '@/lib/content/contact-cms'
+import { telHrefFromDisplay } from '@/lib/content/tel-href'
 
 const NAV_ITEMS = [
   { label: 'Startseite',  href: '/',           highlight: false },
@@ -17,7 +20,9 @@ const NAV_ITEMS = [
   { label: 'Kontakt',     href: '/kontakt',    highlight: false },
 ]
 
-export function Header() {
+export function Header({ contact }: { contact?: PublicContactInfo }) {
+  const c = contact ?? mergeContactContent(null)
+  const tel = telHrefFromDisplay(c.phone)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
@@ -125,11 +130,11 @@ export function Header() {
 
                 {/* Phone */}
                 <a
-                  href="tel:+4923032920589"
+                  href={tel}
                   className="hidden items-center gap-1.5 text-[12.5px] font-[450] tracking-[-0.005em] text-warm-400 transition-colors duration-200 hover:text-warm-700 xl:flex"
                 >
                   <Phone className="h-3 w-3" strokeWidth={1.7} />
-                  02303 2920589
+                  {c.phone}
                 </a>
 
                 <div className="mx-1 hidden h-4 w-px bg-warm-200 xl:block" />
@@ -245,11 +250,11 @@ export function Header() {
                 {/* Mobile CTA block */}
                 <div className="mt-5 space-y-2.5 border-t border-warm-100 pt-5">
                   <a
-                    href="tel:+4923032920589"
+                    href={tel}
                     className="flex items-center gap-3 rounded-[12px] bg-primary-50 px-4 py-3 text-[14.5px] font-[510] text-primary-700 transition-colors hover:bg-primary-100"
                   >
                     <Phone className="h-4 w-4 shrink-0" strokeWidth={1.7} />
-                    02303 2920589
+                    {c.phone}
                   </a>
 
                   {!hideMobileBewerbungCta && (

@@ -34,6 +34,8 @@ interface ApplicantFiltersProps {
   total: number
   positions: string[]
   users: User[]
+  /** z. B. Tabelle/Pipeline-Umschalter – wird mit den Filtern auf einer Zeile ausgerichtet */
+  toolbarEnd?: React.ReactNode
 }
 
 export function ApplicantFilters({
@@ -42,6 +44,7 @@ export function ApplicantFilters({
   total,
   positions,
   users,
+  toolbarEnd,
 }: ApplicantFiltersProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -136,48 +139,53 @@ export function ApplicantFilters({
 
   return (
     <>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
-        <div className="flex-1 sm:max-w-xs">
-          <Input
-            placeholder="Name, E-Mail oder Position suchen…"
-            value={searchValue}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            icon={<Search className="h-4 w-4" />}
-          />
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
+        <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-end">
+          <div className="flex-1 sm:max-w-xs">
+            <Input
+              placeholder="Name, E-Mail oder Position suchen…"
+              value={searchValue}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              icon={<Search className="h-4 w-4" />}
+            />
+          </div>
+          <div className="flex flex-wrap items-end gap-3">
+            <div className="w-44">
+              <Select
+                options={statusOptions}
+                value={statusValue}
+                onChange={(e) => pushParams({ status: e.target.value })}
+              />
+            </div>
+            <div className="w-44">
+              <Select
+                options={positionOptions}
+                value={positionValue}
+                onChange={(e) => pushParams({ position: e.target.value })}
+              />
+            </div>
+            <div className="w-44">
+              <Select
+                options={userOptions}
+                value={assignedValue}
+                onChange={(e) => pushParams({ assignedTo: e.target.value })}
+              />
+            </div>
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleReset}
+                icon={<RotateCcw className="h-3.5 w-3.5" />}
+              >
+                Zurücksetzen
+              </Button>
+            )}
+          </div>
         </div>
-        <div className="flex flex-wrap items-end gap-3">
-          <div className="w-44">
-            <Select
-              options={statusOptions}
-              value={statusValue}
-              onChange={(e) => pushParams({ status: e.target.value })}
-            />
-          </div>
-          <div className="w-44">
-            <Select
-              options={positionOptions}
-              value={positionValue}
-              onChange={(e) => pushParams({ position: e.target.value })}
-            />
-          </div>
-          <div className="w-44">
-            <Select
-              options={userOptions}
-              value={assignedValue}
-              onChange={(e) => pushParams({ assignedTo: e.target.value })}
-            />
-          </div>
-          {hasActiveFilters && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleReset}
-              icon={<RotateCcw className="h-3.5 w-3.5" />}
-            >
-              Zurücksetzen
-            </Button>
-          )}
-        </div>
+        {toolbarEnd ? (
+          <div className="flex shrink-0 justify-end lg:justify-end">{toolbarEnd}</div>
+        ) : null}
       </div>
 
       {total > 0 && (

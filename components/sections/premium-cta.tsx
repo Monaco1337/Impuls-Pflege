@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Phone } from 'lucide-react'
 import { FadeIn } from '@/components/animations/fade-in'
+import { telHrefFromDisplay } from '@/lib/content/tel-href'
 
 interface PremiumCtaProps {
   eyebrow?: string
@@ -126,7 +127,7 @@ export function PremiumCta({
                 </Link>
               ) : (
                 <a
-                  href={`tel:+49${phone.replace(/\D/g, '')}`}
+                  href={telHrefFromDisplay(phone)}
                   className="group inline-flex w-full max-w-xs items-center justify-center gap-2.5 rounded-full border px-7 py-3.5 text-[15px] font-[520] tracking-[-0.01em] transition-all duration-300 hover:-translate-y-[1px] hover:border-[rgba(24,193,163,0.25)] hover:bg-[rgba(24,193,163,0.04)] lg:w-auto lg:max-w-none"
                   style={{ borderColor: 'rgba(0,0,0,0.09)', color: '#334155' }}
                 >

@@ -7,6 +7,7 @@ import { userSchema, passwordChangeSchema } from '@/lib/validation/schemas'
 import { revalidatePath } from 'next/cache'
 import { hash, compare } from 'bcryptjs'
 import { logServerError } from '@/lib/error-handling'
+import { normalizeSignInLogin } from '@/lib/data/user-login'
 import {
   newId,
   nowIso,
@@ -16,6 +17,10 @@ import {
 import { DATA_FILES } from '@/lib/data/schema'
 import type { JsonUser } from '@/lib/data/schema'
 import { writeJsonFile } from '@/lib/storage/json-data-layer'
+import {
+  filterVisibleUsers,
+  isVisibleToViewer,
+} from '@/lib/rbac/visibility'
 
 type ActionResult<T = unknown> = {
   success: boolean
@@ -29,6 +34,7 @@ function pick(u: JsonUser) {
   const p = repoPickUser(u)
   return {
     id: p.id,
+    username: p.username,
     email: p.email,
     firstName: p.firstName,
     lastName: p.lastName,
@@ -43,10 +49,13 @@ function pick(u: JsonUser) {
 
 export async function getUsers(): Promise<ActionResult> {
   try {
-    await requireAccess('users', 'view')
+    const viewer = await requireAccess('users', 'view')
 
     const users = await repoLoadUsers()
-    const sorted = [...users].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    const visible = filterVisibleUsers(users, viewer)
+    const sorted = [...visible].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    )
 
     return { success: true, data: sorted.map(pick) }
   } catch (error) {
@@ -57,11 +66,15 @@ export async function getUsers(): Promise<ActionResult> {
 
 export async function getUser(id: string): Promise<ActionResult> {
   try {
-    await requireAccess('users', 'view')
+    const viewer = await requireAccess('users', 'view')
 
     const users = await repoLoadUsers()
     const user = users.find((u) => u.id === id)
-    if (!user) return { success: false, error: 'Benutzer nicht gefunden' }
+    // Hidden user existiert für Nicht-OWNER nicht – einheitliche „nicht gefunden“-Antwort
+    // (kein 403, kein Hinweis auf Existenz).
+    if (!user || !isVisibleToViewer(user, viewer)) {
+      return { success: false, error: 'Benutzer nicht gefunden' }
+    }
     return { success: true, data: pick(user) }
   } catch (error) {
     logServerError('getUser error', error)
@@ -87,10 +100,16 @@ export async function createUser(data: unknown): Promise<ActionResult> {
       return { success: false, error: 'E-Mail-Adresse wird bereits verwendet' }
     }
 
+    const loginName = normalizeSignInLogin(parsed.data.username)
+    if (users.some((u) => normalizeSignInLogin(u.username ?? '') === loginName)) {
+      return { success: false, error: 'Benutzername ist bereits vergeben' }
+    }
+
     const passwordHash = await hash(parsed.data.password, SALT_ROUNDS)
     const t = nowIso()
     const user: JsonUser = {
       id: newId(),
+      username: loginName,
       email: parsed.data.email,
       firstName: parsed.data.firstName,
       lastName: parsed.data.lastName,
@@ -111,7 +130,7 @@ export async function createUser(data: unknown): Promise<ActionResult> {
       action: 'create',
       entityType: 'user',
       entityId: user.id,
-      metadata: { email: user.email, role: user.role },
+      metadata: { email: user.email, username: user.username, role: user.role },
     })
 
     revalidatePath('/admin/users')
@@ -135,6 +154,11 @@ export async function updateUser(id: string, data: unknown): Promise<ActionResul
     const users = await repoLoadUsers()
     const idx = users.findIndex((u) => u.id === id)
     if (idx === -1) return { success: false, error: 'Benutzer nicht gefunden' }
+    // Hidden user darf nur vom OWNER editiert werden – sonst tarnt sich der
+    // Server als „nicht gefunden“, damit keine Existenz erkennbar wird.
+    if (!isVisibleToViewer(users[idx], currentUser)) {
+      return { success: false, error: 'Benutzer nicht gefunden' }
+    }
 
     if (
       users.some(
@@ -144,7 +168,17 @@ export async function updateUser(id: string, data: unknown): Promise<ActionResul
       return { success: false, error: 'E-Mail-Adresse wird bereits verwendet' }
     }
 
+    const loginName = normalizeSignInLogin(parsed.data.username)
+    if (
+      users.some(
+        (u) => u.id !== id && normalizeSignInLogin(u.username ?? '') === loginName,
+      )
+    ) {
+      return { success: false, error: 'Benutzername ist bereits vergeben' }
+    }
+
     const u = users[idx]
+    u.username = loginName
     u.email = parsed.data.email
     u.firstName = parsed.data.firstName
     u.lastName = parsed.data.lastName
@@ -185,6 +219,9 @@ export async function toggleUserActive(id: string): Promise<ActionResult> {
     const users = await repoLoadUsers()
     const idx = users.findIndex((u) => u.id === id)
     if (idx === -1) return { success: false, error: 'Benutzer nicht gefunden' }
+    if (!isVisibleToViewer(users[idx], currentUser)) {
+      return { success: false, error: 'Benutzer nicht gefunden' }
+    }
 
     if (id === currentUser.id) {
       return { success: false, error: 'Sie können sich nicht selbst deaktivieren' }
