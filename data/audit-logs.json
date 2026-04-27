@@ -1,17 +1,5 @@
 [
   {
-    "id": "787df9c4-56f4-446f-86fc-36882fbc5791",
-    "userId": "usr_admin",
-    "action": "delete",
-    "entityType": "applicant",
-    "entityId": "99728585-fbdb-40a5-aae1-92ab4a9a47b1",
-    "metadata": {
-      "documentsDeleted": 1
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-25T19:56:05.782Z"
-  },
-  {
     "id": "21c65d9d-cc48-431d-8c6c-589e11bfee17",
     "userId": null,
     "action": "create",
@@ -6003,5 +5991,21 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-27T14:03:57.748Z"
+  },
+  {
+    "id": "9d7c6ac8-202a-4600-8000-e2f1024a1534",
+    "userId": "usr_management",
+    "action": "status_change",
+    "entityType": "applicant",
+    "entityId": null,
+    "metadata": {
+      "bulk": true,
+      "count": 1,
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "source": "inbox_click"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-27T14:11:23.486Z"
   }
 ]
