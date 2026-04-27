@@ -1,25 +1,6 @@
 {
   "applicants": [
     {
-      "id": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86",
-      "firstName": "celina",
-      "lastName": "test",
-      "email": "test@gmx.de",
-      "phone": "023836159773",
-      "address": "bornekamp ",
-      "positionApplied": "Initiativbewerbung",
-      "availability": "ab sofort",
-      "qualification": "Ausbildung",
-      "experience": "5 Jahre Berufserfahrung ",
-      "motivation": "test 12345",
-      "source": "website",
-      "status": "GESPRAECH_GEPLANT",
-      "assignedToId": "usr_management",
-      "jobPostingId": null,
-      "createdAt": "2026-04-24T10:23:43.125Z",
-      "updatedAt": "2026-04-26T20:28:24.064Z"
-    },
-    {
       "id": "b8f9fd22-ef64-4891-ac55-6e9eca8a0f67",
       "firstName": "test",
       "lastName": "test",
@@ -41,24 +22,6 @@
   ],
   "notes": [],
   "statusHistory": [
-    {
-      "id": "f890701b-cbad-4ffb-ba20-5a4fe767b949",
-      "applicantId": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86",
-      "fromStatus": "NEU_EINGEGANGEN",
-      "toStatus": "GESICHTET",
-      "changedById": "usr_admin",
-      "note": "Automatisch: Detailansicht geöffnet",
-      "changedAt": "2026-04-24T10:33:08.712Z"
-    },
-    {
-      "id": "2580365b-d113-48c8-9778-ad76001eb205",
-      "applicantId": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86",
-      "fromStatus": "GESICHTET",
-      "toStatus": "GESPRAECH_GEPLANT",
-      "changedById": "usr_elena",
-      "note": null,
-      "changedAt": "2026-04-26T20:26:07.852Z"
-    },
     {
       "id": "1a92d378-c2c9-4246-a02a-e623ca16a49d",
       "applicantId": "b8f9fd22-ef64-4891-ac55-6e9eca8a0f67",
