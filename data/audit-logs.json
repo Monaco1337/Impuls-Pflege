@@ -1,17 +1,5 @@
 [
   {
-    "id": "b00efcbf-533f-40d5-a624-9af694681721",
-    "userId": "usr_elena",
-    "action": "assign",
-    "entityType": "applicant",
-    "entityId": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86",
-    "metadata": {
-      "assignedToId": "usr_management"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T20:28:24.067Z"
-  },
-  {
     "id": "10c6935a-c691-4758-a348-308377663b4c",
     "userId": "usr_elena",
     "action": "status_change",
@@ -6004,5 +5992,15 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-27T14:14:12.023Z"
+  },
+  {
+    "id": "17127d51-8d58-4738-b6ea-cb65ff2a3d4e",
+    "userId": "usr_management",
+    "action": "delete",
+    "entityType": "inquiry",
+    "entityId": "35070cc4-3109-400e-8f41-8aa7c0ca4401",
+    "metadata": null,
+    "ipAddress": null,
+    "createdAt": "2026-04-27T14:15:29.010Z"
   }
 ]
