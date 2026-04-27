@@ -223,6 +223,44 @@ export async function updateAnamneseStatus(
   }
 }
 
+export async function deleteAnamneseSubmission(id: string): Promise<ActionResult> {
+  try {
+    const user = await requireAccess('anamnese', 'delete')
+
+    const bundle = await repoLoadAnamnese()
+    const target = bundle.submissions.find((s) => s.id === id)
+    if (!target) {
+      return { success: false, error: 'Anamnesebogen nicht gefunden' }
+    }
+
+    bundle.submissions = bundle.submissions.filter((s) => s.id !== id)
+
+    await writeJsonFile(
+      DATA_FILES.anamnese,
+      bundle,
+      `Data update anamnese delete ${id}: ${nowIso()}`,
+    )
+
+    await logAudit({
+      userId: user.id,
+      action: 'delete',
+      entityType: 'anamnese_submission',
+      entityId: id,
+      metadata: {
+        patient: `${target.patientLastName}, ${target.patientFirstName}`,
+        status: target.status,
+      },
+    })
+
+    revalidatePath('/admin/anamnese')
+    revalidatePath('/admin/dashboard')
+    return { success: true }
+  } catch (error) {
+    logServerError('deleteAnamneseSubmission error', error)
+    return { success: false, error: 'Anamnesebogen konnte nicht gelöscht werden' }
+  }
+}
+
 export async function assignAnamnese(
   id: string,
   userId: string | null,

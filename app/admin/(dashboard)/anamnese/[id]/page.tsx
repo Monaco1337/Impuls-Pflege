@@ -10,6 +10,7 @@ import { getUsers } from '@/lib/actions/users'
 import { AnamneseStatusUpdate } from '@/components/admin/anamnese-status-update'
 import { AnamnesePayloadView } from '@/components/admin/anamnese-payload-view'
 import { checkAccess } from '@/lib/rbac/check'
+import { AnamneseDeleteButton } from './delete-button'
 
 export async function generateMetadata({
   params,
@@ -63,10 +64,11 @@ export default async function AnamneseDetailPage({
 
   await acknowledgeAnamneseOnOpen(id)
 
-  const [subResult, usersResult, canEdit] = await Promise.all([
+  const [subResult, usersResult, canEdit, canDelete] = await Promise.all([
     getAnamneseSubmission(id),
     getUsers(),
     checkAccess('anamnese', 'edit'),
+    checkAccess('anamnese', 'delete'),
   ])
 
   if (!subResult.success || !subResult.data) {
@@ -100,7 +102,7 @@ export default async function AnamneseDetailPage({
           <ArrowLeft className="h-4 w-4" />
           Zurück zu Anamnesebögen
         </Link>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h2 className="text-2xl font-bold text-warm-900">
               {s.patientLastName}, {s.patientFirstName}
@@ -112,6 +114,7 @@ export default async function AnamneseDetailPage({
               </span>
             </div>
           </div>
+          {canDelete && <AnamneseDeleteButton submissionId={s.id} />}
         </div>
       </div>
 
