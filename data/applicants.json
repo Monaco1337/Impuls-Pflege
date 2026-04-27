@@ -32,11 +32,11 @@
       "experience": "3 Jahre Berufserfahrung",
       "motivation": "",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": null,
       "createdAt": "2026-04-27T14:03:56.676Z",
-      "updatedAt": "2026-04-27T14:03:56.676Z"
+      "updatedAt": "2026-04-27T14:11:22.022Z"
     }
   ],
   "notes": [],
@@ -58,6 +58,15 @@
       "changedById": "usr_elena",
       "note": null,
       "changedAt": "2026-04-26T20:26:07.852Z"
+    },
+    {
+      "id": "1a92d378-c2c9-4246-a02a-e623ca16a49d",
+      "applicantId": "b8f9fd22-ef64-4891-ac55-6e9eca8a0f67",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_management",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-04-27T14:11:22.022Z"
     }
   ],
   "documents": [
