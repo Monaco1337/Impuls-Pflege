@@ -1,18 +1,5 @@
 [
   {
-    "id": "f27ecf79-e875-4295-9994-85f4c293e8a6",
-    "userId": "usr_elena",
-    "action": "status_change",
-    "entityType": "applicant",
-    "entityId": "b2225e6a-a56b-4ad0-bd7d-d5017f3add86",
-    "metadata": {
-      "fromStatus": "GESICHTET",
-      "toStatus": "GESPRAECH_GEPLANT"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T20:26:07.855Z"
-  },
-  {
     "id": "b00efcbf-533f-40d5-a624-9af694681721",
     "userId": "usr_elena",
     "action": "assign",
@@ -6005,5 +5992,17 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-27T14:14:03.616Z"
+  },
+  {
+    "id": "004ece4a-541b-488b-bec8-ed4f247107f8",
+    "userId": "usr_management",
+    "action": "delete",
+    "entityType": "applicant",
+    "entityId": "b8f9fd22-ef64-4891-ac55-6e9eca8a0f67",
+    "metadata": {
+      "documentsDeleted": 0
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-27T14:14:12.023Z"
   }
 ]
