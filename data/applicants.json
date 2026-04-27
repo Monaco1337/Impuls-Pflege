@@ -1,5 +1,25 @@
 {
-  "applicants": [],
+  "applicants": [
+    {
+      "id": "de2e2b38-7d4a-40be-ade1-c48b3de2d521",
+      "firstName": "Celina",
+      "lastName": "Siebeneicher",
+      "email": "celina.siebeneicher@outlook.de",
+      "phone": "01639166073",
+      "address": "Hemmerder Dorfstraße 111",
+      "positionApplied": "Pflegehilfskraft",
+      "availability": "ab sofort ",
+      "qualification": "pflege",
+      "experience": "7 Jahre ",
+      "motivation": "",
+      "source": "website",
+      "status": "NEU_EINGEGANGEN",
+      "assignedToId": null,
+      "jobPostingId": "job_pflegehilfskraft",
+      "createdAt": "2026-04-27T15:06:14.489Z",
+      "updatedAt": "2026-04-27T15:06:14.489Z"
+    }
+  ],
   "notes": [],
   "statusHistory": [],
   "documents": []
