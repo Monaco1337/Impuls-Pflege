@@ -17,6 +17,37 @@ import {
   repoLoadJobs,
   repoLoadTags,
 } from '@/lib/data/json-repository'
+import type { JsonJobPosting } from '@/lib/data/schema'
+
+/**
+ * Versucht, eine eingehende Bewerbung mit einer aktiven Stellenanzeige zu verknüpfen.
+ * `positionApplied` aus dem Public-Formular ist ein Kurzname (z. B. "Pflegehilfskraft");
+ * wir matchen primär gegen `job.slug`, fallback gegen `job.title`. Liefert null bei
+ * Initiativbewerbung oder fehlender Übereinstimmung.
+ */
+function matchJobByPosition(
+  positionApplied: string | null | undefined,
+  jobs: JsonJobPosting[],
+): string | null {
+  if (!positionApplied) return null
+  const needle = positionApplied.trim().toLowerCase()
+  if (!needle || needle === 'initiativbewerbung') return null
+
+  const activeJobs = jobs.filter((j) => j.active)
+
+  const bySlug = activeJobs.find((j) => j.slug.toLowerCase() === needle)
+  if (bySlug) return bySlug.id
+
+  const byTitlePrefix = activeJobs.find((j) =>
+    j.title.toLowerCase().startsWith(needle),
+  )
+  if (byTitlePrefix) return byTitlePrefix.id
+
+  const byTitleContains = activeJobs.find((j) =>
+    j.title.toLowerCase().includes(needle),
+  )
+  return byTitleContains?.id ?? null
+}
 import type { JsonApplicant, JsonApplicantDocument } from '@/lib/data/schema'
 import {
   DATA_FILES,
@@ -92,6 +123,14 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
 
     const { privacy: _, ...applicantData } = parsed.data
 
+    let allJobs: JsonJobPosting[] = []
+    try {
+      allJobs = await repoLoadJobs()
+    } catch (jobsLoadErr) {
+      console.warn('[submitApplication] repoLoadJobs failed (non-fatal)', jobsLoadErr)
+    }
+    const matchedJobId = matchJobByPosition(applicantData.positionApplied, allJobs)
+
     const t = nowIso()
     const applicant: JsonApplicant = {
       id: newId(),
@@ -108,7 +147,7 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
       source: 'website',
       status: 'NEU_EINGEGANGEN',
       assignedToId: null,
-      jobPostingId: null,
+      jobPostingId: matchedJobId,
       createdAt: t,
       updatedAt: t,
     }
@@ -177,13 +216,27 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
         action: 'create',
         entityType: 'applicant',
         entityId: applicant.id,
-        metadata: { name: `${applicant.firstName} ${applicant.lastName}`, position: applicant.positionApplied },
+        metadata: {
+          name: `${applicant.firstName} ${applicant.lastName}`,
+          position: applicant.positionApplied,
+          jobPostingId: applicant.jobPostingId,
+        },
       })
     } catch (auditErr) {
       console.warn('[submitApplication] audit log failed (non-fatal)', auditErr)
     }
 
-    console.info('[submitApplication] success', { id: applicant.id })
+    // Sofortige Cache-Invalidierung, damit der Bewerber-Counter
+    // unter /admin/jobs und die Bewerber-Liste live aktuell sind.
+    try {
+      revalidatePath('/admin/jobs')
+      revalidatePath('/admin/applicants')
+      revalidatePath('/admin/dashboard')
+    } catch {
+      // revalidatePath darf an manchen Aufrufstellen nicht laufen, soll den Submit nicht abbrechen
+    }
+
+    console.info('[submitApplication] success', { id: applicant.id, jobPostingId: applicant.jobPostingId })
     return { success: true, data: { id: applicant.id } }
   } catch (error) {
     logServerError('submitApplication error', error)

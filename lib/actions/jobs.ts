@@ -36,10 +36,28 @@ function mapJobPublic(j: JsonJobPosting) {
   }
 }
 
+/**
+ * Prüft, ob die `positionApplied`-Eingabe einer (alten) Bewerbung zur Stelle gehört.
+ * Match-Reihenfolge: exakte Slug-Übereinstimmung, dann Title-Prefix, dann Title-Contains.
+ * Robust gegen historische Bewerbungen, bei denen `jobPostingId` noch nicht gesetzt wurde.
+ */
+function applicantPositionMatchesJob(positionApplied: string | null | undefined, j: JsonJobPosting): boolean {
+  if (!positionApplied) return false
+  const needle = positionApplied.trim().toLowerCase()
+  if (!needle || needle === 'initiativbewerbung') return false
+  const slug = j.slug.toLowerCase()
+  const title = j.title.toLowerCase()
+  return needle === slug || title.startsWith(needle) || title.includes(needle)
+}
+
 async function mapJobWithContact(j: JsonJobPosting) {
   const contactPerson = await repoJoinUserBrief(j.contactPersonId)
   const applicants = await repoLoadApplicants()
-  const applicantCount = applicants.applicants.filter((a) => a.jobPostingId === j.id).length
+  const applicantCount = applicants.applicants.filter((a) => {
+    if (a.jobPostingId === j.id) return true
+    if (a.jobPostingId) return false
+    return applicantPositionMatchesJob(a.positionApplied, j)
+  }).length
   return {
     ...j,
     publishDate: new Date(j.publishDate),
