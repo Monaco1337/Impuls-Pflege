@@ -13,14 +13,24 @@
       "experience": "7 Jahre ",
       "motivation": "",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegehilfskraft",
       "createdAt": "2026-04-27T15:06:14.489Z",
-      "updatedAt": "2026-04-27T15:06:14.489Z"
+      "updatedAt": "2026-04-27T15:06:27.006Z"
     }
   ],
   "notes": [],
-  "statusHistory": [],
+  "statusHistory": [
+    {
+      "id": "837ebbfa-4ced-4141-b7a2-855a3b39ff8e",
+      "applicantId": "de2e2b38-7d4a-40be-ade1-c48b3de2d521",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_elena",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-04-27T15:06:27.006Z"
+    }
+  ],
   "documents": []
 }
