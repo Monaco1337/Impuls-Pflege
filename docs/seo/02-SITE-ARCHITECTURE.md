@@ -6,23 +6,23 @@
 /                                    [Home — Brand & lokaler Hauptanker]
 ├── /pflege-kreis-unna/              [Kreis-Hub — Mutter aller Stadt-Hubs]
 │
-├── /pflegedienst-unna/              [Stadt-Hub — Primary]
-├── /pflegedienst-luenen/
-├── /pflegedienst-kamen/
-├── /pflegedienst-bergkamen/
-├── /pflegedienst-schwerte/
-├── /pflegedienst-froendenberg/
-├── /pflegedienst-holzwickede/
-├── /pflegedienst-boenen/
-├── /pflegedienst-selm/
-├── /pflegedienst-werne/
-├── /pflegedienst-dortmund-ost/      [Stadt-Hub — Secondary]
-├── /pflegedienst-hamm-west/
-├── /pflegedienst-soest-rand/
-├── /pflegedienst-menden/
-├── /pflegedienst-iserlohn/
-├── /pflegedienst-nordkirchen/
-├── /pflegedienst-ascheberg/
+├── /pflegedienst/unna/              [Stadt-Hub — Primary]
+├── /pflegedienst/luenen/
+├── /pflegedienst/kamen/
+├── /pflegedienst/bergkamen/
+├── /pflegedienst/schwerte/
+├── /pflegedienst/froendenberg/
+├── /pflegedienst/holzwickede/
+├── /pflegedienst/boenen/
+├── /pflegedienst/selm/
+├── /pflegedienst/werne/
+├── /pflegedienst/dortmund-ost/      [Stadt-Hub — Secondary]
+├── /pflegedienst/hamm-west/
+├── /pflegedienst/soest-rand/
+├── /pflegedienst/menden/
+├── /pflegedienst/iserlohn/
+├── /pflegedienst/nordkirchen/
+├── /pflegedienst/ascheberg/
 │
 ├── /leistungen/                     [Service-Übersicht — vorhandene Long-Form]
 │   ├── /leistungen/grundpflege/             [Service-Hub]
@@ -95,7 +95,7 @@ Home (1)
 
 | Pattern | Anzahl | Beispiel |
 |---|---|---|
-| `/pflegedienst-[stadt]/` | 17 | `/pflegedienst-luenen/` |
+| `/pflegedienst/[stadt]/` | 17 | `/pflegedienst/luenen/` |
 | `/leistungen/[leistung]/` | 10 | `/leistungen/wundversorgung/` |
 | `/leistungen/[leistung]/[stadt]/` | 170 | `/leistungen/wundversorgung/luenen/` |
 | `/pflegegrad/[slug]/` | 8 | `/pflegegrad/2/`, `/pflegegrad/antrag/` |

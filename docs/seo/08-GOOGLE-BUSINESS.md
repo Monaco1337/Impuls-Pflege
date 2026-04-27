@@ -135,43 +135,43 @@ Jeder Eintrag besteht aus Name + Beschreibung + Preis-Hinweis (immer „nach Pfl
 
 **Post 19: Pflege in Unna**
 > In Unna versorgen wir Patient*innen in Massen, Alte Heide, Königsborn und der Innenstadt — meist binnen 10 Minuten Anfahrt vom Büro Massener Straße. Christliches Krankenhaus und Katharinen-Hospital sind unsere wichtigsten Entlassungs-Partner.
-> CTA: „Pflege Unna" → /pflegedienst-unna/
+> CTA: „Pflege Unna" → /pflegedienst/unna/
 
 **Post 20: Pflege in Lünen**
 > Lünen-Mitte, Brambauer, Horstmar, Niederaden — wir sind in jedem Stadtteil regelmäßig unterwegs. Übergabe vom St.-Marien-Hospital direkt zu uns funktioniert nahtlos.
-> CTA: „Pflege Lünen" → /pflegedienst-luenen/
+> CTA: „Pflege Lünen" → /pflegedienst/luenen/
 
 **Post 21: Pflege in Kamen**
 > Methler, Heeren-Werve, Kamen-Mitte: feste Tour-Pläne mit kurzen Wegen. Hellmig-Krankenhaus → IMPULS funktioniert per Direkt-Übergabe.
-> CTA: „Pflege Kamen" → /pflegedienst-kamen/
+> CTA: „Pflege Kamen" → /pflegedienst/kamen/
 
 **Post 22: Pflege in Bergkamen**
 > Bergkamen-Mitte, Oberaden, Rünthe, Weddinghofen — täglich auf Tour. Wir kennen die Pflegeheime und die zwei großen Apotheken am Marktplatz.
-> CTA: „Pflege Bergkamen" → /pflegedienst-bergkamen/
+> CTA: „Pflege Bergkamen" → /pflegedienst/bergkamen/
 
 **Post 23: Pflege in Schwerte**
 > Schwerte-Mitte, Ergste, Westhofen, Villigst, Geisecke. Marien-Hospital und Hospital zum heiligen Geist kennen unser Team — Übergabe ist Routine.
-> CTA: „Pflege Schwerte" → /pflegedienst-schwerte/
+> CTA: „Pflege Schwerte" → /pflegedienst/schwerte/
 
 **Post 24: Pflege in Fröndenberg**
 > Fröndenberg, Bausenhagen, Frömern, Langschede, Strickherdicke — kleine Stadt, kurze Wege. Senioren-Tour direkt vom Büro Unna.
-> CTA: „Pflege Fröndenberg" → /pflegedienst-froendenberg/
+> CTA: „Pflege Fröndenberg" → /pflegedienst/froendenberg/
 
 **Post 25: Pflege in Holzwickede**
 > Hengsen, Opherdicke, Holzwickede-Mitte — direkt am Flughafen Dortmund. Wir versorgen täglich.
-> CTA: „Pflege Holzwickede" → /pflegedienst-holzwickede/
+> CTA: „Pflege Holzwickede" → /pflegedienst/holzwickede/
 
 **Post 26: Pflege in Bönen**
 > Bönen, Altenbögge, Lenningsen, Flierich — kleine Tour, intensive Betreuung.
-> CTA: „Pflege Bönen" → /pflegedienst-boenen/
+> CTA: „Pflege Bönen" → /pflegedienst/boenen/
 
 **Post 27: Pflege in Selm**
 > Selm-Bork, Cappenberg, Beifang. Kreis-Nord-Tour von Unna aus.
-> CTA: „Pflege Selm" → /pflegedienst-selm/
+> CTA: „Pflege Selm" → /pflegedienst/selm/
 
 **Post 28: Pflege in Werne**
 > Werne, Stockum, Langern, Rünthe — entlang der Lippe.
-> CTA: „Pflege Werne" → /pflegedienst-werne/
+> CTA: „Pflege Werne" → /pflegedienst/werne/
 
 ### Block 4 — Trust / Recruiting / News (2 Posts)
 

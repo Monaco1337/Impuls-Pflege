@@ -29,7 +29,7 @@
 
 ---
 
-## 2. `/pflegedienst-unna/` — Stadt-Hub Unna
+## 2. `/pflegedienst/unna/` — Stadt-Hub Unna
 
 **H1:** Pflegedienst Unna — Ambulante Pflege bei Ihnen zuhause
 
@@ -176,7 +176,7 @@
 - /pflegegrad/md/ („MD-Begutachtung")
 - /leistungen/pflegeberatung/ („Pflegeberatung kostenfrei")
 - /kontakt/ („Erstgespräch vereinbaren")
-- /pflegedienst-unna/ („Pflege in Unna")
+- /pflegedienst/unna/ („Pflege in Unna")
 
 ---
 

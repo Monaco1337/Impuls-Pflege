@@ -72,7 +72,7 @@ Implementierung: in `lib/seo/services.ts` und `lib/seo/pflegegrade.ts` ist `intr
 
 **Erwartete Sitelinks (nach 6–12 Monaten):**
 - /leistungen/
-- /pflegedienst-unna/
+- /pflegedienst/unna/
 - /pflegegrad/
 - /kontakt/
 - /ratgeber/

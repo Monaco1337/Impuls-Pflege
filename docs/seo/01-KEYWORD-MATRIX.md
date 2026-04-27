@@ -25,19 +25,19 @@
 
 | Keyword | Cluster | Prio | Conv. | Funnel | Ziel-URL | Page-Type | Schema |
 |---|---|---|---|---|---|---|---|
-| Pflegedienst Unna | money | 5 | 5 | transactional | `/pflegedienst-unna/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Lünen | money | 5 | 5 | transactional | `/pflegedienst-luenen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Kamen | money | 5 | 5 | transactional | `/pflegedienst-kamen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Bergkamen | money | 5 | 5 | transactional | `/pflegedienst-bergkamen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Schwerte | money | 5 | 5 | transactional | `/pflegedienst-schwerte/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Fröndenberg | money | 5 | 5 | transactional | `/pflegedienst-froendenberg/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Holzwickede | money | 5 | 5 | transactional | `/pflegedienst-holzwickede/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Bönen | money | 5 | 5 | transactional | `/pflegedienst-boenen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Selm | money | 5 | 5 | transactional | `/pflegedienst-selm/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| Pflegedienst Werne | money | 5 | 5 | transactional | `/pflegedienst-werne/` | city | LocalBusiness, MedicalBusiness, FAQPage |
-| ambulanter Pflegedienst Unna | money | 5 | 5 | transactional | `/pflegedienst-unna/` | city | LocalBusiness, MedicalBusiness |
-| ambulanter Pflegedienst Lünen | money | 5 | 5 | transactional | `/pflegedienst-luenen/` | city | LocalBusiness, MedicalBusiness |
-| ambulante Pflege Unna | money | 5 | 5 | transactional | `/pflegedienst-unna/` | city | LocalBusiness, Service |
+| Pflegedienst Unna | money | 5 | 5 | transactional | `/pflegedienst/unna/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Lünen | money | 5 | 5 | transactional | `/pflegedienst/luenen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Kamen | money | 5 | 5 | transactional | `/pflegedienst/kamen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Bergkamen | money | 5 | 5 | transactional | `/pflegedienst/bergkamen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Schwerte | money | 5 | 5 | transactional | `/pflegedienst/schwerte/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Fröndenberg | money | 5 | 5 | transactional | `/pflegedienst/froendenberg/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Holzwickede | money | 5 | 5 | transactional | `/pflegedienst/holzwickede/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Bönen | money | 5 | 5 | transactional | `/pflegedienst/boenen/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Selm | money | 5 | 5 | transactional | `/pflegedienst/selm/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| Pflegedienst Werne | money | 5 | 5 | transactional | `/pflegedienst/werne/` | city | LocalBusiness, MedicalBusiness, FAQPage |
+| ambulanter Pflegedienst Unna | money | 5 | 5 | transactional | `/pflegedienst/unna/` | city | LocalBusiness, MedicalBusiness |
+| ambulanter Pflegedienst Lünen | money | 5 | 5 | transactional | `/pflegedienst/luenen/` | city | LocalBusiness, MedicalBusiness |
+| ambulante Pflege Unna | money | 5 | 5 | transactional | `/pflegedienst/unna/` | city | LocalBusiness, Service |
 | ambulante Pflege Kreis Unna | money | 5 | 5 | transactional | `/pflege-kreis-unna/` | city-hub | LocalBusiness, FAQPage |
 | Pflegedienst Kreis Unna | money | 5 | 5 | transactional | `/pflege-kreis-unna/` | city-hub | LocalBusiness, FAQPage |
 | Grundpflege Kreis Unna | money | 5 | 5 | transactional | `/leistungen/grundpflege/` | service | Service, FAQPage |
@@ -50,12 +50,12 @@
 | Medikamentengabe Kreis Unna | money | 5 | 5 | transactional | `/leistungen/medikamentengabe/` | service | Service, FAQPage |
 | Pflege nach Krankenhaus Kreis Unna | money | 5 | 5 | transactional | `/leistungen/pflege-nach-krankenhaus/` | service | Service, FAQPage |
 | hauswirtschaftliche Hilfe Kreis Unna | money | 5 | 5 | transactional | `/leistungen/hauswirtschaftliche-hilfe/` | service | Service, FAQPage |
-| bester Pflegedienst Unna | trust | 4 | 5 | decision | `/pflegedienst-unna/` | city | LocalBusiness, FAQPage |
-| zuverlässiger Pflegedienst Unna | trust | 4 | 4 | consideration | `/pflegedienst-unna/` | city | LocalBusiness |
-| Pflegedienst mit fester Bezugspflege Unna | trust | 3 | 4 | consideration | `/pflegedienst-unna/` | city | LocalBusiness |
-| Pflegedienst sofort Unna | emergency | 5 | 5 | transactional | `/pflegedienst-unna/` | city | LocalBusiness |
-| Pflegedienst sofort Lünen | emergency | 5 | 5 | transactional | `/pflegedienst-luenen/` | city | LocalBusiness |
-| Pflegedienst sofort Kamen | emergency | 5 | 5 | transactional | `/pflegedienst-kamen/` | city | LocalBusiness |
+| bester Pflegedienst Unna | trust | 4 | 5 | decision | `/pflegedienst/unna/` | city | LocalBusiness, FAQPage |
+| zuverlässiger Pflegedienst Unna | trust | 4 | 4 | consideration | `/pflegedienst/unna/` | city | LocalBusiness |
+| Pflegedienst mit fester Bezugspflege Unna | trust | 3 | 4 | consideration | `/pflegedienst/unna/` | city | LocalBusiness |
+| Pflegedienst sofort Unna | emergency | 5 | 5 | transactional | `/pflegedienst/unna/` | city | LocalBusiness |
+| Pflegedienst sofort Lünen | emergency | 5 | 5 | transactional | `/pflegedienst/luenen/` | city | LocalBusiness |
+| Pflegedienst sofort Kamen | emergency | 5 | 5 | transactional | `/pflegedienst/kamen/` | city | LocalBusiness |
 | Pflege nach Krankenhausentlassung Unna | emergency | 5 | 5 | transactional | `/leistungen/pflege-nach-krankenhaus/unna/` | service-city | Service, FAQPage |
 | Hilfe für Angehörige Pflege | angehoerige | 4 | 4 | awareness | `/ratgeber/pflege-fuer-angehoerige/` | ratgeber | Article, FAQPage |
 | Was tun bei Pflegefall | angehoerige | 4 | 4 | awareness | `/ratgeber/erste-schritte-pflegefall/` | ratgeber | Article, FAQPage |

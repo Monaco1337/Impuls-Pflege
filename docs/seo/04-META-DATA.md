@@ -13,15 +13,15 @@
 
 ## Stadt-Hubs (Beispiele)
 
-### `/pflegedienst-unna/`
+### `/pflegedienst/unna/`
 - **Title:** `Pflegedienst Unna – Ambulante Pflege vor Ort`
 - **Description:** `Ambulanter Pflegedienst in Unna: Grundpflege, Behandlungspflege, Demenzbetreuung, Pflegeberatung — feste Bezugspflege, Versorgungsvertrag § 72 SGB XI. Erstgespräch kostenfrei.`
 
-### `/pflegedienst-luenen/`
+### `/pflegedienst/luenen/`
 - **Title:** `Pflegedienst Lünen – Ambulante Pflege vor Ort`
 - **Description:** `Ambulanter Pflegedienst in Lünen: Grundpflege, Behandlungspflege, Demenzbetreuung, Pflegeberatung — feste Bezugspflege, Versorgungsvertrag § 72 SGB XI. Erstgespräch kostenfrei.`
 
-### `/pflegedienst-kamen/`
+### `/pflegedienst/kamen/`
 - **Title:** `Pflegedienst Kamen – Ambulante Pflege vor Ort`
 - **Description:** `Ambulante Pflege in Kamen: Methler, Heeren-Werve, Innenstadt — Grundpflege, Behandlungspflege, Demenzbetreuung. Versorgungsvertrag § 72 SGB XI.`
 

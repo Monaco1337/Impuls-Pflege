@@ -42,10 +42,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   entries.push(entry('/impressum/', 0.2, 'yearly'))
   entries.push(entry('/datenschutz/', 0.2, 'yearly'))
 
-  // ── Stadt-Hubs: /pflegedienst-[slug]/ ──────────────────────────────
+  // ── Stadt-Hubs: /pflegedienst/[slug]/ ──────────────────────────────
   for (const loc of LOCATIONS) {
     const prio = loc.tier === 'primary' ? 0.9 : 0.7
-    entries.push(entry(`/pflegedienst-${loc.slug}/`, prio, 'weekly'))
+    entries.push(entry(`/pflegedienst/${loc.slug}/`, prio, 'weekly'))
   }
 
   // ── Leistungs-Hubs: /leistungen/[slug]/ ────────────────────────────

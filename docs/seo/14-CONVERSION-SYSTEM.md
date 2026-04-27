@@ -52,7 +52,7 @@ StickyContact (immer am Bildschirmrand)
 |---|---|---|---|
 | **TOFU** (Information) | `/ratgeber/pflege-fuer-angehoerige/` | „Pflegeberatung kostenfrei" | „Pflegegrad prüfen lassen" |
 | **MOFU** (Vergleich) | `/leistungen/wundversorgung/` | „Termin vereinbaren" | „Verordnung prüfen lassen" |
-| **BOFU** (Akut) | `/pflegedienst-unna/`, `/leistungen/grundpflege/unna/` | „Anrufen 02303 25055-0" | „Erstgespräch anfragen" |
+| **BOFU** (Akut) | `/pflegedienst/unna/`, `/leistungen/grundpflege/unna/` | „Anrufen 02303 25055-0" | „Erstgespräch anfragen" |
 | **Re-Engage** | Pflegegrad-Hub | „Beratung vereinbaren" | „Antrag-Hilfe" |
 
 ## 5. Friction-Reduzierer

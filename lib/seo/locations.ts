@@ -14,7 +14,7 @@
 export type LocationTier = 'primary' | 'secondary'
 
 export interface LocationData {
-  /** URL-Slug (entspricht /pflegedienst-[slug]/). */
+  /** URL-Slug (entspricht /pflegedienst/[slug]/). */
   slug: string
   /** Anzeigename. */
   name: string

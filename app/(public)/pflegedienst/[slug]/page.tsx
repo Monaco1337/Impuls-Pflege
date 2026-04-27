@@ -40,11 +40,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const loc = getLocation(slug)
   if (!loc) return {}
-  const url = ABSOLUTE_URL(`/pflegedienst-${loc.slug}/`)
+  const url = ABSOLUTE_URL(`/pflegedienst/${loc.slug}/`)
   return {
     title: `Pflegedienst ${loc.name} – Ambulante Pflege vor Ort`,
     description: `Ambulanter Pflegedienst in ${loc.name}: Grundpflege, Behandlungspflege, Demenzbetreuung, Pflegeberatung — feste Bezugspflege, Versorgungsvertrag § 72 SGB XI. Erstgespräch kostenfrei.`,
-    alternates: { canonical: `/pflegedienst-${loc.slug}/` },
+    alternates: { canonical: `/pflegedienst/${loc.slug}/` },
     openGraph: {
       url,
       title: `Pflegedienst ${loc.name} | ${SITE.shortName}`,
@@ -61,10 +61,10 @@ export default async function PflegedienstStadtPage({ params }: { params: Promis
   const loc = getLocation(slug)
   if (!loc) notFound()
 
-  const pageUrl = ABSOLUTE_URL(`/pflegedienst-${loc.slug}/`)
+  const pageUrl = ABSOLUTE_URL(`/pflegedienst/${loc.slug}/`)
   const breadcrumb = [
     { label: 'Kreis Unna', href: '/pflege-kreis-unna/' },
-    { label: loc.name, href: `/pflegedienst-${loc.slug}/`, current: true },
+    { label: loc.name, href: `/pflegedienst/${loc.slug}/`, current: true },
   ]
 
   // Schema-Graph: WebPage + Breadcrumb + lokale FAQs + alle Services als Service-Schema mit Stadt

@@ -75,7 +75,7 @@ export function buildCityLinksForService(serviceSlug: string, locations: Locatio
 /** Helper: Stadtseite — Liste aller Städte (Stadt-Hub-Cross-Linking). */
 export function buildCityHubLinks(locations: LocationData[]) {
   return locations.map((l) => ({
-    href: `/pflegedienst-${l.slug}/`,
+    href: `/pflegedienst/${l.slug}/`,
     title: `Pflegedienst ${l.name}`,
     subtitle: l.intro.length > 110 ? `${l.intro.slice(0, 107)}…` : l.intro,
   }))

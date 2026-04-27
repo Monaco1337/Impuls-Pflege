@@ -41,7 +41,7 @@ pflegeberatung-bergkamen-kueche.webp
 |---|---|---|
 | `team` | `impuls-team-buero-unna.webp` | `/team/`, `/ueber-uns/` |
 | `pflegealltag` | `pflegekraft-haendewaschen-grundpflege.webp` | `/leistungen/grundpflege/` |
-| `hausbesuch` | `pflegekraft-hausbesuch-tueroeffnung-bergkamen.webp` | `/pflegedienst-bergkamen/` |
+| `hausbesuch` | `pflegekraft-hausbesuch-tueroeffnung-bergkamen.webp` | `/pflegedienst/bergkamen/` |
 | `beratung` | `pflegeberatung-angehoerige-kueche-kamen.webp` | `/leistungen/pflegeberatung/kamen/` |
 | `angehoerige` | `angehoerige-tochter-mutter-pflege-luenen.webp` | `/ratgeber/pflege-fuer-angehoerige/` |
 | `fahrzeug` | `impuls-fahrzeug-flotte-unna.webp` | Alle Stadt-Hubs |

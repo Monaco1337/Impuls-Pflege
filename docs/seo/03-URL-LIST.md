@@ -21,27 +21,27 @@
 
 ### Primary — Kreis Unna (10)
 ```
-/pflegedienst-unna/
-/pflegedienst-luenen/
-/pflegedienst-kamen/
-/pflegedienst-bergkamen/
-/pflegedienst-schwerte/
-/pflegedienst-froendenberg/
-/pflegedienst-holzwickede/
-/pflegedienst-boenen/
-/pflegedienst-selm/
-/pflegedienst-werne/
+/pflegedienst/unna/
+/pflegedienst/luenen/
+/pflegedienst/kamen/
+/pflegedienst/bergkamen/
+/pflegedienst/schwerte/
+/pflegedienst/froendenberg/
+/pflegedienst/holzwickede/
+/pflegedienst/boenen/
+/pflegedienst/selm/
+/pflegedienst/werne/
 ```
 
 ### Secondary — Randgebiet (7)
 ```
-/pflegedienst-dortmund-ost/
-/pflegedienst-hamm-west/
-/pflegedienst-soest-rand/
-/pflegedienst-menden/
-/pflegedienst-iserlohn/
-/pflegedienst-nordkirchen/
-/pflegedienst-ascheberg/
+/pflegedienst/dortmund-ost/
+/pflegedienst/hamm-west/
+/pflegedienst/soest-rand/
+/pflegedienst/menden/
+/pflegedienst/iserlohn/
+/pflegedienst/nordkirchen/
+/pflegedienst/ascheberg/
 ```
 
 ## Kreis-Hub (1)
