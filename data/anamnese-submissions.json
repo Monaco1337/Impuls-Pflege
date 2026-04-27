@@ -2,7 +2,7 @@
   "submissions": [
     {
       "id": "f83f6d8d-e480-4575-8075-3c89faaa528c",
-      "status": "GESICHTET",
+      "status": "IN_BEARBEITUNG",
       "patientFirstName": "Celina",
       "patientLastName": "Siebeneicher",
       "birthDate": "2001-04-17",
@@ -24,7 +24,7 @@
       },
       "assignedToId": "usr_elena",
       "createdAt": "2026-04-27T15:04:17.434Z",
-      "updatedAt": "2026-04-27T15:05:20.727Z"
+      "updatedAt": "2026-04-27T15:05:23.097Z"
     }
   ]
 }
