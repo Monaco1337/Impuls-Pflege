@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Phone, ArrowRight, Briefcase } from 'lucide-react'
+import { Menu, X, Phone, Printer, ArrowRight, Briefcase } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from '@/components/ui/logo'
 import { Container } from '@/components/ui/container'
 import type { PublicContactInfo } from '@/lib/content/contact-cms'
 import { mergeContactContent } from '@/lib/content/contact-cms'
-import { telHrefFromDisplay } from '@/lib/content/tel-href'
+import { telHrefFromDisplay, faxHrefFromDisplay } from '@/lib/content/tel-href'
 
 const NAV_ITEMS = [
   { label: 'Startseite',  href: '/',           highlight: false },
@@ -23,6 +23,7 @@ const NAV_ITEMS = [
 export function Header({ contact }: { contact?: PublicContactInfo }) {
   const c = contact ?? mergeContactContent(null)
   const tel = telHrefFromDisplay(c.phone)
+  const fax = c.fax ? faxHrefFromDisplay(c.fax) : ''
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
@@ -136,6 +137,23 @@ export function Header({ contact }: { contact?: PublicContactInfo }) {
                   <Phone className="h-3 w-3" strokeWidth={1.7} />
                   {c.phone}
                 </a>
+
+                {/* Fax — nur sichtbar, wenn im CMS gepflegt */}
+                {c.fax && (
+                  <>
+                    <div className="mx-1 hidden h-4 w-px bg-warm-200 xl:block" />
+                    <a
+                      href={fax}
+                      className="hidden items-center gap-1.5 text-[12.5px] font-[450] tracking-[-0.005em] text-warm-400 transition-colors duration-200 hover:text-warm-700 xl:flex"
+                      aria-label={`Fax: ${c.fax}`}
+                    >
+                      <Printer className="h-3 w-3" strokeWidth={1.7} />
+                      <span className="text-warm-400">
+                        <span className="text-warm-300">Fax</span> {c.fax}
+                      </span>
+                    </a>
+                  </>
+                )}
 
                 <div className="mx-1 hidden h-4 w-px bg-warm-200 xl:block" />
 
@@ -256,6 +274,19 @@ export function Header({ contact }: { contact?: PublicContactInfo }) {
                     <Phone className="h-4 w-4 shrink-0" strokeWidth={1.7} />
                     {c.phone}
                   </a>
+
+                  {c.fax && (
+                    <a
+                      href={fax}
+                      className="flex items-center gap-3 rounded-[12px] border border-warm-100 bg-white px-4 py-2.5 text-[13px] font-[460] text-warm-600 transition-colors hover:bg-warm-50 hover:text-warm-900"
+                      aria-label={`Fax: ${c.fax}`}
+                    >
+                      <Printer className="h-3.5 w-3.5 shrink-0" strokeWidth={1.7} />
+                      <span>
+                        <span className="text-warm-400">Fax</span> {c.fax}
+                      </span>
+                    </a>
+                  )}
 
                   {!hideMobileBewerbungCta && (
                     <Link
