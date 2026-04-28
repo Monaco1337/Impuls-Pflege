@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
-import { Phone, Mail, MapPin, Clock, Heart, Shield, ArrowRight, FileText, Navigation } from 'lucide-react'
+import { Phone, Printer, Mail, MapPin, Clock, Heart, Shield, ArrowRight, FileText, Navigation } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
 import { TextReveal } from '@/components/animations/text-reveal'
@@ -9,7 +9,7 @@ import { PremiumCta } from '@/components/sections/premium-cta'
 import { LocationMapClient } from '@/components/sections/location-map-client'
 import { loadContactInfo } from '@/lib/content/load-site-bundle'
 import { mapsHrefFromAddress } from '@/lib/content/contact-cms'
-import { telHrefFromDisplay } from '@/lib/content/tel-href'
+import { telHrefFromDisplay, faxHrefFromDisplay } from '@/lib/content/tel-href'
 
 export const metadata = {
   title: 'Kontakt – IMPULS Ambulanter Pflegedienst in Unna',
@@ -30,7 +30,14 @@ export default async function KontaktPage() {
   const hoursLine1 = hourLines[0] ?? c.hours
   const hoursLine2 = hourLines.slice(1).join(' · ') || 'Telefonisch: 24/7'
 
-  const contactCards = [
+  const contactCards: Array<{
+    icon: LucideIcon
+    label: string
+    value: string
+    sub: string
+    href?: string
+    accent?: boolean
+  }> = [
     {
       icon: Phone,
       label: 'Telefon',
@@ -39,6 +46,17 @@ export default async function KontaktPage() {
       href: tel,
       accent: true,
     },
+    ...(c.fax
+      ? [
+          {
+            icon: Printer,
+            label: 'Fax',
+            value: c.fax,
+            sub: 'Verordnungen & Krankenkasse',
+            href: faxHrefFromDisplay(c.fax),
+          },
+        ]
+      : []),
     {
       icon: Mail,
       label: 'E-Mail',
@@ -63,6 +81,15 @@ export default async function KontaktPage() {
   const locationInfoRows: { icon: LucideIcon; label: string; href?: string }[] = [
     { icon: MapPin, label: c.address },
     { icon: Phone, label: c.phone, href: tel },
+    ...(c.fax
+      ? [
+          {
+            icon: Printer,
+            label: `Fax: ${c.fax}`,
+            href: faxHrefFromDisplay(c.fax),
+          },
+        ]
+      : []),
     { icon: Mail, label: c.email, href: `mailto:${c.email}` },
     { icon: Clock, label: hoursLine1 },
   ]
@@ -155,7 +182,7 @@ export default async function KontaktPage() {
         <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'rgba(0,0,0,0.055)' }} />
         <div className="absolute inset-x-0 bottom-0 h-px" style={{ background: 'rgba(0,0,0,0.055)' }} />
         <Container size="xl">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {contactCards.map((card, i) => {
               const Icon = card.icon
               const inner = (
