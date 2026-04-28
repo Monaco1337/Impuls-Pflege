@@ -1,17 +1,5 @@
 [
   {
-    "id": "1c401c72-c918-4c8d-a61e-1f10973bb3aa",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:03.760Z"
-  },
-  {
     "id": "6f6e7c80-8081-4153-ae82-164ee4021d34",
     "userId": "usr_elena",
     "action": "update",
@@ -6026,5 +6014,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-28T11:20:39.124Z"
+  },
+  {
+    "id": "e026d123-8f69-4ffa-980d-bc5c9cc9c52d",
+    "userId": "usr_admin",
+    "action": "delete",
+    "entityType": "anamnese_submission",
+    "entityId": "bb0766ef-f8d3-4078-8574-7c971e83a5b5",
+    "metadata": {
+      "patient": "test, test",
+      "status": "GESICHTET"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-28T11:21:16.905Z"
   }
 ]
