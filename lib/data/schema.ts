@@ -112,6 +112,22 @@ export type ApplicantsData = {
   documents: JsonApplicantDocument[]
 }
 
+/**
+ * Datei, die zu einem Anamnesebogen gehört (z. B. Entlassungsbrief).
+ * Wird genauso wie {@link JsonApplicantDocument} inline base64 gespeichert.
+ */
+export type JsonAnamneseDocument = {
+  id: string
+  submissionId: string
+  /** Logische Kategorie ("entlassungsbrief", "befund", …) — primär fürs Filtern. */
+  kind: string
+  fileName: string
+  fileType: string
+  fileSize: number
+  uploadedAt: string
+  contentBase64: string
+}
+
 export type JsonAnamneseSubmission = {
   id: string
   status: AnamneseStatus
@@ -128,6 +144,8 @@ export type JsonAnamneseSubmission = {
 
 export type AnamneseData = {
   submissions: JsonAnamneseSubmission[]
+  /** Optional, da Bestandsdateien diese Spalte noch nicht haben können. */
+  documents?: JsonAnamneseDocument[]
 }
 
 export type JsonTag = {

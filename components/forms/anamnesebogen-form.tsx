@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback, type FormEvent, type ChangeEvent, type ReactNode } from 'react'
+import { useState, useRef, useCallback, type FormEvent, type ChangeEvent, type ReactNode, type DragEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   User,
@@ -8,8 +8,6 @@ import {
   Shield,
   HeartPulse,
   Pill,
-  Activity,
-  Brain,
   Home,
   ClipboardList,
   CheckCircle2,
@@ -19,8 +17,10 @@ import {
   AlertCircle,
   ChevronDown,
   Sparkles,
-  Heart,
   Check,
+  Upload,
+  FileText,
+  X as XIcon,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -31,14 +31,17 @@ const STEPS: { id: string; label: string; short: string; icon: LucideIcon; hint:
   { id: 'person',        label: 'Persönliche Daten',           short: 'Person',        icon: User,          hint: 'Wer wird gepflegt?' },
   { id: 'kontakt',       label: 'Kontaktperson',               short: 'Kontakt',       icon: Phone,         hint: 'Wen dürfen wir anrufen?' },
   { id: 'versicherung',  label: 'Versicherung',                short: 'Versicherung',  icon: Shield,        hint: 'Kasse & Pflegegrad' },
-  { id: 'diagnosen',     label: 'Diagnosen',                   short: 'Diagnosen',     icon: HeartPulse,    hint: 'Aktuelle Gesundheit' },
+  { id: 'diagnosen',     label: 'Diagnosen',                   short: 'Diagnosen',     icon: HeartPulse,    hint: 'Entlassungsbrief hochladen' },
   { id: 'medikation',    label: 'Medikation & Hilfsmittel',    short: 'Medikation',    icon: Pill,          hint: 'Medikamente & Allergien' },
-  { id: 'mobilitaet',    label: 'Mobilität & Alltag',          short: 'Mobilität',     icon: Activity,      hint: 'Wie läuft der Alltag?' },
-  { id: 'kognition',     label: 'Kognition & Psyche',          short: 'Kognition',     icon: Brain,         hint: 'Geistiges Wohlbefinden' },
   { id: 'wohnsituation', label: 'Wohnsituation',               short: 'Wohnung',       icon: Home,          hint: 'Ihr Zuhause' },
   { id: 'pflegebedarf',  label: 'Pflegebedarf & Wünsche',      short: 'Wünsche',       icon: ClipboardList, hint: 'Was benötigen Sie?' },
   { id: 'abschluss',     label: 'Einwilligung & Absenden',     short: 'Absenden',      icon: CheckCircle2,  hint: 'Fast geschafft!' },
 ]
+
+const MAX_DISCHARGE_FILES = 8
+const MAX_DISCHARGE_FILE_BYTES = 4_000_000     // 4 MB pro Datei
+const MAX_DISCHARGE_TOTAL_BYTES = 12_000_000   // 12 MB Gesamt
+const ACCEPTED_DISCHARGE_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/heic']
 
 type FormData = Record<string, string | boolean>
 
@@ -230,6 +233,167 @@ function SubHeading({ children, icon: Icon }: { children: ReactNode; icon?: Luci
 
 function Spacer() { return <div className="h-8" /> }
 
+/* ─────────────────────── Discharge Upload ─────────────────────── */
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1_048_576) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / 1_048_576).toFixed(1)} MB`
+}
+
+function DischargeUpload({
+  files, setFiles, error, onError, onClear,
+}: {
+  files: File[]
+  setFiles: (next: File[]) => void
+  error?: string
+  onError: (msg: string) => void
+  onClear: () => void
+}) {
+  const [dragOver, setDragOver] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const acceptText = 'PDF, JPG, PNG, WEBP · bis 4 MB pro Datei · max. 12 MB gesamt'
+
+  const acceptFiles = (incoming: FileList | File[]) => {
+    const list: File[] = Array.from(incoming)
+    if (list.length === 0) return
+
+    const next: File[] = [...files]
+    let totalBytes = next.reduce((s, f) => s + f.size, 0)
+
+    for (const f of list) {
+      if (next.length >= MAX_DISCHARGE_FILES) {
+        onError(`Maximal ${MAX_DISCHARGE_FILES} Dateien.`)
+        break
+      }
+      const typeOk = ACCEPTED_DISCHARGE_TYPES.includes(f.type) ||
+        /\.(pdf|jpe?g|png|webp|heic)$/i.test(f.name)
+      if (!typeOk) {
+        onError(`„${f.name}“ wird nicht unterstützt. Erlaubt: PDF, JPG, PNG, WEBP.`)
+        continue
+      }
+      if (f.size > MAX_DISCHARGE_FILE_BYTES) {
+        onError(`„${f.name}“ ist zu groß (max. 4 MB pro Datei).`)
+        continue
+      }
+      if (totalBytes + f.size > MAX_DISCHARGE_TOTAL_BYTES) {
+        onError('Gesamtgröße überschritten (max. 12 MB).')
+        break
+      }
+      // Duplikat-Filter (Name + Größe)
+      if (next.some((existing) => existing.name === f.name && existing.size === f.size)) continue
+      next.push(f)
+      totalBytes += f.size
+      onClear()
+    }
+    setFiles(next)
+  }
+
+  const removeFile = (idx: number) => {
+    const next = files.filter((_, i) => i !== idx)
+    setFiles(next)
+    onClear()
+  }
+
+  const onDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setDragOver(false)
+    if (e.dataTransfer?.files) acceptFiles(e.dataTransfer.files)
+  }
+
+  return (
+    <div>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => inputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            inputRef.current?.click()
+          }
+        }}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={onDrop}
+        className="relative flex flex-col items-center justify-center gap-3 rounded-[18px] border-2 border-dashed px-6 py-10 text-center transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#18C1A3]/40"
+        style={dragOver
+          ? { borderColor: 'rgba(24,193,163,0.55)', background: 'rgba(24,193,163,0.06)' }
+          : { borderColor: 'rgba(0,0,0,0.12)', background: '#FAFAFA' }
+        }
+      >
+        <div className="flex h-12 w-12 items-center justify-center rounded-full"
+          style={{ background: 'rgba(24,193,163,0.10)', border: '1.5px solid rgba(24,193,163,0.22)' }}>
+          <Upload className="h-5 w-5" style={{ color: '#18C1A3' }} strokeWidth={1.8} />
+        </div>
+        <div>
+          <p className="text-[14.5px] font-[600] tracking-[-0.012em]" style={{ color: '#0F172A' }}>
+            Entlassungsbrief hierher ziehen
+          </p>
+          <p className="mt-1 text-[12.5px] font-[420]" style={{ color: '#94a3b8' }}>
+            oder klicken zum Auswählen · {acceptText}
+          </p>
+        </div>
+        <input
+          ref={inputRef}
+          type="file"
+          multiple
+          accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,application/pdf,image/*"
+          onChange={(e) => {
+            if (e.target.files) acceptFiles(e.target.files)
+            e.target.value = ''
+          }}
+          className="sr-only"
+        />
+      </div>
+
+      {error && (
+        <motion.p
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-3 flex items-center gap-1.5 text-[12.5px] font-[480] text-red-500"
+        >
+          <AlertCircle className="h-3.5 w-3.5" /> {error}
+        </motion.p>
+      )}
+
+      {files.length > 0 && (
+        <ul className="mt-5 space-y-2">
+          {files.map((f, i) => (
+            <li
+              key={`${f.name}-${i}`}
+              className="flex items-center gap-3 rounded-[14px] border bg-white px-4 py-3"
+              style={{ borderColor: 'rgba(0,0,0,0.07)' }}
+            >
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px]"
+                style={{ background: 'rgba(24,193,163,0.10)' }}>
+                <FileText className="h-4 w-4" style={{ color: '#18C1A3' }} strokeWidth={1.8} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[13.5px] font-[540] tracking-[-0.01em]" style={{ color: '#0F172A' }}>
+                  {f.name}
+                </p>
+                <p className="text-[11.5px] font-[420]" style={{ color: '#94a3b8' }}>
+                  {formatBytes(f.size)}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => removeFile(i)}
+                aria-label={`Datei ${f.name} entfernen`}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 transition-colors duration-200 hover:bg-red-50 hover:text-red-500"
+              >
+                <XIcon className="h-4 w-4" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 /* ─────────────────────── Animation ─────────────────────── */
 
 const slide = {
@@ -244,6 +408,7 @@ export function AnamnesebogenForm() {
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState(1)
   const [data, setData] = useState<FormData>({})
+  const [dischargeFiles, setDischargeFiles] = useState<File[]>([])
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -272,7 +437,7 @@ export function AnamnesebogenForm() {
       if (!get('geburtsdatum')) err.geburtsdatum = 'Bitte Geburtsdatum eingeben'
       if (!get('telefon')) err.telefon = 'Bitte Telefonnummer eingeben'
     }
-    if (step === 9) {
+    if (step === total - 1) {
       if (!getBool('datenschutz')) err.datenschutz = 'Einwilligung erforderlich'
       if (!getBool('richtigkeit')) err.richtigkeit = 'Bestätigung erforderlich'
     }
@@ -294,7 +459,12 @@ export function AnamnesebogenForm() {
     setSubmitting(true)
     setSubmitError(null)
     try {
-      const res = await fetch('/api/anamnesebogen', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+      const fd = new globalThis.FormData()
+      fd.append('payload', JSON.stringify(data))
+      for (const file of dischargeFiles) {
+        fd.append('discharge', file, file.name)
+      }
+      const res = await fetch('/api/anamnesebogen', { method: 'POST', body: fd })
       if (res.ok) {
         setSubmitted(true)
         return
@@ -399,16 +569,12 @@ export function AnamnesebogenForm() {
         <Spacer />
         <SectionCard>
           <SubHeading>Weitere Angaben</SubHeading>
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-3">
             <FormField label="Staatsangehörigkeit" name="staatsangehoerigkeit" value={get('staatsangehoerigkeit')} onChange={handle} placeholder="Deutsch" />
-            <FormField label="Konfession" name="konfession" value={get('konfession')} onChange={handle} placeholder="z.B. evangelisch" />
-          </div>
-          <div className="mt-5 grid gap-5 sm:grid-cols-3">
             <SelectField label="Familienstand" name="familienstand" value={get('familienstand')} onChange={handle} options={[
               { value: 'ledig', label: 'Ledig' }, { value: 'verheiratet', label: 'Verheiratet' }, { value: 'geschieden', label: 'Geschieden' },
               { value: 'verwitwet', label: 'Verwitwet' }, { value: 'lebenspartnerschaft', label: 'Eingetragene LP' },
             ]} />
-            <FormField label="Gewicht (kg)" name="gewicht" value={get('gewicht')} onChange={handle} placeholder="75" />
             <FormField label="Größe (cm)" name="groesse" value={get('groesse')} onChange={handle} placeholder="170" />
           </div>
         </SectionCard>
@@ -486,32 +652,27 @@ export function AnamnesebogenForm() {
       </>
     ),
 
-    /* 3 – Diagnosen */
+    /* 3 – Diagnosen (Upload Entlassungsbrief) */
     () => (
       <>
         <SectionCard>
-          <SubHeading icon={HeartPulse}>Diagnosen</SubHeading>
-          <TextareaField label="Hauptdiagnose(n)" name="hauptdiagnose" value={get('hauptdiagnose')} onChange={handle} placeholder="z.B. Diabetes mellitus Typ 2, Herzinsuffizienz, Demenz..." rows={3} helper="Listen Sie die wichtigsten aktuellen Diagnosen auf." />
-          <div className="mt-6">
-            <TextareaField label="Weitere Vorerkrankungen" name="vorerkrankungen" value={get('vorerkrankungen')} onChange={handle} placeholder="z.B. Schlaganfall 2019, Hüft-TEP links 2020..." rows={3} helper="Auch zurückliegende Erkrankungen oder Operationen." />
-          </div>
-        </SectionCard>
-        <Spacer />
-        <SectionCard>
-          <SubHeading>Krankenhausaufenthalte</SubHeading>
-          <TextareaField label="Letzte Krankenhausaufenthalte" name="krankenhausaufenthalte" value={get('krankenhausaufenthalte')} onChange={handle} placeholder="z.B. März 2025 – St. Barbara Klinik, Oberschenkelfraktur..." rows={3} />
-        </SectionCard>
-        <Spacer />
-        <SectionCard>
-          <SubHeading>Schmerzsituation</SubHeading>
-          <RadioGroup label="Bestehen aktuell Schmerzen?" name="schmerzen" value={get('schmerzen')} onChange={(v) => set('schmerzen', v)} options={[
-            { value: 'keine', label: 'Keine' }, { value: 'leicht', label: 'Leicht' }, { value: 'mittel', label: 'Mittel' }, { value: 'stark', label: 'Stark' }, { value: 'sehr_stark', label: 'Sehr stark' },
-          ]} />
-          {get('schmerzen') && get('schmerzen') !== 'keine' && (
-            <div className="mt-5">
-              <FormField label="Wo treten die Schmerzen auf?" name="schmerzen_ort" value={get('schmerzen_ort')} onChange={handle} placeholder="Rücken, Knie, Kopf..." />
-            </div>
-          )}
+          <SubHeading icon={HeartPulse}>Entlassungsbrief hochladen</SubHeading>
+          <p className="mb-5 text-[13.5px] font-[420] leading-[1.65]" style={{ color: '#475569' }}>
+            Wenn Sie aus dem Krankenhaus entlassen wurden, laden Sie bitte den Entlassungsbrief hier hoch.
+            So sehen wir Diagnosen, Medikation und Empfehlungen direkt — ohne dass Sie alles abtippen müssen.
+            <br />
+            <span className="text-[12.5px]" style={{ color: '#94a3b8' }}>
+              Alle Details zu Mobilität, Schmerzen, Kognition und Wohnumfeld besprechen wir entspannt
+              beim persönlichen Erstgespräch bei Ihnen zu Hause.
+            </span>
+          </p>
+          <DischargeUpload
+            files={dischargeFiles}
+            setFiles={setDischargeFiles}
+            error={errors.discharge}
+            onError={(msg) => setErrors((p) => ({ ...p, discharge: msg }))}
+            onClear={() => setErrors((p) => { const n = { ...p }; delete n.discharge; return n })}
+          />
         </SectionCard>
       </>
     ),
@@ -549,96 +710,7 @@ export function AnamnesebogenForm() {
       </>
     ),
 
-    /* 5 – Mobilität */
-    () => (
-      <>
-        <SectionCard>
-          <SubHeading icon={Activity}>Mobilität</SubHeading>
-          <RadioGroup label="Innerhalb der Wohnung" name="mobilitaet_innen" value={get('mobilitaet_innen')} onChange={(v) => set('mobilitaet_innen', v)} options={[
-            { value: 'selbststaendig', label: 'Selbstständig' }, { value: 'mit_hilfe', label: 'Mit Hilfsmittel' }, { value: 'mit_person', label: 'Mit Personenhilfe' }, { value: 'immobil', label: 'Bettlägerig' },
-          ]} />
-          <div className="mt-6">
-            <RadioGroup label="Außerhalb der Wohnung" name="mobilitaet_aussen" value={get('mobilitaet_aussen')} onChange={(v) => set('mobilitaet_aussen', v)} options={[
-              { value: 'selbststaendig', label: 'Selbstständig' }, { value: 'mit_hilfe', label: 'Mit Hilfsmittel' }, { value: 'mit_person', label: 'Mit Begleitung' }, { value: 'nicht_moeglich', label: 'Nicht möglich' },
-            ]} />
-          </div>
-        </SectionCard>
-        <Spacer />
-        <SectionCard>
-          <SubHeading>Alltagsaktivitäten (ADL)</SubHeading>
-          <p className="mb-6 text-[13px] font-[420] leading-[1.6]" style={{ color: '#94a3b8' }}>Wie selbstständig sind folgende Aktivitäten?</p>
-          <div className="space-y-5">
-            {([
-              ['adl_koerperpflege', 'Körperpflege'], ['adl_ankleiden', 'An- und Auskleiden'], ['adl_ernaehrung', 'Essen und Trinken'],
-              ['adl_toilette', 'Toilettengang'], ['adl_transfers', 'Transfers (Aufstehen, Umlagern)'],
-            ] as const).map(([name, label]) => (
-              <div key={name} className="rounded-[14px] border p-4 sm:p-5"
-                style={{ borderColor: 'rgba(0,0,0,0.07)', background: '#FAFAFA' }}>
-                <RadioGroup label={label} name={name} value={get(name)} onChange={(v) => set(name, v)} options={[
-                  { value: 'selbststaendig', label: 'Selbstständig' }, { value: 'teilweise', label: 'Teilweise Hilfe' }, { value: 'vollstaendig', label: 'Vollständig' },
-                ]} />
-              </div>
-            ))}
-          </div>
-        </SectionCard>
-        <Spacer />
-        <SectionCard>
-          <SubHeading>Sturzrisiko</SubHeading>
-          <RadioGroup label="Sturzgefahr" name="sturzrisiko" value={get('sturzrisiko')} onChange={(v) => set('sturzrisiko', v)} options={[
-            { value: 'gering', label: 'Gering' }, { value: 'mittel', label: 'Mittel' }, { value: 'hoch', label: 'Hoch' }, { value: 'unbekannt', label: 'Unbekannt' },
-          ]} />
-          <div className="mt-5">
-            <TextareaField label="Besonderheiten" name="mobilitaet_besonderheiten" value={get('mobilitaet_besonderheiten')} onChange={handle} placeholder="Sturzneigung, Schwindel..." rows={2} />
-          </div>
-        </SectionCard>
-      </>
-    ),
-
-    /* 6 – Kognition */
-    () => (
-      <>
-        <SectionCard>
-          <SubHeading icon={Brain}>Orientierung &amp; Kognition</SubHeading>
-          <RadioGroup label="Orientierung" name="orientierung" value={get('orientierung')} onChange={(v) => set('orientierung', v)} options={[
-            { value: 'voll', label: 'Voll orientiert' }, { value: 'zeitweise', label: 'Zeitweise eingeschränkt' }, { value: 'stark', label: 'Stark eingeschränkt' }, { value: 'desorientiert', label: 'Desorientiert' },
-          ]} />
-          <div className="mt-6">
-            <RadioGroup label="Demenzerkrankung" name="demenz" value={get('demenz')} onChange={(v) => set('demenz', v)} options={[
-              { value: 'nein', label: 'Nein' }, { value: 'leicht', label: 'Leicht' }, { value: 'mittel', label: 'Mittel' }, { value: 'schwer', label: 'Schwer' }, { value: 'unbekannt', label: 'Unklar' },
-            ]} />
-          </div>
-        </SectionCard>
-        <Spacer />
-        <SectionCard>
-          <SubHeading>Kommunikation</SubHeading>
-          <RadioGroup label="Sprachliche Verständigung" name="kommunikation" value={get('kommunikation')} onChange={(v) => set('kommunikation', v)} options={[
-            { value: 'uneingeschraenkt', label: 'Uneingeschränkt' }, { value: 'eingeschraenkt', label: 'Eingeschränkt' }, { value: 'stark_eingeschraenkt', label: 'Stark eingeschränkt' }, { value: 'nicht_moeglich', label: 'Nicht möglich' },
-          ]} />
-          <div className="mt-5">
-            <FormField label="Muttersprache" name="muttersprache" value={get('muttersprache')} onChange={handle} placeholder="Deutsch" />
-          </div>
-        </SectionCard>
-        <Spacer />
-        <SectionCard>
-          <SubHeading icon={Heart}>Psychisches Wohlbefinden</SubHeading>
-          <p className="mb-5 text-[13px] font-[420] leading-[1.6]" style={{ color: '#94a3b8' }}>Bestehen folgende Symptome? Einfach zutreffendes antippen.</p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {([
-              ['psyche_angst', 'Ängste', 'z.B. Sturzangst, Alleinsein'], ['psyche_depression', 'Depressive Verstimmung', ''],
-              ['psyche_unruhe', 'Unruhe / Agitiertheit', ''], ['psyche_schlaf', 'Schlafstörungen', ''],
-              ['psyche_antriebslos', 'Antriebslosigkeit', ''], ['psyche_aggression', 'Aggressives Verhalten', ''],
-            ] as const).map(([name, label, desc]) => (
-              <CardCheckbox key={name} label={label} name={name} checked={getBool(name)} onChange={handle} description={desc || undefined} />
-            ))}
-          </div>
-          <div className="mt-5">
-            <TextareaField label="Sonstige Hinweise" name="psyche_sonstiges" value={get('psyche_sonstiges')} onChange={handle} placeholder="Laufende Therapien, besondere Verhaltensweisen..." rows={3} />
-          </div>
-        </SectionCard>
-      </>
-    ),
-
-    /* 7 – Wohnsituation */
+    /* 5 – Wohnsituation */
     () => (
       <>
         <SectionCard>
@@ -667,19 +739,13 @@ export function AnamnesebogenForm() {
         </SectionCard>
         <Spacer />
         <SectionCard>
-          <SubHeading>Zugang zur Wohnung</SubHeading>
-          <RadioGroup label="Wie kommen wir hinein?" name="schluessel" value={get('schluessel')} onChange={(v) => set('schluessel', v)} options={[
-            { value: 'schluessel', label: 'Schlüssel hinterlegen' }, { value: 'tresor', label: 'Schlüsseltresor' },
-            { value: 'anwesend', label: 'Person öffnet' }, { value: 'sonstiges', label: 'Sonstiges' },
-          ]} />
-          <div className="mt-5">
-            <TextareaField label="Sonstiges zur Wohnsituation" name="wohnung_sonstiges" value={get('wohnung_sonstiges')} onChange={handle} placeholder="Haustiere, Zugangshinweise, Parkplatz..." rows={3} />
-          </div>
+          <SubHeading>Sonstiges zur Wohnsituation</SubHeading>
+          <TextareaField label="Sonstiges (optional)" name="wohnung_sonstiges" value={get('wohnung_sonstiges')} onChange={handle} placeholder="Haustiere, Zugangshinweise, Parkplatz..." rows={3} helper="Wie wir in die Wohnung gelangen, besprechen wir gerne beim Erstgespräch." />
         </SectionCard>
       </>
     ),
 
-    /* 8 – Pflegebedarf */
+    /* 6 – Pflegebedarf */
     () => (
       <>
         <SectionCard>
@@ -723,7 +789,7 @@ export function AnamnesebogenForm() {
       </>
     ),
 
-    /* 9 – Abschluss */
+    /* 7 – Abschluss */
     () => (
       <>
         <div className="mb-8 overflow-hidden rounded-[20px] border p-6 sm:p-7"

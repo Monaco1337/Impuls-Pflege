@@ -1,15 +1,30 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Phone, Mail, User, Calendar, Stethoscope, Settings2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  Phone,
+  Mail,
+  User,
+  Calendar,
+  Stethoscope,
+  Settings2,
+  ClipboardCheck,
+  CircleDashed,
+  CheckCircle2,
+  FileText,
+  Download,
+} from 'lucide-react'
 import { formatDate, formatDateTime } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { AnamneseStatusBadge } from '@/components/ui/status-badge'
 import { acknowledgeAnamneseOnOpen, getAnamneseSubmission } from '@/lib/actions/anamnese'
 import { getUsers } from '@/lib/actions/users'
+import { repoListAnamneseDocumentsForSubmission } from '@/lib/data/json-repository'
 import { AnamneseStatusUpdate } from '@/components/admin/anamnese-status-update'
 import { AnamnesePayloadView } from '@/components/admin/anamnese-payload-view'
 import { checkAccess } from '@/lib/rbac/check'
+import { isErgaenzungFilled, type AnamneseErgaenzung } from '@/lib/types/anamnese-ergaenzung'
 import { AnamneseDeleteButton } from './delete-button'
 
 export async function generateMetadata({
@@ -28,6 +43,12 @@ export async function generateMetadata({
 }
 
 export const dynamic = 'force-dynamic'
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1_048_576) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / 1_048_576).toFixed(1)} MB`
+}
 
 function InfoRow({
   icon: Icon,
@@ -64,11 +85,12 @@ export default async function AnamneseDetailPage({
 
   await acknowledgeAnamneseOnOpen(id)
 
-  const [subResult, usersResult, canEdit, canDelete] = await Promise.all([
+  const [subResult, usersResult, canEdit, canDelete, documents] = await Promise.all([
     getAnamneseSubmission(id),
     getUsers(),
     checkAccess('anamnese', 'edit'),
     checkAccess('anamnese', 'delete'),
+    repoListAnamneseDocumentsForSubmission(id),
   ])
 
   if (!subResult.success || !subResult.data) {
@@ -92,6 +114,13 @@ export default async function AnamneseDetailPage({
   const users = ((usersResult.data ?? []) as { id: string; firstName: string; lastName: string; role: string; active?: boolean }[]).filter(
     (u) => u.active !== false,
   )
+
+  const ergaenzung =
+    s.payload && typeof s.payload === 'object' && !Array.isArray(s.payload)
+      ? ((s.payload as Record<string, unknown>).vorOrt as AnamneseErgaenzung | undefined) ?? null
+      : null
+  const ergaenzungFilled = isErgaenzungFilled(ergaenzung)
+
   return (
     <div className="space-y-6">
       <div>
@@ -149,6 +178,54 @@ export default async function AnamneseDetailPage({
             </CardContent>
           </Card>
 
+          {documents.length > 0 && (
+            <Card>
+              <CardHeader className="border-b border-warm-100 pb-3">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-primary-600" />
+                  <CardTitle className="text-base">Hochgeladene Unterlagen</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <ul className="space-y-2">
+                  {documents.map((doc) => (
+                    <li
+                      key={doc.id}
+                      className="flex items-center gap-3 rounded-xl border border-warm-200 bg-warm-50/40 px-3 py-2.5"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600">
+                        <FileText className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-warm-900">
+                          {doc.fileName}
+                        </p>
+                        <p className="text-xs text-warm-500">
+                          {formatBytes(doc.fileSize)} · {doc.kind === 'entlassungsbrief' ? 'Entlassungsbrief' : doc.kind}
+                        </p>
+                      </div>
+                      <a
+                        href={`/api/anamnese/files/${doc.id}?inline=1`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-medium text-primary-600 hover:text-primary-700"
+                      >
+                        Vorschau
+                      </a>
+                      <a
+                        href={`/api/anamnese/files/${doc.id}`}
+                        className="inline-flex items-center gap-1 rounded-lg border border-warm-200 bg-white px-2.5 py-1.5 text-xs font-medium text-warm-700 hover:border-primary-300 hover:text-primary-700"
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        Download
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
+
           <Card>
             <CardHeader className="border-b border-warm-100 pb-3">
               <CardTitle className="text-base">Vollständiger Anamnesebogen</CardTitle>
@@ -159,7 +236,39 @@ export default async function AnamneseDetailPage({
           </Card>
         </div>
 
-        <div className="lg:min-w-0">
+        <div className="space-y-4 lg:min-w-0">
+          <Card>
+            <CardHeader className="border-b border-warm-100 pb-3">
+              <div className="flex items-center gap-2">
+                <ClipboardCheck className="h-4 w-4 text-primary-600" />
+                <CardTitle className="text-sm font-semibold">Vor-Ort-Erfassung</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-4">
+              {ergaenzungFilled ? (
+                <div className="flex items-center gap-2 rounded-lg border border-success-200 bg-success-50 px-3 py-2 text-xs font-medium text-success-700">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                  Beim Erstgespräch erfasst
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 rounded-lg border border-warm-200 bg-warm-50 px-3 py-2 text-xs font-medium text-warm-600">
+                  <CircleDashed className="h-3.5 w-3.5" />
+                  Noch nicht erfasst
+                </div>
+              )}
+              <p className="mt-3 text-xs text-warm-500">
+                Konfession, Gewicht, Schmerzen, Mobilität, Kognition und
+                Wohnungszugang werden vor Ort beim Kunden ergänzt.
+              </p>
+              <Link
+                href={`/admin/anamnese-ergaenzung/${s.id}`}
+                className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-primary-200 bg-primary-50 px-3 py-2 text-sm font-medium text-primary-700 transition-colors hover:border-primary-300 hover:bg-primary-100"
+              >
+                {ergaenzungFilled ? 'Erfassung öffnen' : 'Erfassung anlegen'}
+              </Link>
+            </CardContent>
+          </Card>
+
           {canEdit ? (
             <Card>
               <CardHeader className="border-b border-warm-100 pb-3">

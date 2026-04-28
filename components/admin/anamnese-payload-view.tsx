@@ -8,8 +8,13 @@ type Props = {
   payload: Record<string, unknown>
 }
 
+/** Felder, die nicht im allgemeinen Bogen angezeigt werden (eigene Detail-Seiten). */
+const HIDDEN_KEYS = new Set(['vorOrt'])
+
 export function AnamnesePayloadView({ payload }: Props) {
-  const keys = sortAnamnesePayloadKeys(Object.keys(payload))
+  const keys = sortAnamnesePayloadKeys(
+    Object.keys(payload).filter((k) => !HIDDEN_KEYS.has(k)),
+  )
   return (
     <div>
       {keys.map((k) => (

@@ -25,7 +25,7 @@ const emptyApplicants = (): ApplicantsData => ({
   documents: [],
 })
 
-const emptyAnamnese = (): AnamneseData => ({ submissions: [] })
+const emptyAnamnese = (): AnamneseData => ({ submissions: [], documents: [] })
 
 export function newId(): string {
   return globalThis.crypto.randomUUID()
@@ -113,6 +113,7 @@ export async function repoLoadAnamnese(): Promise<AnamneseData> {
   const raw = await readJsonFile<Partial<AnamneseData>>(DATA_FILES.anamnese, emptyAnamnese())
   return {
     submissions: Array.isArray(raw.submissions) ? raw.submissions : [],
+    documents: Array.isArray(raw.documents) ? raw.documents : [],
   }
 }
 
@@ -272,6 +273,49 @@ export async function repoApplicantDocumentToBuffer(id: string): Promise<{
     fileName: doc.fileName,
     fileType: doc.fileType,
   }
+}
+
+export async function repoAnamneseDocumentToBuffer(id: string): Promise<{
+  buffer: Buffer
+  fileName: string
+  fileType: string
+  submissionId: string
+} | null> {
+  const d = await repoLoadAnamnese()
+  const docs = d.documents ?? []
+  const doc = docs.find((x) => x.id === id)
+  if (!doc) return null
+  return {
+    buffer: Buffer.from(doc.contentBase64, 'base64'),
+    fileName: doc.fileName,
+    fileType: doc.fileType,
+    submissionId: doc.submissionId,
+  }
+}
+
+/** Liefert alle Entlassungsbrief-/Anamnese-Dokumente einer Submission (ohne Inhalt). */
+export async function repoListAnamneseDocumentsForSubmission(
+  submissionId: string,
+): Promise<Array<{
+  id: string
+  kind: string
+  fileName: string
+  fileType: string
+  fileSize: number
+  uploadedAt: string
+}>> {
+  const d = await repoLoadAnamnese()
+  const docs = d.documents ?? []
+  return docs
+    .filter((x) => x.submissionId === submissionId)
+    .map(({ id, kind, fileName, fileType, fileSize, uploadedAt }) => ({
+      id,
+      kind,
+      fileName,
+      fileType,
+      fileSize,
+      uploadedAt,
+    }))
 }
 
 export async function repoAddApplicantDocument(

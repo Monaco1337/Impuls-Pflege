@@ -21,6 +21,7 @@ type EntityType =
   | 'inquiry'
   | 'applicant'
   | 'anamnese_submission'
+  | 'anamnese_ergaenzung'
   | 'job_posting'
   | 'content_block'
   | 'document'
