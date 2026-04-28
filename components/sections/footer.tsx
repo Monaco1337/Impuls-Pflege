@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, useInView } from 'framer-motion'
 import {
   Phone,
+  Printer,
   Mail,
   MapPin,
   ArrowUpRight,
@@ -18,7 +19,7 @@ import { Container } from '@/components/ui/container'
 import { Logo } from '@/components/ui/logo'
 import type { PublicContactInfo } from '@/lib/content/contact-cms'
 import { mergeContactContent } from '@/lib/content/contact-cms'
-import { telHrefFromDisplay } from '@/lib/content/tel-href'
+import { telHrefFromDisplay, faxHrefFromDisplay } from '@/lib/content/tel-href'
 
 const MINT = '#18C1A3'
 
@@ -47,12 +48,23 @@ export function Footer({ contact }: { contact?: PublicContactInfo }) {
   const c = contact ?? mergeContactContent(null)
   const tel = telHrefFromDisplay(c.phone)
   const hoursOneLine = c.hours.replace(/\s*\n+\s*/g, ' · ')
+  // Fax-Zeile nur anzeigen, wenn im CMS gepflegt — leerer String blendet aus.
+  // `tel:`-Link ist auch für Fax üblich (Schema.org & Mobile-OS akzeptieren).
   const contactItems = [
-    { icon: Phone, label: c.phone, href: tel },
+    { icon: Phone, label: c.phone, href: tel } as { icon: typeof Phone; label: string; href: string | undefined },
+    ...(c.fax
+      ? [
+          {
+            icon: Printer,
+            label: `Fax: ${c.fax}`,
+            href: faxHrefFromDisplay(c.fax),
+          },
+        ]
+      : []),
     { icon: Mail, label: c.email, href: `mailto:${c.email}` },
     { icon: MapPin, label: c.address, href: undefined },
     { icon: Clock, label: hoursOneLine, href: undefined },
-  ] as const
+  ]
 
   const mainRef = useRef<HTMLDivElement>(null)
   const mainInView = useInView(mainRef, { once: true, margin: '-16px' })

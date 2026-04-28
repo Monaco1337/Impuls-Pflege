@@ -1,6 +1,6 @@
 import {
   Heart, Stethoscope, Smile, Home as HomeIcon, MessageCircle, ShieldCheck, Brain, Pill,
-  Bandage, HandHeart, MapPin, Phone, Mail, Clock,
+  Bandage, HandHeart, MapPin, Phone, Printer, Mail, Clock,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import type { PflegeService } from '@/lib/seo/services'
@@ -172,8 +172,9 @@ export function NapBlock() {
         <h2 className="text-center text-[clamp(1.4rem,2.4vw,2rem)] font-[800] leading-tight tracking-[-0.035em] text-warm-900">
           So erreichen Sie uns
         </h2>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           <NapItem icon={Phone} label="Telefon" value={SITE.phoneDisplay} href={`tel:${SITE.phoneE164}`} />
+          <NapItem icon={Printer} label="Fax" value={SITE.faxDisplay} href={`fax:${SITE.faxE164}`} />
           <NapItem icon={Mail} label="E-Mail" value={SITE.email} href={`mailto:${SITE.email}`} />
           <NapItem icon={MapPin} label="Adresse" value={`${SITE.street}, ${SITE.postalCode} ${SITE.city}`} />
           <NapItem icon={Clock} label="Erreichbarkeit" value={SITE.openingHoursDisplay} />

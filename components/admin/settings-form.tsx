@@ -68,6 +68,15 @@ export function SettingsForm({ initialValues, readOnly = false }: SettingsFormPr
       />
 
       <Input
+        label="Fax"
+        type="tel"
+        placeholder="02303 2920587"
+        error={errors.org_fax?.message}
+        disabled={readOnly}
+        {...register('org_fax')}
+      />
+
+      <Input
         label="E-Mail *"
         type="email"
         placeholder="info@beispiel.de"

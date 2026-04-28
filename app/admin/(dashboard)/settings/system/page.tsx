@@ -24,6 +24,7 @@ export default async function SettingsSystemPage() {
     org_name: typeof settings.org_name === 'string' ? settings.org_name : '',
     org_address: typeof settings.org_address === 'string' ? settings.org_address : '',
     org_phone: typeof settings.org_phone === 'string' ? settings.org_phone : '',
+    org_fax: typeof settings.org_fax === 'string' ? settings.org_fax : '',
     org_email: typeof settings.org_email === 'string' ? settings.org_email : '',
   }
 

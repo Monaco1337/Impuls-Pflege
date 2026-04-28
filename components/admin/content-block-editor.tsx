@@ -97,7 +97,7 @@ export function ContentBlockEditor({ block }: ContentBlockEditorProps) {
     }
     if (block.key === 'contact-info') {
       const m = mergeContactContent(block.content)
-      return { phone: m.phone, email: m.email, address: m.address, hours: m.hours }
+      return { phone: m.phone, fax: m.fax, email: m.email, address: m.address, hours: m.hours }
     }
     if (block.content && typeof block.content === 'object' && !Array.isArray(block.content)) {
       return Object.fromEntries(

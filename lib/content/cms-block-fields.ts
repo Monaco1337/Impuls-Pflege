@@ -43,6 +43,10 @@ const INTRO: Record<string, CmsFieldMeta> = {
 
 const CONTACT: Record<string, CmsFieldMeta> = {
   phone: { label: 'Telefon (Anzeige)', hint: 'Wird im Header, Footer und auf Kontakt verwendet.' },
+  fax: {
+    label: 'Fax',
+    hint: 'Wird im Footer, auf Kontakt und im Impressum/Datenschutz angezeigt. Leer lassen, um die Faxzeile auszublenden.',
+  },
   email: { label: 'E-Mail' },
   address: { label: 'Adresse (eine Zeile)', rows: 2, wide: true },
   hours: {

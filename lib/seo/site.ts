@@ -29,6 +29,13 @@ export const SITE = {
   phoneE164: '+4923032920589',
   phoneDisplay: '02303 2920589',
 
+  /**
+   * Faxnummer für formelle Kommunikation mit Krankenkassen, Ärzt:innen,
+   * Krankenhäusern und Behörden. Schema.org-tauglich (faxNumber).
+   */
+  faxE164: '+4923032920587',
+  faxDisplay: '02303 2920587',
+
   /** Hauptstandort-Adresse (Sitz / Pflegestation). */
   street: 'Massener Straße 147',
   postalCode: '59423',

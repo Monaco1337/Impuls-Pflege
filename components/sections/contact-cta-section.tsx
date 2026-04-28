@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, Mail, MapPin, Clock, ArrowRight } from 'lucide-react'
+import { Phone, Printer, Mail, MapPin, Clock, ArrowRight } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { FadeIn } from '@/components/animations/fade-in'
 
@@ -105,6 +105,7 @@ export function ContactCtaSection() {
               <div className="icon-list-stack space-y-6">
                 {[
                   { icon: Phone, label: 'Telefon', value: '02303 2920589', href: 'tel:+4923032920589' },
+                  { icon: Printer, label: 'Fax', value: '02303 2920587', href: 'fax:+4923032920587' },
                   { icon: Mail, label: 'E-Mail', value: 'info@impuls-pflege.de', href: 'mailto:info@impuls-pflege.de' },
                   { icon: MapPin, label: 'Adresse', value: 'Massener Str. 147, 59423 Unna', href: undefined },
                   { icon: Clock, label: 'Bürozeiten', value: 'Mo–Fr: 08:00–16:00 Uhr', href: undefined },

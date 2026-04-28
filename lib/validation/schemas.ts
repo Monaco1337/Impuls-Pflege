@@ -125,6 +125,9 @@ export const settingsSchema = z.object({
   org_name: z.string().min(1).max(200),
   org_address: z.string().min(1).max(300),
   org_phone: z.string().min(1).max(30),
+  // Faxnummer ist optional — Pflegedienste ohne Fax sollen das Feld leer
+  // lassen können. Im Frontend wird die Zeile dann ausgeblendet.
+  org_fax: z.string().max(30).optional().default(''),
   org_email: z.string().email(),
 })
 

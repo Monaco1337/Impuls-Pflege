@@ -27,6 +27,7 @@ export function organizationJsonLd() {
     image: ABSOLUTE_URL(SITE.defaultOgImage),
     email: SITE.email,
     telephone: SITE.phoneE164,
+    faxNumber: SITE.faxE164,
     address: {
       '@type': 'PostalAddress',
       streetAddress: SITE.street,
@@ -58,6 +59,7 @@ export function localBusinessJsonLd() {
       'Ambulanter Pflegedienst im Kreis Unna mit Sitz in Unna. Grundpflege, Behandlungspflege, Demenzbetreuung, Pflegeberatung und Verhinderungspflege — durch festes, examiniertes Pflegeteam. Versorgungs­vertrag § 72 SGB XI.',
     email: SITE.email,
     telephone: SITE.phoneE164,
+    faxNumber: SITE.faxE164,
     priceRange: '€€',
     medicalSpecialty: ['Geriatrics', 'PrimaryCare'],
     address: {

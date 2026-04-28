@@ -248,6 +248,7 @@ export function defaultContentBlocks(): JsonContentBlock[] {
       title: 'Kontaktdaten',
       content: {
         phone: '02303 2920589',
+        fax: '02303 2920587',
         email: 'info@impuls-pflege.de',
         address: 'Massener Str. 147, 59423 Unna',
         hours: 'Mo–Fr: 08:00–16:00 Uhr\nTelefonische Erreichbarkeit: Rund um die Uhr',
@@ -265,6 +266,7 @@ export function defaultSettings(): JsonSetting[] {
     { id: 'set_org_name', key: 'org_name', value: 'IMPULS Ambulanter Pflegedienst' },
     { id: 'set_org_address', key: 'org_address', value: 'Massener Str. 147, 59423 Unna' },
     { id: 'set_org_phone', key: 'org_phone', value: '02303 2920589' },
+    { id: 'set_org_fax', key: 'org_fax', value: '02303 2920587' },
     { id: 'set_org_email', key: 'org_email', value: 'info@impuls-pflege.de' },
   ]
 }

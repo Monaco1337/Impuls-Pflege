@@ -15,6 +15,11 @@
     "value": "02303 2920589"
   },
   {
+    "id": "set_org_fax",
+    "key": "org_fax",
+    "value": "02303 2920587"
+  },
+  {
     "id": "set_org_email",
     "key": "org_email",
     "value": "info@impuls-pflege.de"

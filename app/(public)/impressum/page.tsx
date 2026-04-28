@@ -127,6 +127,7 @@ export default function ImpressumPage() {
                   02303 2920589
                 </a>
               </p>
+              <p>Fax: 02303 2920587</p>
               <p>
                 E-Mail:{' '}
                 <a

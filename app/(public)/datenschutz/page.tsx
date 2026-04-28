@@ -246,6 +246,7 @@ export default function DatenschutzPage() {
                 </p>
                 <div className="mt-3 space-y-1 text-[14px] font-[420]" style={{ color: '#475569' }}>
                   <p>Telefon: <LegalLink href="tel:+4923032920589">02303 2920589</LegalLink></p>
+                  <p>Fax: 02303 2920587</p>
                   <p>E-Mail: <LegalLink href="mailto:info@impuls-pflege.de">info@impuls-pflege.de</LegalLink></p>
                 </div>
               </div>
