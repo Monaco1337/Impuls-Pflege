@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import {
   MessageSquare,
@@ -18,6 +20,10 @@ import {
 } from '@/components/ui/status-badge'
 import { hasPermission } from '@/lib/rbac/permissions'
 import type { RoleName } from '@/lib/types/enums'
+import {
+  useDashboardStatsLive,
+  type DashboardStatsLive,
+} from '@/components/admin/use-dashboard-stats'
 
 const kpiConfig: {
   key: string
@@ -334,25 +340,45 @@ export function CommandCenter({
   applicants,
   anamnese,
 }: Props) {
+  void firstName
   const canAnamnese = hasPermission(userRole, 'anamnese', 'view')
+
+  // Live-Stats mit serverseitigem Initial-Snapshot (kein Flash auf 0).
+  const initialLive: DashboardStatsLive = {
+    newInquiries: stats?.newInquiries ?? 0,
+    openInquiries: stats?.openInquiries ?? 0,
+    newApplicants: stats?.newApplicants ?? 0,
+    newAnamnese: stats?.newAnamnese ?? 0,
+    inReview: stats?.inReview ?? 0,
+    interviewsPlanned: stats?.interviewsPlanned ?? 0,
+    totalApplicants: stats?.totalApplicants ?? 0,
+    activeJobs: stats?.activeJobs ?? 0,
+    inquiryPipeline,
+    applicantPipeline,
+    anamnesePipeline,
+  }
+  const { stats: liveStats } = useDashboardStatsLive(initialLive)
+  const liveInquiryPipeline = liveStats.inquiryPipeline
+  const liveApplicantPipeline = liveStats.applicantPipeline
+  const liveAnamnesePipeline = liveStats.anamnesePipeline
   const kpiRows = kpiConfig.filter(
     (row) => row.key !== 'newAnamnese' || canAnamnese,
   )
   const tasks: { href: string; text: string; n: number }[] = [
-    { href: '/admin/inquiries?status=NEU', text: 'neue Anfrage(n) warten', n: stats?.newInquiries ?? 0 },
+    { href: '/admin/inquiries?status=NEU', text: 'neue Anfrage(n) warten', n: liveStats.newInquiries },
     ...(canAnamnese
       ? [
           {
             href: '/admin/anamnese?status=NEU_EINGEGANGEN',
             text: 'neue Anamnesebögen prüfen',
-            n: stats?.newAnamnese ?? 0,
+            n: liveStats.newAnamnese,
           },
         ]
       : []),
     {
       href: '/admin/applicants?status=NEU_EINGEGANGEN',
       text: 'neue Bewerbung(en) prüfen',
-      n: stats?.newApplicants ?? 0,
+      n: liveStats.newApplicants,
     },
   ].filter((t) => t.n > 0)
 
@@ -406,8 +432,8 @@ export function CommandCenter({
 
         {(() => {
           const getValue = (k: string) =>
-            stats != null && k in stats
-              ? (stats as Record<string, number>)[k]
+            k in liveStats
+              ? (liveStats as unknown as Record<string, number>)[k]
               : 0
 
           const primaryKpis = [
@@ -704,7 +730,7 @@ export function CommandCenter({
         <PipelineCard
           title="Anfragen-Pipeline"
           href="/admin/inquiries"
-          pipeline={inquiryPipeline}
+          pipeline={liveInquiryPipeline}
           stages={inquiryPipelineStages}
           theme={pipelineThemes.inquiry}
           emptyText="Noch keine Anfragen in der Übersicht"
@@ -712,7 +738,7 @@ export function CommandCenter({
         <PipelineCard
           title="Bewerber-Pipeline"
           href="/admin/applicants"
-          pipeline={applicantPipeline}
+          pipeline={liveApplicantPipeline}
           stages={applicantPipelineStages}
           theme={pipelineThemes.applicant}
           emptyText="Noch keine Bewerbungen in der Übersicht"
@@ -721,7 +747,7 @@ export function CommandCenter({
           <PipelineCard
             title="Anamnese"
             href="/admin/anamnese"
-            pipeline={anamnesePipeline}
+            pipeline={liveAnamnesePipeline}
             stages={anamnesePipelineStages}
             theme={pipelineThemes.anamnese}
             emptyText="Noch keine Anamnesebögen"
