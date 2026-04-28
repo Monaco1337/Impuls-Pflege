@@ -1,17 +1,5 @@
 [
   {
-    "id": "f64d9926-6db9-4aec-bf2b-4c4d19ae07ac",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:03.573Z"
-  },
-  {
     "id": "26b79cc9-68c1-4658-a746-2c28aa91dabe",
     "userId": "usr_elena",
     "action": "update",
@@ -6020,5 +6008,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-28T10:59:21.361Z"
+  },
+  {
+    "id": "ecc2f22d-3ef8-4d78-b55d-aba4e3fa70ba",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "923c30d4-15aa-4634-bdd9-490f2b03ece0",
+    "metadata": {
+      "name": "test test",
+      "position": "Betreuungskraft",
+      "jobPostingId": "job_betreuungskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-04-28T11:10:29.095Z"
   }
 ]
