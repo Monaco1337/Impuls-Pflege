@@ -32,11 +32,11 @@
       "experience": "3 Jahre Berufserfahrung",
       "motivation": "",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_betreuungskraft",
       "createdAt": "2026-04-28T11:10:28.100Z",
-      "updatedAt": "2026-04-28T11:10:28.100Z"
+      "updatedAt": "2026-04-28T11:20:38.205Z"
     }
   ],
   "notes": [],
@@ -49,6 +49,15 @@
       "changedById": "usr_elena",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-04-27T15:06:27.006Z"
+    },
+    {
+      "id": "fac3393a-9d0b-4214-9a8e-20dbcac3c01d",
+      "applicantId": "923c30d4-15aa-4634-bdd9-490f2b03ece0",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-04-28T11:20:38.205Z"
     }
   ],
   "documents": [
