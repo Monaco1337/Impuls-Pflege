@@ -51,16 +51,30 @@ export const authEdgeConfig = {
       return session
     },
     async authorized({ auth, request }) {
-      const isAdmin = request.nextUrl.pathname.startsWith('/admin')
-      const isLoginPage = request.nextUrl.pathname === '/admin/login'
+      // Trailing-Slash-tolerant: `next.config.ts` setzt `trailingSlash: true`,
+      // d.h. `/admin/login` und `/admin/login/` sind beides legitime Eingangs-URLs.
+      // Strikter `===`-Vergleich würde sonst eine Redirect-Schleife auslösen
+      // (Login-Page würde nicht erkannt → Auth-Redirect → Slash-Normalisierung → loop).
+      const rawPath = request.nextUrl.pathname
+      const path = rawPath.length > 1 && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath
+
+      const isAdmin = path === '/admin' || path.startsWith('/admin/')
+      const isLoginPage = path === '/admin/login'
 
       if (isLoginPage) {
-        if (auth) return Response.redirect(new URL('/admin/dashboard', request.nextUrl))
+        if (auth) {
+          const dest = new URL('/admin/dashboard', request.nextUrl)
+          return Response.redirect(dest)
+        }
         return true
       }
 
       if (isAdmin && !auth) {
-        return Response.redirect(new URL('/admin/login', request.nextUrl))
+        const dest = new URL('/admin/login', request.nextUrl)
+        // CallbackUrl mitgeben, damit Login zurückspringt. Ohne lokale URL,
+        // damit kein Open-Redirect entstehen kann.
+        dest.searchParams.set('callbackUrl', rawPath + request.nextUrl.search)
+        return Response.redirect(dest)
       }
 
       return true
