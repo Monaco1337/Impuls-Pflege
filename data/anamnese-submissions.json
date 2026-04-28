@@ -25,35 +25,6 @@
       "assignedToId": "usr_elena",
       "createdAt": "2026-04-27T15:04:17.434Z",
       "updatedAt": "2026-04-27T15:05:23.097Z"
-    },
-    {
-      "id": "bb0766ef-f8d3-4078-8574-7c971e83a5b5",
-      "status": "GESICHTET",
-      "patientFirstName": "test",
-      "patientLastName": "test",
-      "birthDate": "2000-04-10",
-      "phone": "017664884415",
-      "email": "test@gmx.de",
-      "payload": {
-        "anrede": "Frau",
-        "vorname": "test",
-        "nachname": "test",
-        "strasse": "Hansastr. 34",
-        "plz": "59425",
-        "ort": "Unna",
-        "telefon": "017664884415",
-        "email": "test@gmx.de",
-        "geburtsdatum": "2000-04-10",
-        "geburtsort": "Unna",
-        "staatsangehoerigkeit": "deutsch",
-        "familienstand": "ledig",
-        "datenschutz": true,
-        "richtigkeit": true,
-        "kontakt_erlaubnis": true
-      },
-      "assignedToId": null,
-      "createdAt": "2026-04-28T10:59:01.867Z",
-      "updatedAt": "2026-04-28T10:59:20.425Z"
     }
   ],
   "documents": [
