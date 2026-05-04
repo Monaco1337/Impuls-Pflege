@@ -154,11 +154,14 @@ export default function DatenschutzPage() {
             <LegalSection number="1" title="Datenschutz auf einen Blick" delay={0.05}>
               <Sub>Allgemeine Hinweise</Sub>
               <P>
-                Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren
-                personenbezogenen Daten passiert, wenn Sie diese Website besuchen.
-                Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert
-                werden können. Ausführliche Informationen zum Thema Datenschutz entnehmen Sie
-                unserer unter diesem Text aufgeführten Datenschutzerklärung.
+                Die folgenden Hinweise geben einen Überblick darüber, welche personenbezogenen
+                Daten beim Besuch dieser Website und bei der Nutzung der angebotenen Formulare
+                (Kontaktformular, Online-Anamnesebogen, Bewerbungsformular) erhoben und zu
+                welchen genau benannten Zwecken verarbeitet werden. Personenbezogene Daten
+                sind alle Informationen, die sich auf eine identifizierte oder
+                identifizierbare natürliche Person beziehen (Art. 4 Nr. 1 DSGVO). Die
+                vollständigen Informationen zu Verarbeitungstätigkeiten, Rechtsgrundlagen und
+                Speicherdauern finden Sie in den nachfolgenden Abschnitten.
               </P>
 
               <Sub>Datenerfassung auf dieser Website</Sub>
@@ -166,72 +169,74 @@ export default function DatenschutzPage() {
                 Wer ist verantwortlich für die Datenerfassung auf dieser Website?
               </p>
               <P>
-                Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber.
-                Dessen Kontaktdaten können Sie dem Abschnitt „Hinweis zur verantwortlichen
-                Stelle" in dieser Datenschutzerklärung entnehmen.
+                Verantwortlicher im Sinne des Art. 4 Nr. 7 DSGVO ist der Websitebetreiber.
+                Dessen vollständige Kontaktdaten finden Sie im Abschnitt „Hinweis zur
+                verantwortlichen Stelle".
               </P>
 
               <p className="text-[14px] font-[620] tracking-[-0.012em]" style={{ color: '#334155' }}>
                 Wie erfassen wir Ihre Daten?
               </p>
               <P>
-                Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen.
-                Hierbei kann es sich z.&nbsp;B. um Daten handeln, die Sie in ein
-                Kontaktformular eingeben. Andere Daten werden automatisch oder nach Ihrer
-                Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind
-                vor allem technische Daten (z.&nbsp;B. Internetbrowser, Betriebssystem oder
-                Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch,
-                sobald Sie diese Website betreten.
+                Wir erheben ausschließlich solche Daten, die Sie uns aktiv mitteilen
+                (Eingaben in Kontaktformular, Anamnesebogen oder Bewerbungsformular,
+                E-Mail-Verkehr, Telefonate, Faxsendungen) sowie technisch zwingend
+                erforderliche Verbindungsdaten, die beim Aufruf der Website durch Ihren Browser
+                automatisch übermittelt und in Server-Log-Dateien protokolliert werden
+                (siehe Abschnitt „Server-Log-Dateien"). Wir setzen weder Tracking-Pixel noch
+                Web-Analytics, Heatmaps, Werbenetzwerke, Social-Media-Plugins oder
+                Profiling-Mechanismen ein.
               </P>
 
               <p className="text-[14px] font-[620] tracking-[-0.012em]" style={{ color: '#334155' }}>
                 Wofür nutzen wir Ihre Daten?
               </p>
               <P>
-                Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der
-                Website zu gewährleisten. Andere Daten können zur Analyse Ihres
-                Nutzerverhaltens verwendet werden. Wenn Sie über das Kontaktformular oder
-                Bewerbungsformular Daten übermitteln, nutzen wir diese ausschließlich zur
-                Bearbeitung Ihrer Anfrage bzw. Bewerbung.
+                Verbindungsdaten werden ausschließlich zur Sicherstellung der technischen
+                Auslieferung der Website, zur Fehleranalyse und zur Abwehr missbräuchlicher
+                Zugriffe verarbeitet. Daten aus Kontaktformular, Anamnesebogen und
+                Bewerbungsformular werden ausschließlich zur Bearbeitung der jeweils konkreten
+                Anfrage, zur Anbahnung und Durchführung des Pflegevertrags bzw. zur
+                Durchführung des Bewerbungsverfahrens verwendet. Eine darüber hinausgehende
+                Nutzung – insbesondere zu Werbezwecken, zur Profilbildung oder zur Weitergabe
+                an Dritte zu eigenen Zwecken Dritter – findet nicht statt.
               </P>
 
               <p className="text-[14px] font-[620] tracking-[-0.012em]" style={{ color: '#334155' }}>
                 Welche Rechte haben Sie bezüglich Ihrer Daten?
               </p>
               <P>
-                Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger
-                und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben
-                außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen.
-                Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben, können Sie
-                diese Einwilligung jederzeit für die Zukunft widerrufen. Außerdem haben Sie das
-                Recht, unter bestimmten Umständen die Einschränkung der Verarbeitung Ihrer
-                personenbezogenen Daten zu verlangen. Des Weiteren steht Ihnen ein
-                Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.
+                Ihnen stehen die Rechte aus Art. 15 bis 22 DSGVO zu: Auskunft (Art. 15),
+                Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung
+                (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen
+                auf Grundlage berechtigter Interessen (Art. 21). Erteilte Einwilligungen
+                können Sie jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3
+                DSGVO). Ihnen steht ferner ein Beschwerderecht bei der zuständigen
+                Aufsichtsbehörde zu (Art. 77 DSGVO; siehe Abschnitt „Beschwerderecht").
               </P>
-              <P>Hierzu sowie zu weiteren Fragen zum Thema Datenschutz können Sie sich jederzeit an uns wenden.</P>
             </LegalSection>
 
             {/* 2 */}
             <LegalSection number="2" title="Allgemeine Hinweise und Pflichtinformationen" delay={0.08}>
               <Sub>Datenschutz</Sub>
               <P>
-                Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr
-                ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend
-                den gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.
-                Wenn Sie diese Website benutzen, werden verschiedene personenbezogene Daten
-                erhoben. Personenbezogene Daten sind Daten, mit denen Sie persönlich
-                identifiziert werden können. Die vorliegende Datenschutzerklärung erläutert,
-                welche Daten wir erheben und wofür wir sie nutzen. Sie erläutert auch, wie und
-                zu welchem Zweck das geschieht.
+                Der Schutz Ihrer personenbezogenen Daten hat für uns höchste Priorität. Wir
+                verarbeiten Ihre Daten ausschließlich auf Grundlage der DSGVO, des BDSG, des
+                TDDDG sowie – soweit einschlägig – der Vorgaben des SGB XI und des § 630f
+                BGB. Eine Weitergabe an Dritte erfolgt ausschließlich zu den in dieser
+                Datenschutzerklärung benannten Zwecken und auf den dort genannten
+                Rechtsgrundlagen.
               </P>
               <P>
-                Wir weisen darauf hin, dass die Datenübertragung im Internet (z.&nbsp;B. bei
-                der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser
-                Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.
+                Hinweis zur Datenübertragung im Internet: Bei unverschlüsselter Kommunikation
+                per E-Mail kann ein lückenloser Schutz vor Kenntnisnahme durch Dritte nicht
+                gewährleistet werden. Für die Übermittlung sensibler Daten empfehlen wir die
+                Nutzung des verschlüsselten Online-Anamnesebogens, des Telefons, des Fax oder
+                postalischer Übermittlung.
               </P>
 
               <Sub>Hinweis zur verantwortlichen Stelle</Sub>
-              <P>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</P>
+              <P>Verantwortlicher im Sinne des Art. 4 Nr. 7 DSGVO ist:</P>
               <div
                 className="rounded-[14px] border p-5"
                 style={{ borderColor: 'rgba(24,193,163,0.18)', background: 'rgba(24,193,163,0.04)' }}
@@ -240,7 +245,7 @@ export default function DatenschutzPage() {
                   IMPULS Ambulanter Pflegedienst
                 </p>
                 <p className="mt-1 text-[14px] font-[420] leading-[1.65]" style={{ color: '#475569' }}>
-                  Elena Tschupina<br />
+                  Inhaberin: Elena Tschupina<br />
                   Massener Str. 147<br />
                   59423 Unna
                 </p>
@@ -252,93 +257,31 @@ export default function DatenschutzPage() {
               </div>
               <P>
                 Verantwortliche Stelle ist die natürliche oder juristische Person, die allein
-                oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von
-                personenbezogenen Daten (z.&nbsp;B. Namen, E-Mail-Adressen o.&nbsp;Ä.)
-                entscheidet.
+                oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung
+                personenbezogener Daten entscheidet (Art. 4 Nr. 7 DSGVO).
               </P>
 
-              <Sub>Speicherdauer</Sub>
+              <Sub>Datenschutzbeauftragter</Sub>
               <P>
-                Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer
-                genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck
-                für die Datenverarbeitung entfällt. Wenn Sie ein berechtigtes Löschersuchen
-                geltend machen oder eine Einwilligung zur Datenverarbeitung widerrufen, werden
-                Ihre Daten gelöscht, sofern wir keine anderen rechtlich zulässigen Gründe für
-                die Speicherung Ihrer personenbezogenen Daten haben (z.&nbsp;B. steuer- oder
-                handelsrechtliche Aufbewahrungsfristen); im letztgenannten Fall erfolgt die
-                Löschung nach Fortfall dieser Gründe.
+                Eine gesetzliche Pflicht zur Bestellung eines Datenschutzbeauftragten besteht
+                derzeit nicht (§ 38 Abs. 1 BDSG). Datenschutzanfragen richten Sie bitte
+                schriftlich an die oben genannte Anschrift oder per E-Mail an{' '}
+                <LegalLink href="mailto:info@impuls-pflege.de">info@impuls-pflege.de</LegalLink>.
               </P>
 
-              <Sub>Allgemeine Hinweise zu den Rechtsgrundlagen der Datenverarbeitung auf dieser Website</Sub>
+              <Sub>Allgemeine Hinweise zu den Rechtsgrundlagen der Datenverarbeitung</Sub>
               <P>
-                Sofern Sie in die Datenverarbeitung eingewilligt haben, verarbeiten wir Ihre
-                personenbezogenen Daten auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO bzw.
-                Art. 9 Abs. 2 lit. a DSGVO, sofern besondere Datenkategorien nach Art. 9
-                Abs. 1 DSGVO verarbeitet werden. Im Falle einer ausdrücklichen Einwilligung in
-                die Übertragung personenbezogener Daten in Drittstaaten erfolgt die
-                Datenverarbeitung außerdem auf Grundlage von Art. 49 Abs. 1 lit. a DSGVO.
-                Sofern die Datenverarbeitung zur Erfüllung eines Vertrages oder zur
-                Durchführung vorvertraglicher Maßnahmen erforderlich ist, verarbeiten wir Ihre
-                Daten auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO. Des Weiteren verarbeiten
-                wir Ihre Daten, sofern diese zur Erfüllung einer rechtlichen Verpflichtung
-                erforderlich sind auf Grundlage von Art. 6 Abs. 1 lit. c DSGVO. Die
-                Datenverarbeitung kann ferner auf Grundlage unseres berechtigten Interesses
-                nach Art. 6 Abs. 1 lit. f DSGVO erfolgen.
-              </P>
-
-              <Sub>Widerruf Ihrer Einwilligung zur Datenverarbeitung</Sub>
-              <P>
-                Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen Einwilligung
-                möglich. Sie können eine bereits erteilte Einwilligung jederzeit widerrufen.
-                Die Rechtmäßigkeit der bis zum Widerruf erfolgten Datenverarbeitung bleibt vom
-                Widerruf unberührt.
-              </P>
-
-              <Sub>Beschwerderecht bei der zuständigen Aufsichtsbehörde</Sub>
-              <P>
-                Im Falle von Verstößen gegen die DSGVO steht den Betroffenen ein
-                Beschwerderecht bei einer Aufsichtsbehörde, insbesondere in dem Mitgliedstaat
-                ihres gewöhnlichen Aufenthalts, ihres Arbeitsplatzes oder des Orts des
-                mutmaßlichen Verstoßes zu. Das Beschwerderecht besteht unbeschadet
-                anderweitiger verwaltungsrechtlicher oder gerichtlicher Rechtsbehelfe.
-              </P>
-              <P>
-                Zuständige Aufsichtsbehörde: [Landesbeauftragte/r für Datenschutz und
-                Informationsfreiheit Nordrhein-Westfalen, Postfach 20 04 44, 40102 Düsseldorf]
-              </P>
-
-              <Sub>Recht auf Datenübertragbarkeit</Sub>
-              <P>
-                Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung oder in
-                Erfüllung eines Vertrags automatisiert verarbeiten, an sich oder an einen
-                Dritten in einem gängigen, maschinenlesbaren Format aushändigen zu lassen.
-                Sofern Sie die direkte Übertragung der Daten an einen anderen Verantwortlichen
-                verlangen, erfolgt dies nur, soweit es technisch machbar ist.
-              </P>
-
-              <Sub>Auskunft, Löschung und Berichtigung</Sub>
-              <P>
-                Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das
-                Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen
-                Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung und
-                ggf. ein Recht auf Berichtigung oder Löschung dieser Daten. Hierzu sowie zu
-                weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit
-                an uns wenden.
-              </P>
-
-              <Sub>Recht auf Einschränkung der Verarbeitung</Sub>
-              <P>
-                Sie haben das Recht, die Einschränkung der Verarbeitung Ihrer
-                personenbezogenen Daten zu verlangen. Hierzu können Sie sich jederzeit an uns
-                wenden. Das Recht auf Einschränkung der Verarbeitung besteht in folgenden
-                Fällen:
+                Wir verarbeiten personenbezogene Daten nur auf Grundlage einer der folgenden
+                Rechtsgrundlagen:
               </P>
               <ul className="icon-list-stack space-y-2 pl-1">
                 {[
-                  'Wenn Sie die Richtigkeit Ihrer bei uns gespeicherten personenbezogenen Daten bestreiten, benötigen wir in der Regel Zeit, um dies zu überprüfen. Für die Dauer der Prüfung haben Sie das Recht, die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen.',
-                  'Wenn die Verarbeitung Ihrer personenbezogenen Daten unrechtmäßig geschah/geschieht, können Sie statt der Löschung die Einschränkung der Datenverarbeitung verlangen.',
-                  'Wenn wir Ihre personenbezogenen Daten nicht mehr benötigen, Sie sie jedoch zur Ausübung, Verteidigung oder Geltendmachung von Rechtsansprüchen benötigen, haben Sie das Recht, statt der Löschung die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen.',
-                  'Wenn Sie einen Widerspruch nach Art. 21 Abs. 1 DSGVO eingelegt haben, muss eine Abwägung zwischen Ihren und unseren Interessen vorgenommen werden. Solange noch nicht feststeht, wessen Interessen überwiegen, haben Sie das Recht, die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen.',
+                  'Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) — z. B. ausdrückliche Einwilligung in den Versand des Online-Anamnesebogens oder die Aufnahme in einen Bewerberpool.',
+                  'Art. 6 Abs. 1 lit. b DSGVO (Vertrag / vorvertragliche Maßnahmen) — z. B. Pflegevertrag, Anbahnung eines Beschäftigungsverhältnisses, Bearbeitung konkreter Leistungsanfragen.',
+                  'Art. 6 Abs. 1 lit. c DSGVO (rechtliche Verpflichtung) — z. B. Aufbewahrung steuer- und handelsrechtlich relevanter Belege nach §§ 147 AO, 257 HGB; Dokumentationspflichten nach § 113 SGB XI; Patientenakte nach § 630f BGB.',
+                  'Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen) — z. B. Sicherstellung der technischen Auslieferung, Fehleranalyse, Abwehr missbräuchlicher Zugriffe, IT-Sicherheit, organisatorische Bearbeitung von Anfragen.',
+                  'Art. 9 Abs. 2 lit. h DSGVO i. V. m. § 22 Abs. 1 Nr. 1 lit. b BDSG (Gesundheitsversorgung) — Verarbeitung von Gesundheitsdaten zur Beurteilung der Pflegebedürftigkeit, Erstellung des Pflegeplans, Abrechnung mit Pflegekassen sowie Durchführung des Pflegevertrags.',
+                  'Art. 9 Abs. 2 lit. a DSGVO (ausdrückliche Einwilligung) — soweit Sie über den Online-Anamnesebogen freiwillig Gesundheitsdaten an uns übermitteln.',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2.5">
                     <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
@@ -349,107 +292,192 @@ export default function DatenschutzPage() {
                 ))}
               </ul>
               <P>
-                Wenn Sie die Verarbeitung Ihrer personenbezogenen Daten eingeschränkt haben,
-                dürfen diese Daten – von ihrer Speicherung abgesehen – nur mit Ihrer
-                Einwilligung oder zur Geltendmachung, Ausübung oder Verteidigung von
+                Im Falle einer ausdrücklichen Einwilligung in die Übermittlung personenbezogener
+                Daten in Drittstaaten erfolgt die Datenverarbeitung zusätzlich auf Grundlage
+                von Art. 49 Abs. 1 lit. a DSGVO. Die jeweils einschlägige Rechtsgrundlage wird
+                im konkreten Verarbeitungsabschnitt benannt.
+              </P>
+
+              <Sub>Speicherdauer</Sub>
+              <P>
+                Wir speichern personenbezogene Daten nur so lange, wie dies für die jeweils
+                benannten Zwecke erforderlich ist und keine längeren gesetzlichen
+                Aufbewahrungsfristen entgegenstehen. Sofern in den nachfolgenden Abschnitten
+                keine konkrete Frist genannt ist, gelten folgende Standardfristen:
+              </P>
+              <ul className="icon-list-stack space-y-2 pl-1">
+                {[
+                  'Server-Log-Dateien des Hosting-Anbieters: maximal 30 Tage; danach automatische Löschung durch den Auftragsverarbeiter.',
+                  'Eingaben aus dem Kontaktformular: 24 Monate ab abschließender Bearbeitung der Anfrage; bei darüber hinausgehender Korrespondenzhistorie maximal 36 Monate.',
+                  'Online-Anamnesebogen ohne anschließenden Pflegevertrag: 12 Monate ab Eingang; danach Löschung der digitalen Übermittlung. Übergeordnete Aufbewahrungspflichten bleiben unberührt.',
+                  'Online-Anamnesebogen mit anschließendem Pflegevertrag: Übernahme in die Pflegedokumentation/Patientenakte; Aufbewahrung gemäß § 630f Abs. 3 BGB grundsätzlich 10 Jahre nach Abschluss der Behandlung.',
+                  'Bewerbungsunterlagen bei Absage: 6 Monate nach Abschluss des Bewerbungsverfahrens (Verteidigung gegen Ansprüche nach AGG, § 15 Abs. 4 AGG).',
+                  'Bewerbungsunterlagen mit Einwilligung in den Bewerberpool: bis Widerruf der Einwilligung, längstens 24 Monate.',
+                  'Steuer- und handelsrechtlich relevante Belege: 6 bzw. 10 Jahre (§ 147 AO, § 257 HGB).',
+                  'Einwilligungs- und Auditprotokolle (Consent-Logs): 3 Jahre ab Erteilung bzw. Widerruf der Einwilligung zur Erfüllung der Rechenschaftspflicht (Art. 5 Abs. 2, Art. 7 Abs. 1 DSGVO).',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
+                    <span className="icon-list-prose min-w-0 flex-1 text-[14.5px] font-[410] leading-[1.75] tracking-[-0.008em]" style={{ color: '#475569' }}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <P>
+                Nach Ablauf der jeweiligen Frist werden die Daten gelöscht oder, soweit eine
+                Vernichtung wegen besonderer Speicherform unverhältnismäßig wäre, in ihrer
+                Verarbeitung eingeschränkt (Art. 18 DSGVO).
+              </P>
+
+              <Sub>Widerruf erteilter Einwilligungen</Sub>
+              <P>
+                Soweit eine Verarbeitung auf Ihrer Einwilligung beruht, können Sie diese
+                jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Die
+                Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.
+                Der Widerruf kann formlos per E-Mail an{' '}
+                <LegalLink href="mailto:info@impuls-pflege.de">info@impuls-pflege.de</LegalLink>,
+                postalisch oder per Fax erfolgen.
+              </P>
+
+              <Sub>
+                Widerspruchsrecht gegen die Datenverarbeitung in besonderen Fällen sowie gegen
+                Direktwerbung (Art. 21 DSGVO)
+              </Sub>
+              <P>
+                Wenn die Datenverarbeitung auf Grundlage von Art. 6 Abs. 1 lit. e oder f DSGVO
+                erfolgt, haben Sie jederzeit das Recht, aus Gründen, die sich aus Ihrer
+                besonderen Situation ergeben, gegen die Verarbeitung Widerspruch einzulegen.
+                Die jeweilige Rechtsgrundlage finden Sie im jeweiligen Verarbeitungsabschnitt.
+                Direktwerbung wird durch uns nicht durchgeführt.
+              </P>
+
+              <Sub>Beschwerderecht bei der zuständigen Aufsichtsbehörde</Sub>
+              <P>
+                Unbeschadet eines anderweitigen verwaltungsrechtlichen oder gerichtlichen
+                Rechtsbehelfs steht Ihnen ein Beschwerderecht bei einer Aufsichtsbehörde zu,
+                insbesondere in dem Mitgliedstaat Ihres gewöhnlichen Aufenthalts, Ihres
+                Arbeitsplatzes oder des Orts des mutmaßlichen Verstoßes (Art. 77 DSGVO).
+                Zuständige Aufsichtsbehörde für den Verantwortlichen ist:
+              </P>
+              <div
+                className="rounded-[14px] border p-5"
+                style={{ borderColor: 'rgba(0,0,0,0.07)', background: '#FAFAF9' }}
+              >
+                <p className="text-[14px] font-[620] tracking-[-0.012em]" style={{ color: '#0F172A' }}>
+                  Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen
+                </p>
+                <p className="mt-1 text-[14px] font-[420] leading-[1.65]" style={{ color: '#475569' }}>
+                  Kavalleriestraße 2–4<br />
+                  40213 Düsseldorf<br />
+                  Postfach 20 04 44, 40102 Düsseldorf
+                </p>
+                <div className="mt-3 space-y-1 text-[14px] font-[420]" style={{ color: '#475569' }}>
+                  <p>Telefon: 0211 38424-0</p>
+                  <p>E-Mail: <LegalLink href="mailto:poststelle@ldi.nrw.de">poststelle@ldi.nrw.de</LegalLink></p>
+                  <p>Web: <LegalLink href="https://www.ldi.nrw.de" external>www.ldi.nrw.de</LegalLink></p>
+                </div>
+              </div>
+
+              <Sub>Recht auf Datenübertragbarkeit</Sub>
+              <P>
+                Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung oder in
+                Erfüllung eines Vertrags automatisiert verarbeiten, in einem strukturierten,
+                gängigen und maschinenlesbaren Format zu erhalten oder die direkte Übermittlung
+                an einen anderen Verantwortlichen zu verlangen, soweit dies technisch machbar
+                ist (Art. 20 DSGVO).
+              </P>
+
+              <Sub>Auskunft, Berichtigung, Löschung</Sub>
+              <P>
+                Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Ihre bei uns
+                gespeicherten personenbezogenen Daten, deren Herkunft, Empfänger und den Zweck
+                der Datenverarbeitung sowie ein Recht auf Berichtigung oder Löschung
+                (Art. 15, 16, 17 DSGVO). Bitte beachten Sie, dass die Löschung beschränkt
+                ist, soweit gesetzliche Aufbewahrungsfristen oder die Geltendmachung,
+                Ausübung oder Verteidigung von Rechtsansprüchen entgegenstehen.
+              </P>
+
+              <Sub>Recht auf Einschränkung der Verarbeitung</Sub>
+              <P>
+                Sie haben das Recht, die Einschränkung der Verarbeitung Ihrer
+                personenbezogenen Daten zu verlangen (Art. 18 DSGVO). Das Recht besteht
+                insbesondere in folgenden Fällen:
+              </P>
+              <ul className="icon-list-stack space-y-2 pl-1">
+                {[
+                  'Wenn Sie die Richtigkeit Ihrer bei uns gespeicherten personenbezogenen Daten bestreiten — für die Dauer der Überprüfung.',
+                  'Wenn die Verarbeitung Ihrer personenbezogenen Daten unrechtmäßig erfolgt(e) und Sie statt der Löschung die Einschränkung verlangen.',
+                  'Wenn wir Ihre personenbezogenen Daten nicht mehr benötigen, Sie sie jedoch zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen benötigen.',
+                  'Wenn Sie einen Widerspruch nach Art. 21 Abs. 1 DSGVO eingelegt haben — bis zur Klärung, wessen Interessen überwiegen.',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
+                    <span className="icon-list-prose min-w-0 flex-1 text-[14.5px] font-[410] leading-[1.75] tracking-[-0.008em]" style={{ color: '#475569' }}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <P>
+                Eingeschränkt verarbeitete Daten dürfen – von ihrer Speicherung abgesehen – nur
+                mit Ihrer Einwilligung oder zur Geltendmachung, Ausübung oder Verteidigung von
                 Rechtsansprüchen oder zum Schutz der Rechte einer anderen natürlichen oder
                 juristischen Person oder aus Gründen eines wichtigen öffentlichen Interesses
                 der Europäischen Union oder eines Mitgliedstaats verarbeitet werden.
               </P>
+
+              <Sub>SSL-/TLS-Verschlüsselung</Sub>
+              <P>
+                Diese Website nutzt aus Gründen der Sicherheit und zum Schutz der Übertragung
+                vertraulicher Inhalte – insbesondere bei Übermittlungen an den Verantwortlichen
+                über Formulare – eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte
+                Verbindung erkennen Sie am „https://" in der Adresszeile Ihres Browsers sowie
+                am Schloss-Symbol.
+              </P>
             </LegalSection>
 
             {/* 3 */}
-            <LegalSection number="3" title="Datenerfassung auf dieser Website" delay={0.11}>
-              <Sub>Cookies</Sub>
+            <LegalSection number="3" title="Datenerhebung auf dieser Website" delay={0.11}>
+              <Sub>Cookies und vergleichbare Technologien</Sub>
               <P>
-                Unsere Internetseiten verwenden teilweise so genannte Cookies. Cookies richten
-                auf Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen
-                dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen.
-                Cookies sind kleine Textdateien, die auf Ihrem Rechner abgelegt werden und
-                die Ihr Browser speichert.
+                Im öffentlichen Bereich dieser Website (alle Seiten außerhalb des
+                passwortgeschützten Verwaltungsbereichs) werden weder Tracking-Cookies noch
+                Analyse-, Marketing- oder Profiling-Cookies eingesetzt. Es findet keine
+                geräte- oder browserübergreifende Wiedererkennung statt.
               </P>
               <P>
-                Die meisten der von uns verwendeten Cookies sind so genannte
-                „Session-Cookies". Sie werden nach Ende Ihres Besuchs automatisch gelöscht.
-                Andere Cookies bleiben auf Ihrem Endgerät gespeichert bis Sie diese löschen.
-                Diese Cookies ermöglichen es uns, Ihren Browser beim nächsten Besuch
-                wiederzuerkennen.
+                Technisch erforderlich sind ausschließlich kurzlebige Sitzungsmechanismen, die
+                der ordnungsgemäßen Auslieferung der Website, der Lastverteilung und dem Schutz
+                vor missbräuchlichen Zugriffen (CSRF-Schutz) dienen. Diese werden auf Grundlage
+                von § 25 Abs. 2 Nr. 2 TDDDG ohne Einwilligung gesetzt, weil sie für die
+                Bereitstellung des vom Nutzer ausdrücklich gewünschten Telemedien­dienstes
+                unbedingt erforderlich sind. Eine darüber hinausgehende Verarbeitung der so
+                erlangten Informationen erfolgt nicht.
               </P>
               <P>
-                Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies
-                informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von
-                Cookies für bestimmte Fälle oder generell ausschließen sowie das automatische
-                Löschen der Cookies beim Schließen des Browsers aktivieren. Bei der
-                Deaktivierung von Cookies kann die Funktionalität dieser Website eingeschränkt
-                sein.
-              </P>
-              <P>
-                Cookies, die zur Durchführung des elektronischen Kommunikationsvorgangs, zur
-                Bereitstellung bestimmter, von Ihnen erwünschter Funktionen oder zur
-                Optimierung der Website erforderlich sind, werden auf Grundlage von Art. 6
-                Abs. 1 lit. f DSGVO gespeichert. Der Websitebetreiber hat ein berechtigtes
-                Interesse an der Speicherung von Cookies zur technisch fehlerfreien und
-                optimierten Bereitstellung seiner Dienste. Sofern eine entsprechende
-                Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf
-                Grundlage von Art. 6 Abs. 1 lit. a DSGVO; die Einwilligung ist jederzeit
-                widerrufbar.
-              </P>
-
-              <Sub>Kontaktformular</Sub>
-              <P>
-                Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben
-                aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten
-                (Name, E-Mail-Adresse, Telefonnummer, Art der Anfrage, Nachricht, bevorzugter
-                Rückruftermin) zwecks Bearbeitung der Anfrage und für den Fall von
-                Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre
-                Einwilligung weiter.
-              </P>
-              <P>
-                Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b
-                DSGVO, sofern Ihre Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder
-                zur Durchführung vorvertraglicher Maßnahmen erforderlich ist. In allen übrigen
-                Fällen beruht die Verarbeitung auf unserem berechtigten Interesse an der
-                effektiven Bearbeitung der an uns gerichteten Anfragen (Art. 6 Abs. 1 lit. f
-                DSGVO) oder auf Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), sofern diese
-                abgefragt wurde.
-              </P>
-              <P>
-                Die von Ihnen im Kontaktformular eingegebenen Daten verbleiben bei uns, bis
-                Sie uns zur Löschung auffordern, Ihre Einwilligung zur Speicherung widerrufen
-                oder der Zweck für die Datenspeicherung entfällt (z.&nbsp;B. nach
-                abgeschlossener Bearbeitung Ihrer Anfrage). Zwingende gesetzliche Bestimmungen
-                – insbesondere Aufbewahrungsfristen – bleiben unberührt.
-              </P>
-
-              <Sub>Bewerbungsformular</Sub>
-              <P>
-                Wenn Sie sich über unser Online-Bewerbungsformular bei uns bewerben, erheben
-                wir folgende personenbezogene Daten: Name, E-Mail-Adresse, Telefonnummer,
-                Adresse, gewünschte Position, Verfügbarkeit, Qualifikation, Berufserfahrung,
-                Motivationsschreiben sowie hochgeladene Dokumente (Lebenslauf, Zeugnisse,
-                Zertifikate).
-              </P>
-              <P>
-                Die Verarbeitung erfolgt zum Zweck der Durchführung des Bewerbungsverfahrens
-                auf Grundlage von § 26 BDSG (Anbahnung eines Beschäftigungsverhältnisses).
-                Ihre Bewerbungsdaten werden ausschließlich von den am Bewerbungsverfahren
-                beteiligten Personen eingesehen.
-              </P>
-              <P>
-                Sofern die Bewerbung nicht erfolgreich ist, werden Ihre Daten spätestens sechs
-                Monate nach Abschluss des Bewerbungsverfahrens gelöscht, sofern keine längere
-                Speicherung aufgrund berechtigter Interessen erforderlich ist oder Sie in eine
-                längere Speicherung eingewilligt haben.
+                Im passwortgeschützten Verwaltungsbereich (nicht öffentlich zugänglich) werden
+                authentifizierungsbezogene Sitzungs-Cookies eingesetzt, die ausschließlich der
+                Anmeldung autorisierter Mitarbeiter:innen dienen. Rechtsgrundlage ist Art. 6
+                Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem zugriffs- und
+                manipulationsgeschützten Verwaltungsbereich) sowie § 25 Abs. 2 Nr. 2 TDDDG.
               </P>
 
               <Sub>Server-Log-Dateien</Sub>
               <P>
-                Der Provider der Seiten erhebt und speichert automatisch Informationen in so
-                genannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt.
-                Dies sind:
+                Beim Aufruf dieser Website werden durch den Hosting-Anbieter (siehe
+                Abschnitt „Hosting") technisch zwingend folgende Verbindungsdaten
+                protokolliert:
               </P>
               <ul className="icon-list-stack space-y-1.5 pl-1">
-                {['Browsertyp und Browserversion', 'verwendetes Betriebssystem', 'Referrer URL', 'Hostname des zugreifenden Rechners', 'Uhrzeit der Serveranfrage', 'IP-Adresse'].map((item) => (
+                {[
+                  'IP-Adresse des anfragenden Endgeräts',
+                  'Datum und Uhrzeit der Anfrage',
+                  'angeforderte URL und HTTP-Antwortcode',
+                  'übertragene Datenmenge',
+                  'Browsertyp, Browserversion und Betriebssystem',
+                  'Referrer-URL (sofern übermittelt)',
+                ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
                     <span className="icon-list-prose min-w-0 flex-1 text-[14.5px] font-[410] tracking-[-0.008em]" style={{ color: '#475569' }}>{item}</span>
@@ -457,122 +485,422 @@ export default function DatenschutzPage() {
                 ))}
               </ul>
               <P>
-                Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht
-                vorgenommen. Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6
-                Abs. 1 lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an
-                der technisch fehlerfreien Darstellung und der Optimierung seiner Website –
-                hierzu müssen die Server-Log-Dateien erfasst werden.
+                Zweck: Sicherstellung der technischen Auslieferung, Aufrechterhaltung der
+                IT-Sicherheit, Erkennung und Abwehr missbräuchlicher Zugriffe (insbesondere
+                Brute-Force-Angriffe, Bot-Traffic), Fehleranalyse. Eine Zusammenführung mit
+                anderen Datenquellen oder eine Nutzung zu Zwecken der Reichweitenmessung,
+                Profilbildung oder Werbung erfolgt nicht. Rechtsgrundlage ist Art. 6 Abs. 1
+                lit. f DSGVO; das berechtigte Interesse liegt in der dargestellten technischen
+                Sicherheit und Stabilität. Speicherdauer: maximal 30 Tage, anschließend
+                automatische Löschung durch den Auftragsverarbeiter.
+              </P>
+
+              <Sub>Kontaktformular, E-Mail, Telefon und Fax</Sub>
+              <P>
+                Bei Anfragen über das Kontaktformular, per E-Mail, Telefon oder Fax verarbeiten
+                wir die folgenden Daten zur Bearbeitung des konkreten Anliegens und zur
+                Beantwortung etwaiger Anschlussfragen: Vor- und Nachname, E-Mail-Adresse,
+                Telefonnummer, Art der Anfrage, Inhalt der Nachricht, bevorzugter Rückrufzeit,
+                Bezug zur Pflegesituation (soweit von Ihnen angegeben).
+              </P>
+              <P>
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit die Anfrage auf den
+                Abschluss eines Pflegevertrags oder die Durchführung vorvertraglicher Maßnahmen
+                gerichtet ist; im Übrigen Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an
+                der ordnungsgemäßen Bearbeitung von Anfragen). Soweit Ihre Anfrage
+                Gesundheitsdaten enthält, beruht die Verarbeitung zusätzlich auf Art. 9 Abs. 2
+                lit. a DSGVO (ausdrückliche Einwilligung durch freiwillige Übermittlung) bzw.
+                Art. 9 Abs. 2 lit. h DSGVO i. V. m. § 22 Abs. 1 Nr. 1 lit. b BDSG.
+              </P>
+              <P>
+                Speicherdauer: 24 Monate ab abschließender Bearbeitung; danach Löschung. Bei
+                Pflegevertragsabschluss Übergang in die Pflegedokumentation mit den dort
+                geltenden Aufbewahrungsfristen. Eine Weitergabe an Dritte erfolgt nur, soweit
+                dies zur Bearbeitung Ihrer Anfrage zwingend erforderlich ist (z. B. Pflegekasse
+                bei ausdrücklichem Auftrag).
               </P>
             </LegalSection>
 
-            {/* 4 */}
-            <LegalSection number="4" title="Hosting" delay={0.14}>
-              <P>Wir hosten die Inhalte unserer Website bei folgendem Anbieter:</P>
-
-              <Sub>[Hosting-Anbieter]</Sub>
+            {/* 4 — Anamnesebogen */}
+            <LegalSection number="4" title="Online-Anamnesebogen (Gesundheitsdaten)" delay={0.13}>
+              <Sub>Verarbeitungstätigkeit</Sub>
               <P>
-                Anbieter ist [Name und Adresse des Hosting-Anbieters]. Wenn Sie unsere Website
-                besuchen, erfasst der Hosting-Anbieter verschiedene Logfiles inklusive Ihrer
-                IP-Adressen. Details entnehmen Sie der Datenschutzerklärung des
-                Hosting-Anbieters: [URL der Datenschutzerklärung des Hosting-Anbieters].
+                Über den Online-Anamnesebogen (<LegalLink href="/anamnesebogen">/anamnesebogen</LegalLink>)
+                erheben wir Daten, die zur Beurteilung des Pflegebedarfs, zur Vorbereitung
+                eines Erstgesprächs und zur Anbahnung eines Pflegevertrags zwingend erforderlich
+                sind. Dies umfasst insbesondere:
               </P>
-              <P>
-                Die Verwendung des Hosting-Anbieters erfolgt auf Grundlage von Art. 6 Abs. 1
-                lit. f DSGVO. Wir haben ein berechtigtes Interesse an einer möglichst
-                zuverlässigen Darstellung unserer Website. Sofern eine entsprechende
-                Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf
-                Grundlage von Art. 6 Abs. 1 lit. a DSGVO; die Einwilligung ist jederzeit
-                widerrufbar.
-              </P>
+              <ul className="icon-list-stack space-y-1.5 pl-1">
+                {[
+                  'Personendaten der zu pflegenden Person (Vor-/Nachname, Geburtsdatum, Anschrift)',
+                  'Kontaktdaten der Ansprechperson und ggf. der zu pflegenden Person (Telefon, E-Mail)',
+                  'Versicherungsdaten (Krankenkasse/Pflegekasse, Versichertennummer, vorhandener Pflegegrad)',
+                  'Gesundheitsbezogene Angaben (Diagnosen, Krankheitsverlauf, Pflegebedarf, Medikation, Allergien, Hilfsmittel)',
+                  'Optional hochgeladene medizinische Unterlagen (insbesondere Entlassungsbriefe als PDF, JPG, PNG, WEBP, HEIC; max. 4 MB pro Datei, max. 12 MB gesamt, max. 8 Dateien)',
+                  'Angaben zur Wohnsituation (Wohnform, Wohnungstyp, Barrierefreiheit)',
+                  'Angaben zum gewünschten Pflegeumfang und persönlichen Wünschen',
+                  'Datum und Inhalt der erteilten Einwilligungen',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
+                    <span className="icon-list-prose min-w-0 flex-1 text-[14.5px] font-[410] tracking-[-0.008em]" style={{ color: '#475569' }}>{item}</span>
+                  </li>
+                ))}
+              </ul>
 
-              <Sub>Auftragsverarbeitung</Sub>
+              <Sub>Besondere Kategorien personenbezogener Daten (Art. 9 DSGVO)</Sub>
               <P>
-                Wir haben einen Vertrag über Auftragsverarbeitung (AVV) zur Nutzung des oben
-                genannten Dienstes geschlossen. Hierbei handelt es sich um einen
-                datenschutzrechtlich vorgeschriebenen Vertrag, der gewährleistet, dass dieser
-                die personenbezogenen Daten unserer Websitebesucher nur nach unseren
-                Weisungen und unter Einhaltung der DSGVO verarbeitet.
-              </P>
-            </LegalSection>
-
-            {/* 5 */}
-            <LegalSection number="5" title="Plugins und Tools" delay={0.17}>
-              <Sub>Google Fonts (lokal)</Sub>
-              <P>
-                Diese Seite nutzt zur einheitlichen Darstellung von Schriftarten so genannte
-                Google Fonts, die lokal installiert sind. Eine Verbindung zu Servern von Google
-                findet dabei nicht statt. Weitere Informationen zu Google Fonts finden Sie
-                unter{' '}
-                <LegalLink href="https://developers.google.com/fonts/faq" external>
-                  https://developers.google.com/fonts/faq
-                </LegalLink>{' '}
-                und in der Datenschutzerklärung von Google:{' '}
-                <LegalLink href="https://policies.google.com/privacy" external>
-                  https://policies.google.com/privacy
-                </LegalLink>
-                .
-              </P>
-              <div
-                className="rounded-[12px] border p-4 text-[13px] font-[420] leading-[1.65]"
-                style={{ borderColor: 'rgba(0,0,0,0.07)', background: '#FAFAF9', color: '#94A3B8' }}
-              >
-                [Hinweis: Sollten weitere Plugins oder externe Tools (z.&nbsp;B. Google Maps,
-                Analytics, Social-Media-Plugins) eingebunden werden, sind diese hier
-                entsprechend zu ergänzen.]
-              </div>
-            </LegalSection>
-
-            {/* 6 */}
-            <LegalSection number="6" title="Bewerberdaten" delay={0.20}>
-              <Sub>Umfang und Zweck der Datenerhebung</Sub>
-              <P>
-                Wenn Sie sich bei uns bewerben (z.&nbsp;B. per Online-Formular, E-Mail oder
-                Post), verarbeiten wir Ihre Bewerberdaten zur Abwicklung des
-                Bewerbungsverfahrens. Die Verarbeitung kann auch auf elektronischem Wege
-                erfolgen. Dies ist insbesondere dann der Fall, wenn Sie uns entsprechende
-                Bewerbungsunterlagen auf elektronischem Wege, beispielsweise per E-Mail oder
-                über ein auf der Website befindliches Bewerbungsformular, zukommen lassen.
+                Die im Anamnesebogen verarbeiteten Gesundheits- und Diagnosedaten sind
+                besondere Kategorien personenbezogener Daten im Sinne des Art. 9 Abs. 1 DSGVO.
+                Rechtsgrundlage der Verarbeitung ist Art. 9 Abs. 2 lit. h DSGVO i. V. m. § 22
+                Abs. 1 Nr. 1 lit. b BDSG (Verarbeitung zum Zweck der Gesundheitsversorgung,
+                medizinischen Diagnostik, Versorgung und Behandlung im Gesundheits- und
+                Sozialbereich) sowie ergänzend Art. 9 Abs. 2 lit. a DSGVO (Ihre ausdrückliche
+                Einwilligung durch aktive Bestätigung der Datenschutz- und
+                Richtigkeitserklärung im Formular). Die Verarbeitung erfolgt unter Wahrung des
+                Berufsgeheimnisses gemäß § 203 StGB; intern haben ausschließlich
+                schweigepflichtige Personen (Pflegefachkräfte und Verwaltungspersonal mit
+                schriftlicher Verpflichtung auf das Datengeheimnis) Zugriff.
               </P>
 
-              <Sub>Rechtsgrundlage</Sub>
+              <Sub>Übermittlung im Auftrag Dritter (Vollmacht)</Sub>
               <P>
-                Die Rechtsgrundlage für die Verarbeitung Ihrer Bewerberdaten ist § 26 BDSG in
-                Verbindung mit Art. 88 DSGVO (Anbahnung eines Beschäftigungsverhältnisses).
-                Sofern Sie uns eine ausdrückliche Einwilligung zur Verarbeitung erteilt haben
-                (z.&nbsp;B. Aufnahme in einen Bewerberpool), ist die Rechtsgrundlage Art. 6
-                Abs. 1 lit. a DSGVO.
+                Wird der Anamnesebogen nicht von der zu pflegenden Person selbst, sondern von
+                Angehörigen, Betreuer:innen oder Bevollmächtigten übermittelt, setzen wir
+                voraus, dass eine entsprechende Vollmacht oder gesetzliche Vertretungsbefugnis
+                (z. B. § 1814 ff. BGB) besteht. Die Verantwortung für das Vorliegen einer
+                wirksamen Berechtigung trägt die übermittelnde Person. Wir behalten uns vor,
+                vor Vertragsschluss einen Nachweis zu verlangen.
+              </P>
+
+              <Sub>Empfänger / Auftragsverarbeiter</Sub>
+              <P>
+                Die im Anamnesebogen erhobenen Daten werden zunächst auf der Hosting- und
+                Speicherinfrastruktur der in den Abschnitten 6 und 7 genannten
+                Auftragsverarbeiter (Vercel Inc., GitHub, Inc.) verarbeitet und dort in
+                verschlüsselter Form bis zur Übernahme in die interne Pflegedokumentation
+                vorgehalten. Eine Weitergabe an Dritte (Pflegekasse, Krankenkasse, Hausarzt,
+                Krankenhaus, Medizinischer Dienst) erfolgt ausschließlich nach Ihrer
+                ausdrücklichen Einwilligung oder soweit gesetzlich vorgeschrieben.
               </P>
 
               <Sub>Speicherdauer</Sub>
               <P>
-                Im Falle einer Absage werden Ihre Bewerbungsdaten spätestens nach sechs
-                Monaten gelöscht. Sofern Sie einer längeren Speicherung zugestimmt haben
-                (Bewerberpool), verarbeiten wir Ihre Daten auf Grundlage Ihrer Einwilligung
-                (Art. 6 Abs. 1 lit. a DSGVO). Wird Ihnen im Rahmen des Bewerbungsverfahrens
-                ein Arbeitsvertrag angeboten, werden die Daten in Ihrem
-                Beschäftigtenverhältnis weiterverarbeitet, sofern dies der Durchführung des
-                Beschäftigungsverhältnisses dient.
+                Kommt im Anschluss an den Anamnesebogen kein Pflegevertrag zustande, werden
+                die übermittelten Daten und hochgeladenen Unterlagen spätestens 12 Monate nach
+                Eingang gelöscht. Mit Abschluss eines Pflegevertrags gehen die Daten in die
+                Pflegedokumentation/Patientenakte über und unterliegen ab diesem Zeitpunkt
+                den gesetzlichen Aufbewahrungsfristen, insbesondere § 630f Abs. 3 BGB
+                (10 Jahre nach Abschluss der Behandlung) sowie § 113 SGB XI.
+              </P>
+
+              <Sub>Freiwilligkeit, Widerruf, Folgen der Nichtangabe</Sub>
+              <P>
+                Die Übermittlung des Anamnesebogens ist freiwillig. Ohne diese Angaben ist eine
+                seriöse Beurteilung des Pflegebedarfs und damit ein Vertragsschluss nicht
+                möglich. Die erteilte Einwilligung können Sie jederzeit mit Wirkung für die
+                Zukunft widerrufen (Art. 7 Abs. 3 DSGVO); bitte richten Sie den Widerruf
+                schriftlich an die im Abschnitt „Verantwortliche Stelle" genannte Adresse oder
+                per E-Mail an{' '}
+                <LegalLink href="mailto:info@impuls-pflege.de">info@impuls-pflege.de</LegalLink>.
+                Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt;
+                gesetzliche Aufbewahrungsfristen bleiben ebenfalls unberührt.
+              </P>
+            </LegalSection>
+
+            {/* 5 — Bewerbungsverfahren */}
+            <LegalSection number="5" title="Bewerbungsverfahren" delay={0.16}>
+              <Sub>Umfang und Zweck der Datenerhebung</Sub>
+              <P>
+                Bei einer Bewerbung über das Online-Bewerbungsformular, per E-Mail oder per
+                Post verarbeiten wir folgende Daten zur Durchführung des Bewerbungsverfahrens:
+                Vor- und Nachname, Anschrift, E-Mail-Adresse, Telefonnummer, gewünschte
+                Position, Verfügbarkeit, Qualifikationen, Berufserfahrung, Motivationsschreiben
+                sowie hochgeladene Dokumente (Lebenslauf, Zeugnisse, Zertifikate,
+                Beschäftigungsnachweise).
+              </P>
+
+              <Sub>Rechtsgrundlage</Sub>
+              <P>
+                Rechtsgrundlage ist § 26 Abs. 1 BDSG i. V. m. Art. 88 DSGVO (Anbahnung eines
+                Beschäftigungsverhältnisses). Soweit Sie einer Aufnahme in unseren
+                Bewerberpool ausdrücklich zugestimmt haben, beruht die weitergehende
+                Verarbeitung zusätzlich auf Art. 6 Abs. 1 lit. a DSGVO. Soweit Bewerbungs­unterlagen
+                vereinzelt Daten besonderer Kategorien (z. B. Schwerbehinderung,
+                Konfessionsangabe in Zeugnissen, Gesundheitsangaben) enthalten, beruht deren
+                Verarbeitung – soweit erforderlich – auf § 26 Abs. 3 BDSG bzw. Art. 9 Abs. 2
+                lit. b DSGVO (Pflichten und Rechte aus dem Arbeitsrecht und Recht der sozialen
+                Sicherheit).
+              </P>
+
+              <Sub>Empfänger / interne Zugriffsberechtigte</Sub>
+              <P>
+                Bewerbungsdaten sind ausschließlich für das mit der konkreten Stelle befasste
+                Auswahlpersonal zugänglich. Eine Weitergabe an Dritte erfolgt nicht. Eine
+                automatisierte Entscheidungsfindung im Sinne des Art. 22 DSGVO findet nicht
+                statt.
+              </P>
+
+              <Sub>Speicherdauer</Sub>
+              <P>
+                Bei Absage werden Bewerbungsunterlagen 6 Monate nach Abschluss des
+                Bewerbungsverfahrens gelöscht (Aufbewahrung zur Verteidigung gegen
+                Entschädigungsansprüche nach § 15 Abs. 4 AGG). Bei Aufnahme in den
+                Bewerberpool nach ausdrücklicher Einwilligung Speicherung bis zum Widerruf,
+                längstens 24 Monate. Wird ein Beschäftigungsverhältnis begründet, gehen die
+                Bewerbungsunterlagen in die Personalakte über und unterliegen den dort
+                geltenden Aufbewahrungs- und Löschpflichten.
               </P>
 
               <Sub>Widerruf</Sub>
               <P>
-                Sie können eine bereits erteilte Einwilligung zur Datenverarbeitung jederzeit
+                Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft
                 widerrufen. Der Widerruf kann formlos per E-Mail an{' '}
                 <LegalLink href="mailto:info@impuls-pflege.de">info@impuls-pflege.de</LegalLink>{' '}
-                erfolgen. Bitte beachten Sie, dass ein Widerruf die Rechtmäßigkeit der bis
-                dahin erfolgten Verarbeitung nicht berührt und dass Daten, deren Verarbeitung
-                aufgrund anderer Rechtsgrundlagen erfolgt, hiervon unberührt bleiben.
+                erfolgen. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt
+                unberührt; Verarbeitungen auf gesetzlicher Grundlage bleiben unberührt.
+              </P>
+            </LegalSection>
+
+            {/* 6 — Hosting Vercel */}
+            <LegalSection number="6" title="Hosting (Vercel)" delay={0.19}>
+              <Sub>Anbieter und Verarbeitungszweck</Sub>
+              <P>
+                Die technische Auslieferung dieser Website erfolgt durch:
+              </P>
+              <div
+                className="rounded-[14px] border p-5"
+                style={{ borderColor: 'rgba(0,0,0,0.07)', background: '#FAFAF9' }}
+              >
+                <p className="text-[14px] font-[620] tracking-[-0.012em]" style={{ color: '#0F172A' }}>
+                  Vercel Inc.
+                </p>
+                <p className="mt-1 text-[14px] font-[420] leading-[1.65]" style={{ color: '#475569' }}>
+                  440 N Barranca Avenue #4133<br />
+                  Covina, CA 91723<br />
+                  Vereinigte Staaten von Amerika
+                </p>
+                <div className="mt-3 space-y-1 text-[14px] font-[420]" style={{ color: '#475569' }}>
+                  <p>Datenschutzerklärung: <LegalLink href="https://vercel.com/legal/privacy-policy" external>vercel.com/legal/privacy-policy</LegalLink></p>
+                  <p>Auftragsverarbeitung (DPA): <LegalLink href="https://vercel.com/legal/dpa" external>vercel.com/legal/dpa</LegalLink></p>
+                </div>
+              </div>
+              <P>
+                Vercel stellt die globale Auslieferung statischer und serverseitig generierter
+                Inhalte über ein Content-Delivery-Network (CDN) bereit, betreibt die zur
+                Beantwortung Ihrer Anfragen erforderlichen Serverless-Funktionen und
+                protokolliert Verbindungs- und Sicherheitsdaten in Server-Log-Dateien (siehe
+                Abschnitt 3 „Server-Log-Dateien"). Im Rahmen der Verarbeitung von Eingaben aus
+                Kontaktformular, Anamnesebogen und Bewerbungsformular werden die übermittelten
+                Daten kurzzeitig durch die Serverless-Funktionen von Vercel verarbeitet, bevor
+                die Persistenz im Code- und Datenrepository (siehe Abschnitt 7) erfolgt.
+              </P>
+
+              <Sub>Rechtsgrundlage</Sub>
+              <P>
+                Rechtsgrundlage für den Einsatz von Vercel ist Art. 6 Abs. 1 lit. f DSGVO
+                (berechtigtes Interesse an einer technisch zuverlässigen, performanten und
+                sicheren Auslieferung der Website). Soweit Eingaben aus Formularen verarbeitet
+                werden, gelten zusätzlich die im jeweiligen Verarbeitungsabschnitt genannten
+                Rechtsgrundlagen (Art. 6 Abs. 1 lit. b DSGVO, Art. 9 Abs. 2 lit. h DSGVO,
+                § 26 BDSG).
+              </P>
+
+              <Sub>Auftragsverarbeitung</Sub>
+              <P>
+                Mit Vercel besteht ein Vertrag zur Auftragsverarbeitung gemäß Art. 28 DSGVO
+                („Data Processing Agreement"). Vercel verarbeitet die personenbezogenen Daten
+                ausschließlich nach unseren dokumentierten Weisungen und unter Einhaltung der
+                technischen und organisatorischen Maßnahmen des DPA.
+              </P>
+
+              <Sub>Drittlandtransfer in die USA</Sub>
+              <P>
+                Der Einsatz von Vercel führt zu einer Übermittlung personenbezogener Daten in
+                die Vereinigten Staaten von Amerika (Drittland im Sinne der DSGVO). Die
+                Übermittlung wird durch folgende Garantien abgesichert:
+              </P>
+              <ul className="icon-list-stack space-y-2 pl-1">
+                {[
+                  'EU-US Data Privacy Framework (DPF): Vercel Inc. ist nach dem DPF zertifiziert. Die Übermittlung beruht insoweit auf einem Angemessenheitsbeschluss der Europäischen Kommission gemäß Art. 45 Abs. 3 DSGVO (Durchführungsbeschluss (EU) 2023/1795). Der Zertifizierungsstatus ist abrufbar unter dataprivacyframework.gov.',
+                  'Standardvertragsklauseln (SCC): Ergänzend wurden mit Vercel die EU-Standardvertragsklauseln in der Fassung des Durchführungsbeschlusses (EU) 2021/914 als Bestandteil des DPA vereinbart (Art. 46 Abs. 2 lit. c DSGVO).',
+                  'Technische Maßnahmen: Übertragung ausschließlich über TLS 1.2 oder höher; Verschlüsselung der ruhenden Daten gemäß den Sicherheitsmaßnahmen des DPA.',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
+                    <span className="icon-list-prose min-w-0 flex-1 text-[14.5px] font-[410] leading-[1.75] tracking-[-0.008em]" style={{ color: '#475569' }}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <Sub>Restrisiko (Schrems II)</Sub>
+              <P>
+                Wir weisen ausdrücklich darauf hin: US-amerikanische Sicherheits- und
+                Strafverfolgungsbehörden können nach US-amerikanischem Recht – insbesondere
+                Section 702 FISA (Foreign Intelligence Surveillance Act) und Executive Order
+                12333 – Zugriff auf bei US-Anbietern verarbeitete personenbezogene Daten
+                verlangen, ohne dass die betroffene Person hierüber zwingend informiert wird
+                oder einen wirksamen gerichtlichen Rechtsbehelf vor einem unabhängigen
+                Gericht erlangen kann. Eine vollständige Gleichwertigkeit zum europäischen
+                Schutzniveau besteht nach der Rechtsprechung des EuGH (Urt. v. 16.07.2020 –
+                C-311/18, „Schrems II") trotz Data Privacy Framework und
+                Standardvertragsklauseln nicht. Es verbleibt insoweit ein Restrisiko, über
+                das wir Sie an dieser Stelle ausdrücklich aufklären. Mit dem Absenden des
+                Online-Anamnesebogens, des Kontaktformulars oder des Bewerbungsformulars
+                bestätigen Sie, von diesem Restrisiko Kenntnis genommen zu haben.
+              </P>
+            </LegalSection>
+
+            {/* 7 — GitHub Repository */}
+            <LegalSection number="7" title="Code- und Datenrepository (GitHub)" delay={0.22}>
+              <Sub>Anbieter und Verarbeitungszweck</Sub>
+              <P>
+                Die Quellcode- und strukturierte Datenpersistenz dieser Website (Inhalte,
+                Konfigurationen sowie die persistente Speicherung der über Formulare
+                übermittelten Datensätze) erfolgt über die Plattform:
+              </P>
+              <div
+                className="rounded-[14px] border p-5"
+                style={{ borderColor: 'rgba(0,0,0,0.07)', background: '#FAFAF9' }}
+              >
+                <p className="text-[14px] font-[620] tracking-[-0.012em]" style={{ color: '#0F172A' }}>
+                  GitHub, Inc.
+                </p>
+                <p className="mt-1 text-[14px] font-[420] leading-[1.65]" style={{ color: '#475569' }}>
+                  88 Colin P Kelly Jr Street<br />
+                  San Francisco, CA 94107<br />
+                  Vereinigte Staaten von Amerika
+                </p>
+                <div className="mt-3 space-y-1 text-[14px] font-[420]" style={{ color: '#475569' }}>
+                  <p>Datenschutzerklärung: <LegalLink href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" external>docs.github.com/.../github-general-privacy-statement</LegalLink></p>
+                  <p>Auftragsverarbeitung (DPA): <LegalLink href="https://docs.github.com/site-policy/privacy-policies/github-data-protection-agreement" external>docs.github.com/.../github-data-protection-agreement</LegalLink></p>
+                </div>
+              </div>
+              <P>
+                Datensätze, die über das Kontaktformular, den Online-Anamnesebogen oder das
+                Bewerbungsformular eingereicht werden, werden zur revisions­sicheren
+                Speicherung in einem privaten, nicht öffentlich zugänglichen Repository bei
+                GitHub abgelegt. Hochgeladene Dokumente (insbesondere Entlassungsbriefe und
+                Bewerbungsunterlagen) werden hierbei base64-codiert in den Datensätzen
+                hinterlegt. Der Zugriff ist auf einen abschließend definierten Personenkreis
+                mit individuellen Zugangsdaten und Mehrfaktor-Authentifizierung beschränkt.
+              </P>
+
+              <Sub>Rechtsgrundlage</Sub>
+              <P>
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an
+                einer integritätsgesicherten, versionierten Ablage der für den
+                Geschäftsbetrieb erforderlichen Datensätze) sowie – für Eingaben aus
+                Formularen – die im jeweiligen Verarbeitungsabschnitt genannten weiteren
+                Rechtsgrundlagen (Art. 6 Abs. 1 lit. b DSGVO; Art. 9 Abs. 2 lit. h DSGVO
+                i. V. m. § 22 BDSG; § 26 BDSG).
+              </P>
+
+              <Sub>Auftragsverarbeitung</Sub>
+              <P>
+                Mit GitHub, Inc. besteht ein Vertrag zur Auftragsverarbeitung gemäß Art. 28
+                DSGVO. GitHub verarbeitet personenbezogene Daten ausschließlich nach unseren
+                dokumentierten Weisungen.
+              </P>
+
+              <Sub>Drittlandtransfer in die USA</Sub>
+              <P>
+                Der Einsatz von GitHub führt zu einer Übermittlung personenbezogener Daten in
+                die Vereinigten Staaten. Die Übermittlung wird durch folgende Garantien
+                abgesichert:
+              </P>
+              <ul className="icon-list-stack space-y-2 pl-1">
+                {[
+                  'EU-US Data Privacy Framework (DPF): GitHub, Inc. (als Tochter von Microsoft Corporation) ist nach dem DPF zertifiziert. Die Übermittlung beruht insoweit auf einem Angemessenheitsbeschluss der Europäischen Kommission gemäß Art. 45 Abs. 3 DSGVO. Der Zertifizierungsstatus ist abrufbar unter dataprivacyframework.gov.',
+                  'Standardvertragsklauseln (SCC): Ergänzend wurden mit GitHub die EU-Standardvertragsklauseln in der Fassung des Durchführungsbeschlusses (EU) 2021/914 als Bestandteil des DPA vereinbart (Art. 46 Abs. 2 lit. c DSGVO).',
+                  'Technische Maßnahmen: Übertragung ausschließlich über TLS 1.2 oder höher; Verschlüsselung der ruhenden Daten auf Speicherebene; Zugriffsbeschränkung über Mehrfaktor-Authentifizierung.',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
+                    <span className="icon-list-prose min-w-0 flex-1 text-[14.5px] font-[410] leading-[1.75] tracking-[-0.008em]" style={{ color: '#475569' }}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <Sub>Restrisiko (Schrems II)</Sub>
+              <P>
+                Es gelten die im Abschnitt 6 unter „Restrisiko (Schrems II)" beschriebenen
+                Risiken eines Zugriffs durch US-amerikanische Sicherheits- und
+                Strafverfolgungsbehörden nach Section 702 FISA und Executive Order 12333
+                entsprechend. Eine vollständige Gleichwertigkeit zum europäischen Schutzniveau
+                besteht nicht; das Restrisiko ist nicht vollständig auszuschließen. Mit dem
+                Absenden eines Formulars erklären Sie, hierüber informiert zu sein.
+              </P>
+            </LegalSection>
+
+            {/* 8 — Schriften */}
+            <LegalSection number="8" title="Schriften" delay={0.25}>
+              <Sub>Google Fonts (lokal eingebunden)</Sub>
+              <P>
+                Diese Website nutzt zur einheitlichen Darstellung von Schriftarten sogenannte
+                Google Fonts, die ausschließlich lokal vom Hosting-Server ausgeliefert werden.
+                Eine Verbindung Ihres Browsers zu Servern von Google LLC findet beim Aufruf
+                dieser Website nicht statt; insbesondere wird keine IP-Adresse an Google
+                übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+                Interesse an einer einheitlichen, ladezeitoptimierten typografischen
+                Darstellung).
+              </P>
+              <P>
+                Weitere Informationen zu Google Fonts:{' '}
+                <LegalLink href="https://developers.google.com/fonts/faq" external>
+                  developers.google.com/fonts/faq
+                </LegalLink>{' '}
+                · Datenschutzerklärung von Google:{' '}
+                <LegalLink href="https://policies.google.com/privacy" external>
+                  policies.google.com/privacy
+                </LegalLink>
+                .
+              </P>
+            </LegalSection>
+
+            {/* 9 — Datenminimierung */}
+            <LegalSection number="9" title="Datenminimierung und Verarbeitungsgrenzen" delay={0.28}>
+              <P>
+                Wir setzen den Grundsatz der Datenminimierung (Art. 5 Abs. 1 lit. c DSGVO) durch
+                folgende verbindliche Festlegungen technisch und organisatorisch um:
+              </P>
+              <ul className="icon-list-stack space-y-2 pl-1">
+                {[
+                  'Kein Tracking, kein Webanalyse-Werkzeug, keine Heatmaps, keine Reichweitenmessung.',
+                  'Keine geräte- oder browserübergreifende Wiedererkennung; keine Profilbildung im Sinne des Art. 4 Nr. 4 DSGVO.',
+                  'Keine Weitergabe personenbezogener Daten an Dritte zu Werbezwecken; keine Erstellung von Werbeprofilen.',
+                  'Keine automatisierte Entscheidungsfindung im Sinne des Art. 22 DSGVO.',
+                  'Keine Einbindung von Social-Media-Plugins oder externen Drittanbieter-Skripten zu Marketingzwecken.',
+                  'Erhebung besonderer Kategorien personenbezogener Daten ausschließlich, soweit dies zur Anbahnung und Durchführung des Pflegevertrags erforderlich ist und durch Art. 9 Abs. 2 lit. h DSGVO i. V. m. § 22 BDSG bzw. ausdrückliche Einwilligung gedeckt ist.',
+                  'Pseudonymisierung und Verschlüsselung gemäß Art. 32 DSGVO im Rahmen der technisch verfügbaren Maßnahmen.',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: MINT }} />
+                    <span className="icon-list-prose min-w-0 flex-1 text-[14.5px] font-[410] leading-[1.75] tracking-[-0.008em]" style={{ color: '#475569' }}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <P>
+                Diese Festlegungen gelten unabhängig davon, ob eine Einwilligung der betroffenen
+                Person eingeholt wurde, und können nur durch eine ausdrückliche Aktualisierung
+                dieser Datenschutzerklärung geändert werden.
               </P>
             </LegalSection>
 
             {/* Stand */}
-            <FadeIn delay={0.24}>
+            <FadeIn delay={0.31}>
               <div className="flex items-center justify-between px-1">
                 <p
                   className="text-[12.5px] font-[420]"
                   style={{ color: '#94A3B8' }}
                 >
-                  Stand: [Datum der letzten Aktualisierung]
+                  Stand: 04. Mai 2026
                 </p>
               </div>
             </FadeIn>
