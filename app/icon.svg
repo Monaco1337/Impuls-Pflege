@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="IMPULS Ambulanter Pflegedienst">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1FD0B0"/>
+      <stop offset="100%" stop-color="#0E8E76"/>
+    </linearGradient>
+    <radialGradient id="hl" cx="0.28" cy="0.18" r="0.85">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="heart" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1FBF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" ry="112" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="112" ry="112" fill="url(#hl)"/>
+  <path d="M256 420 C 256 420, 80 308, 80 200 A 88 88 0 0 1 256 156 A 88 88 0 0 1 432 200 C 432 308, 256 420, 256 420 Z" fill="url(#heart)"/>
+  <path d="M104 268 L 188 268 L 214 218 L 248 318 L 280 188 L 312 318 L 338 268 L 408 268" stroke="#F24B6A" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

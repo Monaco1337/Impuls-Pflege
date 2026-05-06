@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "next lint",
     "data:init": "npx tsx scripts/write-initial-json-data.ts",
-    "hash-password": "npx tsx scripts/hash-password.ts"
+    "hash-password": "npx tsx scripts/hash-password.ts",
+    "favicons": "npx tsx scripts/generate-favicons.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -38,6 +39,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.25.0",
     "eslint-config-next": "^15.3.1",
+    "png-to-ico": "^3.0.1",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.4",
     "tsx": "^4.19.3",

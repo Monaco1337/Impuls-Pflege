@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { AuthSessionProvider } from '@/components/providers/session-provider'
 import { JsonLd } from '@/components/seo/json-ld'
@@ -45,10 +45,7 @@ export const metadata: Metadata = {
       'max-video-preview': -1,
     },
   },
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
+  manifest: '/manifest.webmanifest',
   formatDetection: {
     telephone: true,
     email: true,
@@ -59,6 +56,16 @@ export const metadata: Metadata = {
   creator: SITE.name,
   publisher: SITE.name,
   category: 'health',
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#18C1A3' },
+    { media: '(prefers-color-scheme: dark)', color: '#0E8E76' },
+  ],
+  colorScheme: 'light',
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
