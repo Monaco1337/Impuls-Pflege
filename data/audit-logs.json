@@ -1,17 +1,5 @@
 [
   {
-    "id": "faa2d093-2bed-4e22-a130-021357964d91",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:05.394Z"
-  },
-  {
     "id": "40ad6d6d-d3f5-4b9b-bf52-101127d7d37b",
     "userId": "usr_elena",
     "action": "update",
@@ -6027,5 +6015,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-04-28T11:21:35.575Z"
+  },
+  {
+    "id": "4e186a99-d93f-419b-bb82-ad933d07fae7",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "f1707829-ab25-4392-801e-008dce8535fe",
+    "metadata": {
+      "name": "Miriam Schörner",
+      "position": "Hauswirtschaftskraft",
+      "jobPostingId": "job_hauswirtschaftskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-05-07T10:34:04.884Z"
   }
 ]
