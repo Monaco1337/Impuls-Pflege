@@ -32,11 +32,11 @@
       "experience": "20 Jahre",
       "motivation": "Sehr geehrter Damen und Herren,\r\nAnbei übersende ich Ihnen mein Anschreiben, in der Hoffnung, dass Sie es öffnen können,da es mit dem Lebenslauf nicht geklappt hat. Ich hatte Ihnen eine Email geschickt, über Ihre Email-Adresse, bin dann aber im Bundesland Hessen gelandet. Wenn Sie noch Unterlagen brauchen, gebe es da noch eine andere Email Adresse? Dann würde ich Ihnen sehr gerne noch was zukommen lassen.\r\nIch bin gelernte Altenpflegehelferin und habe von 2006-2007 meine Ausbildung absolviert. Ich suche eine Teilzeitstelle mit 25-30 Wochenstunden. Über ein persönliches Gespräch würde ich mich sehr freuen. \r\n\r\nMit freundlichen Grüßen, \r\n\r\nMiriam Schörner ",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_hauswirtschaftskraft",
       "createdAt": "2026-05-07T10:34:03.335Z",
-      "updatedAt": "2026-05-07T10:34:03.335Z"
+      "updatedAt": "2026-05-07T12:47:10.025Z"
     }
   ],
   "notes": [],
@@ -49,6 +49,15 @@
       "changedById": "usr_admin",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-04-28T11:20:38.205Z"
+    },
+    {
+      "id": "650bf120-9f0d-4511-b76d-b3e02e4ea6ca",
+      "applicantId": "f1707829-ab25-4392-801e-008dce8535fe",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_elena",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-05-07T12:47:10.025Z"
     }
   ],
   "documents": [
