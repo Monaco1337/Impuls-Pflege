@@ -1,17 +1,5 @@
 [
   {
-    "id": "99f6afeb-01a2-4129-a42a-f7640665444c",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:05.628Z"
-  },
-  {
     "id": "bdfd36c2-ca34-4998-9e08-dde5c6da3767",
     "userId": "usr_elena",
     "action": "update",
@@ -6033,5 +6021,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-05-07T12:47:11.520Z"
+  },
+  {
+    "id": "4e71d785-12d0-455f-8619-8624d60ba6fd",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "e827e488-16ed-4a66-ae0f-ab03e03ca2ef",
+    "metadata": {
+      "name": "Celina Siebeneicher",
+      "position": "Pflegehilfskraft",
+      "jobPostingId": "job_pflegehilfskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-05-07T22:06:46.565Z"
   }
 ]
