@@ -89,6 +89,12 @@ function safeErrorMessage(err: unknown): string {
 export async function submitApplication(formData: FormData): Promise<ActionResult> {
   const debug = process.env.APP_DEBUG_SUBMIT === '1'
   try {
+    const privacyField = formData.get('privacy')
+    const privacyAccepted =
+      privacyField === 'true' ||
+      privacyField === 'on' ||
+      privacyField === '1'
+
     const raw = {
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
@@ -100,7 +106,7 @@ export async function submitApplication(formData: FormData): Promise<ActionResul
       qualification: formData.get('qualification'),
       experience: formData.get('experience'),
       motivation: formData.get('motivation'),
-      privacy: formData.get('privacy') === 'true',
+      privacy: privacyAccepted,
     }
     console.info('[submitApplication] received', {
       firstName: raw.firstName,

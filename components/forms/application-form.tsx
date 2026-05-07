@@ -117,20 +117,29 @@ export function ApplicationForm({ preselectedPosition }: ApplicationFormProps) {
   const onSubmit = async (data: ApplicationFormData) => {
     setServerError(null)
     const formData = new FormData()
-    Object.entries(data).forEach(([key, value]) => {
+    const { privacy, ...fields } = data
+    Object.entries(fields).forEach(([key, value]) => {
       if (value !== undefined && value !== null) formData.append(key, String(value))
     })
+    if (privacy === true) {
+      formData.append('privacy', 'true')
+    }
     if (cvFiles[0]) {
       formData.append('cv', cvFiles[0])
       formData.append('documents', cvFiles[0])
     }
     for (const file of docFiles) formData.append('documents', file)
 
-    const result = await submitApplication(formData)
-    if (result.success) {
-      router.push('/bewerbung/danke')
-    } else {
-      setServerError(result.error ?? 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.')
+    try {
+      const result = await submitApplication(formData)
+      if (result.success) {
+        router.push('/bewerbung/danke')
+      } else {
+        setServerError(result.error ?? 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    } catch {
+      setServerError('Die Bewerbung konnte nicht gesendet werden. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.')
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
@@ -138,18 +147,16 @@ export function ApplicationForm({ preselectedPosition }: ApplicationFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
 
-      {/* Server error */}
+      {/* Server error — nicht in FadeIn: sonst opacity 0 solange nicht im Viewport (Nutzer scrollt unten zum Absenden). */}
       {serverError && (
-        <FadeIn>
-          <div
-            className="flex items-start gap-3 rounded-[14px] border px-5 py-4 text-sm"
-            style={{ borderColor: 'rgba(242,75,106,0.25)', background: 'rgba(242,75,106,0.04)', color: '#b91c1c' }}
-            role="alert"
-          >
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: PINK }} />
-            {serverError}
-          </div>
-        </FadeIn>
+        <div
+          className="flex items-start gap-3 rounded-[14px] border px-5 py-4 text-sm"
+          style={{ borderColor: 'rgba(242,75,106,0.25)', background: 'rgba(242,75,106,0.04)', color: '#b91c1c' }}
+          role="alert"
+        >
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: PINK }} />
+          {serverError}
+        </div>
       )}
 
       {/* 1 — Persönliche Daten */}
@@ -290,10 +297,12 @@ export function ApplicationForm({ preselectedPosition }: ApplicationFormProps) {
             <input
               type="checkbox"
               id="privacy"
+              value="true"
               className="mt-1 h-4 w-4 shrink-0 cursor-pointer rounded border-warm-300 focus:ring-2 focus:ring-offset-1"
               style={{ accentColor: MINT }}
               {...register('privacy', {
-                setValueAs: (v: boolean) => (v ? true : undefined),
+                setValueAs: (v: unknown) =>
+                  v === true || v === 'true' ? true : undefined,
               })}
             />
             <label htmlFor="privacy" className="cursor-pointer text-[13.5px] leading-[1.65]" style={{ color: '#475569' }}>
