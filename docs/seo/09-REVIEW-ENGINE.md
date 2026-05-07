@@ -66,7 +66,7 @@ IMPULS Pflege
 
 **Rückseite:**
 - Telefon 02303 25055-0
-- E-Mail kontakt@impuls-unna.de
+- E-Mail info@impuls-unna.de
 - Hinweis: „Anregungen, Beschwerden, Lob — wir hören zu."
 
 ## 6. Eskalations-Prozess bei Kritik

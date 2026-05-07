@@ -15,7 +15,7 @@ export type PublicContactInfo = {
 const DEFAULT: PublicContactInfo = {
   phone: '02303 2920589',
   fax: '02303 2920587',
-  email: 'info@impuls-pflege.de',
+  email: 'info@impuls-unna.de',
   address: 'Massener Str. 147, 59423 Unna',
   hours: 'Mo–Fr: 08:00–16:00 Uhr\nTelefonische Erreichbarkeit: Rund um die Uhr',
 }

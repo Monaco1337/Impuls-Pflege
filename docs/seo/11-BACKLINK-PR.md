@@ -106,7 +106,7 @@ Bereits existierend (`/ratgeber/...`). Diese werden aktiv gepitched bei:
 | **Notfallkarte für Angehörige** | A6 zum Drucken | mittel — Apotheken / Sanitätshäuser |
 | **Checkliste Krankenhausentlassung** | 4 Seiten PDF | hoch — Sozialdienste, MD-Vorbereitung |
 
-Jedes PDF mit `kontakt@impuls-unna.de` und URL-Footer. Bei Verteilung → Backlink von Verteiler.
+Jedes PDF mit `info@impuls-unna.de` und URL-Footer. Bei Verteilung → Backlink von Verteiler.
 
 ### C. Eigener Pflege-Glossar
 

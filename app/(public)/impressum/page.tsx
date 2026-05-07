@@ -131,11 +131,11 @@ export default function ImpressumPage() {
               <p>
                 E-Mail:{' '}
                 <a
-                  href="mailto:info@impuls-pflege.de"
+                  href="mailto:info@impuls-unna.de"
                   className="font-[540] underline underline-offset-2 transition-opacity hover:opacity-70"
                   style={{ color: MINT }}
                 >
-                  info@impuls-pflege.de
+                  info@impuls-unna.de
                 </a>
               </p>
             </LegalSection>

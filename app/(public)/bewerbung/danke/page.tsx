@@ -68,11 +68,11 @@ export default function DankePage() {
                   02303 2920589
                 </a>
                 <a
-                  href="mailto:info@impuls-pflege.de"
+                  href="mailto:info@impuls-unna.de"
                   className="inline-flex items-center gap-2 text-sm font-medium text-warm-600 transition-colors duration-150 hover:text-primary-600"
                 >
                   <Mail className="h-4 w-4 text-primary-500" aria-hidden="true" />
-                  info@impuls-pflege.de
+                  info@impuls-unna.de
                 </a>
               </div>
             </div>

@@ -2,7 +2,7 @@
   {
     "id": "usr_admin",
     "username": "admin",
-    "email": "admin@impuls-pflege.de",
+    "email": "info@impuls-unna.de",
     "passwordHash": "$2a$12$tzVFYEzIyB40ydfW30jP9.xos4YO5Vpqb4T27j7.lXGfmIZ5JVi3O",
     "firstName": "Admin",
     "lastName": "IMPULS",
@@ -17,7 +17,7 @@
   {
     "id": "usr_elena",
     "username": "elena",
-    "email": "elena@impuls-pflege.de",
+    "email": "info@impuls-unna.de",
     "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
     "firstName": "Elena",
     "lastName": "Tschupina",
@@ -31,7 +31,7 @@
   {
     "id": "usr_management",
     "username": "daniel",
-    "email": "daniel@impuls-pflege.de",
+    "email": "info@impuls-unna.de",
     "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
     "firstName": "Daniel",
     "lastName": "Tschupina",
@@ -45,7 +45,7 @@
   {
     "id": "usr_recruiting",
     "username": "recruiting",
-    "email": "recruiting@impuls-pflege.de",
+    "email": "info@impuls-unna.de",
     "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
     "firstName": "Lisa",
     "lastName": "Müller",
@@ -59,7 +59,7 @@
   {
     "id": "usr_office",
     "username": "buero",
-    "email": "buero@impuls-pflege.de",
+    "email": "info@impuls-unna.de",
     "passwordHash": "$2a$12$EQXbpOklRSkPvnEHctH5UOlRTdNCUqwmuBMjv9y2XgL82f6UE8ToW",
     "firstName": "Thomas",
     "lastName": "Weber",

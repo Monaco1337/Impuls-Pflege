@@ -26,7 +26,7 @@ export function defaultUsers(): JsonUser[] {
     {
       id: 'usr_admin',
       username: 'admin',
-      email: 'admin@impuls-pflege.de',
+      email: 'info@impuls-unna.de',
       passwordHash: DEMO_PASSWORD_HASH,
       firstName: 'Admin',
       lastName: 'Technik',
@@ -41,7 +41,7 @@ export function defaultUsers(): JsonUser[] {
     {
       id: 'usr_elena',
       username: 'elena',
-      email: 'elena@impuls-pflege.de',
+      email: 'info@impuls-unna.de',
       passwordHash: DEMO_PASSWORD_HASH,
       firstName: 'Elena',
       lastName: 'Tschupina',
@@ -55,7 +55,7 @@ export function defaultUsers(): JsonUser[] {
     {
       id: 'usr_management',
       username: 'daniel',
-      email: 'daniel@impuls-pflege.de',
+      email: 'info@impuls-unna.de',
       passwordHash: DEMO_PASSWORD_HASH,
       firstName: 'Daniel',
       lastName: 'Tschupina',
@@ -69,7 +69,7 @@ export function defaultUsers(): JsonUser[] {
     {
       id: 'usr_recruiting',
       username: 'recruiting',
-      email: 'recruiting@impuls-pflege.de',
+      email: 'info@impuls-unna.de',
       passwordHash: DEMO_PASSWORD_HASH,
       firstName: 'Lisa',
       lastName: 'Müller',
@@ -83,7 +83,7 @@ export function defaultUsers(): JsonUser[] {
     {
       id: 'usr_office',
       username: 'buero',
-      email: 'buero@impuls-pflege.de',
+      email: 'info@impuls-unna.de',
       passwordHash: DEMO_PASSWORD_HASH,
       firstName: 'Thomas',
       lastName: 'Weber',
@@ -249,7 +249,7 @@ export function defaultContentBlocks(): JsonContentBlock[] {
       content: {
         phone: '02303 2920589',
         fax: '02303 2920587',
-        email: 'info@impuls-pflege.de',
+        email: 'info@impuls-unna.de',
         address: 'Massener Str. 147, 59423 Unna',
         hours: 'Mo–Fr: 08:00–16:00 Uhr\nTelefonische Erreichbarkeit: Rund um die Uhr',
       },
@@ -267,7 +267,7 @@ export function defaultSettings(): JsonSetting[] {
     { id: 'set_org_address', key: 'org_address', value: 'Massener Str. 147, 59423 Unna' },
     { id: 'set_org_phone', key: 'org_phone', value: '02303 2920589' },
     { id: 'set_org_fax', key: 'org_fax', value: '02303 2920587' },
-    { id: 'set_org_email', key: 'org_email', value: 'info@impuls-pflege.de' },
+    { id: 'set_org_email', key: 'org_email', value: 'info@impuls-unna.de' },
   ]
 }
 

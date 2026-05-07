@@ -106,7 +106,7 @@ export function ContactCtaSection() {
                 {[
                   { icon: Phone, label: 'Telefon', value: '02303 2920589', href: 'tel:+4923032920589' },
                   { icon: Printer, label: 'Fax', value: '02303 2920587', href: 'fax:+4923032920587' },
-                  { icon: Mail, label: 'E-Mail', value: 'info@impuls-pflege.de', href: 'mailto:info@impuls-pflege.de' },
+                  { icon: Mail, label: 'E-Mail', value: 'info@impuls-unna.de', href: 'mailto:info@impuls-unna.de' },
                   { icon: MapPin, label: 'Adresse', value: 'Massener Str. 147, 59423 Unna', href: undefined },
                   { icon: Clock, label: 'Bürozeiten', value: 'Mo–Fr: 08:00–16:00 Uhr', href: undefined },
                 ].map(({ icon: Icon, label, value, href }) => (

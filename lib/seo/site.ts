@@ -22,8 +22,8 @@ export const SITE = {
   domain: 'www.impuls-unna.de',
   url: 'https://www.impuls-unna.de',
 
-  /** Brand-/Legal-Email (technisch noch impuls-pflege.de — bewusst beibehalten). */
-  email: 'info@impuls-pflege.de',
+  /** Öffentliche Kontakt- und Schema-E-Mail. */
+  email: 'info@impuls-unna.de',
 
   /** Haupt-Telefon, einheitlich formatiert (E.164 für tel:, lokal für Anzeige). */
   phoneE164: '+4923032920589',

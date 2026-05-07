@@ -220,7 +220,7 @@ function LegalLink({
 }
 
 const Mail = () => (
-  <LegalLink href="mailto:info@impuls-pflege.de">info@impuls-pflege.de</LegalLink>
+  <LegalLink href="mailto:info@impuls-unna.de">info@impuls-unna.de</LegalLink>
 )
 
 export default function DatenschutzPage() {

@@ -72,7 +72,7 @@ Die folgenden Werte sind **Erfahrungs­annahmen**, keine Garantie:
 | **Doorway-Page-Verdacht** durch Stadt × Service-Seiten | Jede Seite hat einzigartigen Stadt-Kontext (Krankenhäuser, Stadtteile, FAQs), eindeutige H1, eindeutigen Intro-Absatz. |
 | **Medical Misinformation Penalty** | Texte sind fachlich korrekt, mit SGB-Bezug, Stand 2025, ohne medizinische Versprechen. Keine Heilungs­behauptungen. |
 | **NAP-Inkonsistenz** | Single Source of Truth in `lib/seo/site.ts` und `data/content-blocks.json`. Citation-Liste folgt diesem Stand. |
-| **Domain-Verwirrung impuls-unna.de vs impuls-pflege.de** | Live-Domain `impuls-unna.de` ist canonical. E-Mail bleibt `info@impuls-pflege.de` (Backend-Bestand). Falls die andere Domain noch Traffic erhält, dort 301 → `impuls-unna.de`. **TODO Phase 3.** |
+| **Domain-Verwirrung impuls-unna.de vs impuls-pflege.de** | Live-Domain `impuls-unna.de` ist canonical. Öffentliche Kontakt-E-Mail: `info@impuls-unna.de`. Falls die andere Domain noch Traffic erhält, dort 301 → `impuls-unna.de`. **TODO Phase 3.** |
 | **Reviews durch Incentive** | Strikt verboten. Bewertungs­engine arbeitet mit QR-Code beim Pflege­abschluss + Soft-Mail nach 14 Tagen, ohne Vorgaben für Inhalt. |
 
 ---
