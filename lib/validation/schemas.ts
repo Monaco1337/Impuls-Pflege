@@ -14,6 +14,14 @@ export const inquirySchema = z.object({
 export type InquiryFormData = z.infer<typeof inquirySchema>
 
 // ─── Application ────────────────────────────────────
+// Checkbox: RHF liefert je nach `value`-Attribut boolean true, "true", "on" (HTML-Default) o. Ä.
+const applicationPrivacySchema = z.preprocess(
+  (val) =>
+    val === true || val === 'true' || val === 'on' || val === '1' ? true : val,
+  z.literal(true, {
+    errorMap: () => ({ message: 'Bitte stimmen Sie der Datenschutzerklärung zu' }),
+  }),
+)
 
 export const applicationSchema = z.object({
   firstName: z.string().min(1, 'Vorname ist erforderlich').max(50),
@@ -26,9 +34,7 @@ export const applicationSchema = z.object({
   qualification: z.string().max(500).optional(),
   experience: z.string().max(500).optional(),
   motivation: z.string().max(5000).optional(),
-  privacy: z.literal(true, {
-    errorMap: () => ({ message: 'Bitte stimmen Sie der Datenschutzerklärung zu' }),
-  }),
+  privacy: applicationPrivacySchema,
 })
 
 export type ApplicationFormData = z.infer<typeof applicationSchema>

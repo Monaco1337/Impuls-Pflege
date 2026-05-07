@@ -297,13 +297,9 @@ export function ApplicationForm({ preselectedPosition }: ApplicationFormProps) {
             <input
               type="checkbox"
               id="privacy"
-              value="true"
               className="mt-1 h-4 w-4 shrink-0 cursor-pointer rounded border-warm-300 focus:ring-2 focus:ring-offset-1"
               style={{ accentColor: MINT }}
-              {...register('privacy', {
-                setValueAs: (v: unknown) =>
-                  v === true || v === 'true' ? true : undefined,
-              })}
+              {...register('privacy')}
             />
             <label htmlFor="privacy" className="cursor-pointer text-[13.5px] leading-[1.65]" style={{ color: '#475569' }}>
               Ich habe die{' '}
