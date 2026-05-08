@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAdminInbox } from '@/components/admin/use-admin-inbox'
+import { AdminInboxRefreshContext } from '@/components/admin/admin-inbox-refresh-context'
 import { InboxBellDropdown } from '@/components/admin/inbox-bell-dropdown'
 import { LogoutConfirmButton } from '@/components/admin/logout-confirm-button'
 import { getAdminPageTitle } from '@/lib/admin/admin-page-titles'
@@ -45,7 +46,6 @@ interface AdminShellProps {
 }
 
 const INQ_INBOX = '/admin/inquiries?status=NEU' as const
-const APP_INBOX = '/admin/applicants?status=NEU_EINGEGANGEN' as const
 const ANAM_INBOX = '/admin/anamnese?status=NEU_EINGEGANGEN' as const
 
 const SIDEBAR_COLLAPSED_KEY = 'impuls-admin-sidebar-collapsed'
@@ -72,11 +72,11 @@ const navItems: {
 function hrefForInbox(
   item: (typeof navItems)[number],
   newInquiries: number,
-  newApplicants: number,
+  _newApplicants: number,
   newAnamnese: number,
 ) {
   if (item.inbox === 'inquiries' && newInquiries > 0) return INQ_INBOX
-  if (item.inbox === 'applicants' && newApplicants > 0) return APP_INBOX
+  // Bewerbungen: immer Liste ohne Status-Filter (Filter manuell wählbar)
   if (item.inbox === 'anamnese' && newAnamnese > 0) return ANAM_INBOX
   return item.href
 }
@@ -99,6 +99,7 @@ export function AdminShell({ user, children }: AdminShellProps) {
   const {
     counts,
     ready: inboxReady,
+    refresh: refreshInboxCounts,
     acknowledgeInquiries,
     acknowledgeApplicants,
     acknowledgeAnamnese,
@@ -452,7 +453,11 @@ export function AdminShell({ user, children }: AdminShellProps) {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          <AdminInboxRefreshContext.Provider value={refreshInboxCounts}>
+            {children}
+          </AdminInboxRefreshContext.Provider>
+        </main>
       </div>
     </div>
   )

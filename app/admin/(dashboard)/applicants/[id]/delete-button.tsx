@@ -14,6 +14,7 @@ import {
   DialogClose,
 } from '@/components/ui/dialog'
 import { deleteApplicant } from '@/lib/actions/applicants'
+import { useAdminInboxRefresh } from '@/components/admin/admin-inbox-refresh-context'
 
 interface ApplicantDeleteButtonProps {
   applicantId: string
@@ -23,6 +24,7 @@ export function ApplicantDeleteButton({
   applicantId,
 }: ApplicantDeleteButtonProps) {
   const router = useRouter()
+  const refreshInbox = useAdminInboxRefresh()
   const [open, setOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
@@ -32,6 +34,8 @@ export function ApplicantDeleteButton({
     startTransition(async () => {
       const result = await deleteApplicant(applicantId)
       if (result.success) {
+        refreshInbox?.()
+        router.refresh()
         router.push('/admin/applicants')
       } else {
         setError(result.error ?? 'Bewerber konnte nicht gelöscht werden')

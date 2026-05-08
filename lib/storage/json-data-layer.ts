@@ -5,7 +5,7 @@
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { githubGetFile, githubPutFile } from '@/lib/storage/git-storage'
+import { githubGetFile, githubPutFileWithRetries } from '@/lib/storage/git-storage'
 
 const memory = new Map<string, string>()
 const memoryFreshAt = new Map<string, number>()
@@ -153,18 +153,16 @@ export async function readJsonFile<T>(fileName: string, fallback: T): Promise<T>
 export async function writeJsonFile(fileName: string, value: unknown, commitMessage: string): Promise<void> {
   const text = JSON.stringify(value, null, 2)
   await runLocked(fileName, async () => {
-    setMemory(fileName, text)
     await writeTmpFile(fileName, text)
 
     if (isVercel() && useGitHubPersistence()) {
-      let sha: string | null = null
       try {
-        const meta = await githubGetFile(repoPathForFile(fileName))
-        sha = meta?.sha ?? null
-      } catch {
-        sha = null
+        await githubPutFileWithRetries(repoPathForFile(fileName), text, commitMessage)
+        setMemory(fileName, text)
+      } catch (err) {
+        invalidateJsonFile(fileName)
+        throw err
       }
-      await githubPutFile(repoPathForFile(fileName), text, commitMessage, sha)
       return
     }
 
@@ -176,10 +174,12 @@ export async function writeJsonFile(fileName: string, value: unknown, commitMess
       console.warn(
         `[writeJsonFile] '${fileName}' wurde nur in /tmp + Memory geschrieben. Setze GIT_TOKEN/GITHUB_REPO_OWNER/GITHUB_REPO_NAME für persistente Speicherung.`,
       )
+      setMemory(fileName, text)
       return
     }
 
     await writeLocalDataFile(fileName, text)
+    setMemory(fileName, text)
   })
 }
 

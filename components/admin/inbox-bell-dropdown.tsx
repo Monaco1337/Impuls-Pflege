@@ -14,10 +14,9 @@ import {
 } from '@/components/ui/dropdown'
 
 const INQ_FILTER = '/admin/inquiries?status=NEU'
-const APP_FILTER = '/admin/applicants?status=NEU_EINGEGANGEN'
+const APP_LIST = '/admin/applicants'
 const ANAM_FILTER = '/admin/anamnese?status=NEU_EINGEGANGEN'
 const INQ_LIST = '/admin/inquiries'
-const APP_LIST = '/admin/applicants'
 const ANAM_LIST = '/admin/anamnese'
 
 type Props = {
@@ -59,9 +58,8 @@ export function InboxBellDropdown({
   }
 
   const handleApplicantsClick = () => {
-    const target = newApplicants > 0 ? APP_FILTER : APP_LIST
     if (newApplicants > 0) void onAckApplicants()
-    router.push(target)
+    router.push(APP_LIST)
   }
 
   const handleAnamneseClick = () => {

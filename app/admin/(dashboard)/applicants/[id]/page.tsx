@@ -27,6 +27,7 @@ import { ApplicantStatusUpdate } from '@/components/admin/applicant-status-updat
 import { ApplicantTags } from '@/components/admin/applicant-tags'
 import { ApplicantNotes } from '@/components/admin/applicant-notes'
 import { ApplicantDocumentsList } from '@/components/admin/applicant-documents-list'
+import { ApplicantInboxRefreshOnMount } from '@/components/admin/applicant-inbox-refresh-on-mount'
 import { ApplicantDeleteButton } from './delete-button'
 
 export async function generateMetadata({
@@ -116,6 +117,7 @@ export default async function ApplicantDetailPage({
 
   return (
     <div className="space-y-6">
+      <ApplicantInboxRefreshOnMount />
       {/* Back link + header */}
       <div>
         <Link

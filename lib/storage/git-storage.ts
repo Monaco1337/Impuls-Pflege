@@ -93,3 +93,48 @@ export async function githubPutFile(
     throw new Error(`GitHub PUT ${repoPath}: ${res.status} ${errText}`)
   }
 }
+
+function isGitHubWriteConflict(status: number): boolean {
+  return status === 409 || status === 422
+}
+
+/**
+ * PUT mit frischer SHA; bei Konflikt (parallele Schreibzugriffe / veraltete SHA)
+ * erneut lesen und wiederholen.
+ */
+export async function githubPutFileWithRetries(
+  repoPath: string,
+  text: string,
+  message: string,
+  maxAttempts = 5,
+): Promise<void> {
+  let lastError: Error | null = null
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    let sha: string | null = null
+    try {
+      const meta = await githubGetFile(repoPath)
+      sha = meta?.sha ?? null
+    } catch {
+      sha = null
+    }
+
+    try {
+      await githubPutFile(repoPath, text, message, sha)
+      return
+    } catch (e) {
+      const err = e instanceof Error ? e : new Error(String(e))
+      lastError = err
+      const m = err.message
+      const statusMatch = /GitHub PUT [^:]+: (\d{3})\s/.exec(m)
+      const status = statusMatch ? Number(statusMatch[1]) : 0
+      const retryable = isGitHubWriteConflict(status) || m.includes('sha') || m.includes('does not match')
+      if (!retryable || attempt === maxAttempts) {
+        throw err
+      }
+      await new Promise((r) => setTimeout(r, 120 * attempt))
+    }
+  }
+
+  throw lastError ?? new Error(`GitHub PUT ${repoPath}: failed after retries`)
+}

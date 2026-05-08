@@ -697,6 +697,7 @@ export async function deleteApplicant(id: string): Promise<ActionResult> {
     })
 
     revalidatePath('/admin/applicants')
+    revalidatePath('/admin/dashboard')
     return { success: true }
   } catch (error) {
     logServerError('deleteApplicant error', error)
