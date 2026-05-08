@@ -394,7 +394,7 @@ export async function acknowledgeAllNewApplicants(): Promise<ActionResult<{ ackn
   try {
     const user = await requireAccess('applicants', 'view')
 
-    const bundle = await repoLoadApplicants()
+    const bundle = await repoLoadApplicants({ bypassMemory: true })
     const t = nowIso()
     const targets = bundle.applicants.filter((a) => a.status === ApplicantStatus.NEU_EINGEGANGEN)
     if (targets.length === 0) {
@@ -447,7 +447,9 @@ export async function acknowledgeApplicantOnOpen(id: string): Promise<void> {
   try {
     const user = await requireAccess('applicants', 'view')
 
-    const bundle = await repoLoadApplicants()
+    // bypassMemory: stelle sicher, dass wir auf den aktuell persistierten Stand mutieren –
+    // sonst riskieren wir Lost-Updates, wenn Memory einer anderen Lambda voraus ist.
+    const bundle = await repoLoadApplicants({ bypassMemory: true })
     const a = bundle.applicants.find((x) => x.id === id)
     if (!a || a.status !== ApplicantStatus.NEU_EINGEGANGEN) return
 
@@ -671,7 +673,9 @@ export async function deleteApplicant(id: string): Promise<ActionResult> {
   try {
     const user = await requireAccess('applicants', 'delete')
 
-    const bundle = await repoLoadApplicants()
+    // bypassMemory: tatsächlich aktueller Stand vor der Mutation (vermeidet Wiederauftauchen
+    // gelöschter Datensätze, wenn die persistierte Datei voraus ist).
+    const bundle = await repoLoadApplicants({ bypassMemory: true })
     if (!bundle.applicants.some((a) => a.id === id)) {
       return { success: false, error: 'Bewerber nicht gefunden' }
     }

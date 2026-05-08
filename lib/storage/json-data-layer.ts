@@ -139,6 +139,23 @@ export async function readJsonRaw(
     return defaultWhenMissing
   }
 
+  if (isVercel()) {
+    // Vercel OHNE GitHub-Persistenz: /tmp ist Lambda-lokaler aktueller Stand
+    // (z. B. nach status_change, delete). /data ist read-only Build-Zeit-Stand
+    // und MUSS hinten anstehen, sonst überschreibt er live-Mutationen wieder.
+    const tmp = await readTmpFile(fileName)
+    if (tmp !== null) {
+      setMemory(fileName, tmp)
+      return tmp
+    }
+    const local = await readLocalFile(fileName)
+    if (local !== null) {
+      setMemory(fileName, local)
+      return local
+    }
+    return defaultWhenMissing
+  }
+
   const local = await readLocalFile(fileName)
   if (local !== null) {
     setMemory(fileName, local)
