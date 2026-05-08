@@ -7,7 +7,7 @@ import { acknowledgeAllNewInquiries } from '@/lib/actions/inquiries'
 import { acknowledgeAllNewApplicants } from '@/lib/actions/applicants'
 import { acknowledgeAllNewAnamnese } from '@/lib/actions/anamnese'
 
-const POLL_MS = 10_000
+const POLL_MS = 5_000
 
 const empty: InboxCounts = { newInquiries: 0, newApplicants: 0, newAnamnese: 0 }
 

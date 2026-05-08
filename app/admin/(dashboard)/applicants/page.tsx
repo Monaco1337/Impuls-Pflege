@@ -19,6 +19,7 @@ import { getApplicants } from '@/lib/actions/applicants'
 import { getUsers } from '@/lib/actions/users'
 import { ApplicantFilters } from '@/components/admin/applicant-filters'
 import { ApplicantPipeline } from '@/components/admin/applicant-pipeline'
+import { ApplicantInboxRefreshOnMount } from '@/components/admin/applicant-inbox-refresh-on-mount'
 
 export const metadata: Metadata = {
   title: 'Bewerber',
@@ -106,6 +107,7 @@ export default async function ApplicantsPage({
 
   return (
     <div className="space-y-6">
+      <ApplicantInboxRefreshOnMount />
       {isPipeline ? (
         <>
           <div className="flex justify-end">{viewToggle}</div>

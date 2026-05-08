@@ -99,9 +99,20 @@ function isMemoryFresh(fileName: string): boolean {
   return Date.now() - at < MEMORY_TTL_MS
 }
 
-export async function readJsonRaw(fileName: string, defaultWhenMissing = '{}'): Promise<string> {
+/** Optionen für Lesezugriff (z. B. Admin-Inbox: kein kurzer Memory-Hit, damit Vercel/GitHub-Lesungen nicht hintereinander auseinanderlaufen). */
+export type ReadJsonOptions = {
+  bypassMemory?: boolean
+}
+
+export async function readJsonRaw(
+  fileName: string,
+  defaultWhenMissing = '{}',
+  options?: ReadJsonOptions,
+): Promise<string> {
   const cached = memory.get(fileName)
-  if (cached !== undefined && isMemoryFresh(fileName)) return cached
+  if (!options?.bypassMemory && cached !== undefined && isMemoryFresh(fileName)) {
+    return cached
+  }
 
   if (isVercel() && useGitHubPersistence()) {
     try {
@@ -141,8 +152,8 @@ export async function readJsonRaw(fileName: string, defaultWhenMissing = '{}'): 
   return defaultWhenMissing
 }
 
-export async function readJsonFile<T>(fileName: string, fallback: T): Promise<T> {
-  const raw = await readJsonRaw(fileName, JSON.stringify(fallback))
+export async function readJsonFile<T>(fileName: string, fallback: T, options?: ReadJsonOptions): Promise<T> {
+  const raw = await readJsonRaw(fileName, JSON.stringify(fallback), options)
   try {
     return JSON.parse(raw) as T
   } catch {

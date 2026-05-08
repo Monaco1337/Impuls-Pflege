@@ -1,4 +1,4 @@
-import { readJsonFile, writeJsonFile } from '@/lib/storage/json-data-layer'
+import { readJsonFile, writeJsonFile, type ReadJsonOptions } from '@/lib/storage/json-data-layer'
 import { signInNameForUser } from '@/lib/data/user-login'
 import {
   type AnamneseData,
@@ -91,16 +91,16 @@ export async function repoLoadUsers(): Promise<JsonUser[]> {
   return readJsonFile<JsonUser[]>(DATA_FILES.users, [])
 }
 
-export async function repoLoadInquiries(): Promise<InquiriesData> {
-  const raw = await readJsonFile<Partial<InquiriesData>>(DATA_FILES.inquiries, {})
+export async function repoLoadInquiries(options?: ReadJsonOptions): Promise<InquiriesData> {
+  const raw = await readJsonFile<Partial<InquiriesData>>(DATA_FILES.inquiries, {}, options)
   return {
     inquiries: Array.isArray(raw.inquiries) ? raw.inquiries : [],
     notes: Array.isArray(raw.notes) ? raw.notes : [],
   }
 }
 
-export async function repoLoadApplicants(): Promise<ApplicantsData> {
-  const raw = await readJsonFile<Partial<ApplicantsData>>(DATA_FILES.applicants, {})
+export async function repoLoadApplicants(options?: ReadJsonOptions): Promise<ApplicantsData> {
+  const raw = await readJsonFile<Partial<ApplicantsData>>(DATA_FILES.applicants, {}, options)
   return {
     applicants: Array.isArray(raw.applicants) ? raw.applicants : [],
     notes: Array.isArray(raw.notes) ? raw.notes : [],
@@ -109,8 +109,8 @@ export async function repoLoadApplicants(): Promise<ApplicantsData> {
   }
 }
 
-export async function repoLoadAnamnese(): Promise<AnamneseData> {
-  const raw = await readJsonFile<Partial<AnamneseData>>(DATA_FILES.anamnese, emptyAnamnese())
+export async function repoLoadAnamnese(options?: ReadJsonOptions): Promise<AnamneseData> {
+  const raw = await readJsonFile<Partial<AnamneseData>>(DATA_FILES.anamnese, emptyAnamnese(), options)
   return {
     submissions: Array.isArray(raw.submissions) ? raw.submissions : [],
     documents: Array.isArray(raw.documents) ? raw.documents : [],

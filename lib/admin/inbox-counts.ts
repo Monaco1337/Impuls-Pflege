@@ -1,5 +1,6 @@
 import { hasPermission } from '@/lib/rbac/permissions'
 import { repoLoadAnamnese, repoLoadApplicants, repoLoadInquiries } from '@/lib/data/json-repository'
+import type { ReadJsonOptions } from '@/lib/storage/json-data-layer'
 import { AnamneseStatus, ApplicantStatus, InquiryStatus } from '@/lib/types/enums'
 import type { RoleName } from '@/lib/types/enums'
 
@@ -11,17 +12,20 @@ export type InboxCounts = {
 
 /**
  * Liefert die Anzahl offener Eingänge: neue Anfragen (Status NEU) bzw. neue Bewerbungen (NEU_EINGEGANGEN).
+ * Nutzt bypassMemory, damit auf Vercel die Zähler nicht durch den 5s-Lambda-Cache hinter GitHub/Listenansicht hängen.
  * Nur Ressourcen, für die die Rolle view hat, werden gezählt.
  */
+const INBOX_READ: ReadJsonOptions = { bypassMemory: true }
+
 export async function getInboxCountsForRole(role: RoleName): Promise<InboxCounts> {
   const canInquiries = hasPermission(role, 'inquiries', 'view')
   const canApplicants = hasPermission(role, 'applicants', 'view')
   const canAnamnese = hasPermission(role, 'anamnese', 'view')
 
   const [inquiries, applicantsBundle, anamneseData] = await Promise.all([
-    canInquiries ? repoLoadInquiries() : null,
-    canApplicants ? repoLoadApplicants() : null,
-    canAnamnese ? repoLoadAnamnese() : null,
+    canInquiries ? repoLoadInquiries(INBOX_READ) : null,
+    canApplicants ? repoLoadApplicants(INBOX_READ) : null,
+    canAnamnese ? repoLoadAnamnese(INBOX_READ) : null,
   ])
 
   const newInquiries = inquiries
