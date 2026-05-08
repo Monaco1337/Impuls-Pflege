@@ -701,7 +701,20 @@ export async function deleteApplicant(id: string): Promise<ActionResult> {
     return { success: true }
   } catch (error) {
     logServerError('deleteApplicant error', error)
-    return { success: false, error: 'Bewerber konnte nicht gelöscht werden' }
+    const msg = safeErrorMessage(error)
+    if (msg.includes('Berechtigung') || msg.includes('Keine Berechtigung')) {
+      return {
+        success: false,
+        error: 'Keine Berechtigung zum Löschen. Bitte wenden Sie sich an eine Administratorin bzw. einen Administrator.',
+      }
+    }
+    const debug = process.env.APP_DEBUG_DATA === '1'
+    return {
+      success: false,
+      error: debug
+        ? `Löschen fehlgeschlagen: ${msg}`
+        : 'Bewerber konnte nicht gelöscht werden. Bitte erneut versuchen; wenn es weiterhin fehlschlägt, liegt eventuell ein Speicher-Konflikt vor (GitHub).',
+    }
   }
 }
 

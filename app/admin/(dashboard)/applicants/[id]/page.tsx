@@ -20,6 +20,8 @@ import { cn, formatDate, formatDateTime } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ApplicantStatusBadge } from '@/components/ui/status-badge'
+import { getCurrentUser } from '@/lib/auth/session'
+import { hasPermission } from '@/lib/rbac/permissions'
 import { acknowledgeApplicantOnOpen, getApplicant } from '@/lib/actions/applicants'
 import { getUsers } from '@/lib/actions/users'
 import { getTags } from '@/lib/actions/tags'
@@ -99,6 +101,10 @@ export default async function ApplicantDetailPage({
 
   await acknowledgeApplicantOnOpen(id)
 
+  const viewer = await getCurrentUser()
+  const canDeleteApplicant =
+    viewer != null && hasPermission(viewer.role, 'applicants', 'delete')
+
   const [applicantResult, usersResult, tagsResult] = await Promise.all([
     getApplicant(id),
     getUsers(),
@@ -143,7 +149,9 @@ export default async function ApplicantDetailPage({
               </span>
             </div>
           </div>
-          <ApplicantDeleteButton applicantId={applicant.id} />
+          {canDeleteApplicant ? (
+            <ApplicantDeleteButton applicantId={applicant.id} />
+          ) : null}
         </div>
       </div>
 

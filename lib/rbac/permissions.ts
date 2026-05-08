@@ -56,7 +56,7 @@ const permissions: PermissionMap = {
   RECRUITING: {
     dashboard: ['view'],
     inquiries: ['view'],
-    applicants: ['view', 'create', 'edit', 'manage'],
+    applicants: ['view', 'create', 'edit', 'delete', 'manage'],
     anamnese: [],
     jobs: ['view', 'create', 'edit'],
     content: [],
