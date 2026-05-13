@@ -1,17 +1,5 @@
 [
   {
-    "id": "7df7e0cd-6767-4361-a1d4-e5a930db1678",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:06.493Z"
-  },
-  {
     "id": "0c9c26da-ae52-4e2e-9f3d-e39a78ec6745",
     "userId": "usr_elena",
     "action": "update",
@@ -6043,5 +6031,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-05-08T12:00:13.076Z"
+  },
+  {
+    "id": "4953f5b0-391c-4d8c-81a1-f16e25b18a5e",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "a96e17ce-88b7-4fa9-81fb-53e011d96628",
+    "metadata": {
+      "name": "Reda  El-Younsi",
+      "position": "Initiativbewerbung",
+      "jobPostingId": null
+    },
+    "ipAddress": null,
+    "createdAt": "2026-05-13T13:22:19.361Z"
   }
 ]
