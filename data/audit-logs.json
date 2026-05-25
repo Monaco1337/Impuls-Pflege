@@ -1,17 +1,5 @@
 [
   {
-    "id": "0c9c26da-ae52-4e2e-9f3d-e39a78ec6745",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:06.589Z"
-  },
-  {
     "id": "6843fc0b-05ae-45db-99ae-e4d0994e7808",
     "userId": "usr_elena",
     "action": "update",
@@ -6045,5 +6033,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-05-13T13:22:19.361Z"
+  },
+  {
+    "id": "4fdfd328-53f0-42c5-b8a3-1295cce297c4",
+    "userId": null,
+    "action": "create",
+    "entityType": "inquiry",
+    "entityId": "6a807186-f827-449f-ad40-f258767772cb",
+    "metadata": {
+      "fullName": "Badr Eddine Asrir",
+      "inquiryType": "Allgemeine Anfrage"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-05-25T16:23:31.165Z"
   }
 ]
