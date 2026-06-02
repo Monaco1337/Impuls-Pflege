@@ -36,8 +36,8 @@
     "content": {
       "heroDesktop": {
         "src": "/images/hero-care.jpg",
-        "focusX": 50,
-        "focusY": 50
+        "focusX": 60.4,
+        "focusY": 56.5
       },
       "heroMobile": {
         "src": "/images/hero-care-mobile.jpg",
@@ -152,8 +152,8 @@
     },
     "imageUrl": null,
     "sortOrder": 3,
-    "updatedById": "usr_elena",
-    "updatedAt": "2026-04-26T21:23:02.442Z"
+    "updatedById": "usr_admin",
+    "updatedAt": "2026-06-02T11:09:02.771Z"
   },
   {
     "id": "blk_team",
