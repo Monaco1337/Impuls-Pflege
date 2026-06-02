@@ -40,9 +40,9 @@
         "focusY": 56.5
       },
       "heroMobile": {
-        "src": "/images/hero-care-mobile.jpg",
-        "focusX": 50,
-        "focusY": 50
+        "src": "/api/site-image/heroMobile?v=mpx29skx",
+        "focusX": 48.8,
+        "focusY": 28.3
       },
       "introEditorial": {
         "src": "/images/care-editorial.jpg",
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-02T11:09:02.771Z"
+    "updatedAt": "2026-06-02T19:59:56.397Z"
   },
   {
     "id": "blk_team",
