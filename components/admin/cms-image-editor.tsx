@@ -18,6 +18,10 @@ import type { SiteImageEntry } from '@/lib/content/site-image-slots'
 import { focusToObjectPosition } from '@/lib/content/site-image-slots'
 
 type CmsImageEditorProps = {
+  /** Stabiler Schlüssel des Slots – wird beim Upload mitgeschickt, damit
+   *  der Server das Bild eindeutig diesem Slot zuordnen und unter
+   *  `/api/site-image/<key>` ausliefern kann. */
+  slotKey: string
   /** UI-Beschriftung (z. B. „Start · Hero Desktop"). */
   label: string
   /** Aktueller persistierter Eintrag. */
@@ -60,6 +64,7 @@ function clamp(n: number, min: number, max: number): number {
 }
 
 export function CmsImageEditor({
+  slotKey,
   label,
   entry,
   defaultSrc,
@@ -114,32 +119,36 @@ export function CmsImageEditor({
     draftX !== entry.focusX ||
     draftY !== entry.focusY
 
-  const upload = useCallback(async (file: File | undefined) => {
-    if (!file || !file.type.startsWith('image/')) return
-    setBusy(true)
-    setError(null)
-    try {
-      const fd = new FormData()
-      fd.append('file', file)
-      const res = await fetch('/api/admin/site-image', { method: 'POST', body: fd })
-      const json = (await res.json().catch(() => ({}))) as {
-        error?: string
-        data?: { publicPath?: string }
+  const upload = useCallback(
+    async (file: File | undefined) => {
+      if (!file || !file.type.startsWith('image/')) return
+      setBusy(true)
+      setError(null)
+      try {
+        const fd = new FormData()
+        fd.append('file', file)
+        fd.append('slotKey', slotKey)
+        const res = await fetch('/api/admin/site-image', { method: 'POST', body: fd })
+        const json = (await res.json().catch(() => ({}))) as {
+          error?: string
+          data?: { publicPath?: string }
+        }
+        if (!res.ok) throw new Error(json.error || 'Upload fehlgeschlagen')
+        const path = json.data?.publicPath
+        if (!path) throw new Error('Keine URL erhalten')
+        setDraftSrc(path)
+        // Bei einem frischen Bild Fokus zurücksetzen, damit der Kunde
+        // bewusst zentriert (statt evtl. unpassende Altwerte zu erben).
+        setDraftX(50)
+        setDraftY(50)
+      } catch (e) {
+        setError(e instanceof Error ? e.message : 'Upload fehlgeschlagen')
+      } finally {
+        setBusy(false)
       }
-      if (!res.ok) throw new Error(json.error || 'Upload fehlgeschlagen')
-      const path = json.data?.publicPath
-      if (!path) throw new Error('Keine URL erhalten')
-      setDraftSrc(path)
-      // Bei einem frischen Bild Fokus zurücksetzen, damit der Kunde
-      // bewusst zentriert (statt evtl. unpassende Altwerte zu erben).
-      setDraftX(50)
-      setDraftY(50)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Upload fehlgeschlagen')
-    } finally {
-      setBusy(false)
-    }
-  }, [])
+    },
+    [slotKey],
+  )
 
   const handlePoint = useCallback(
     (clientX: number, clientY: number) => {

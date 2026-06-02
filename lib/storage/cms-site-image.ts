@@ -1,41 +1,158 @@
-import { mkdir, writeFile } from 'fs/promises'
-import path from 'path'
-import crypto from 'crypto'
+/**
+ * High-Level-Speicherlogik für vom Kunden hochgeladene Website-Fotos.
+ *
+ * Lädt das Bild aus dem Upload, normalisiert und komprimiert es mit `sharp`
+ * (deterministische Ziel-Eigenschaften, keine versteckten Originale) und
+ * persistiert es als Blob im Blob-Store. Die zurückgelieferte URL zeigt auf
+ * unseren Streaming-Endpoint, der das Bild mit korrekten Cache-Headern
+ * ausliefert.
+ *
+ * Funktioniert auf Vercel (kein fs-Schreibzugriff nötig), im Docker-Image
+ * mit beschreibbarem Volume und in der lokalen Entwicklung gleichermaßen.
+ */
 
-const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'site')
+import sharp from 'sharp'
+import {
+  writeSiteImageBlob,
+  type SiteImageMime,
+} from '@/lib/storage/cms-site-image-blob'
 
-const ALLOWED_IMAGE_MIME = new Set(['image/jpeg', 'image/png', 'image/webp'])
-const EXT_BY_MIME: Record<string, string> = {
-  'image/jpeg': '.jpg',
-  'image/png': '.png',
-  'image/webp': '.webp',
+/** Max. zulässige Größe der hochgeladenen Originaldatei (vor Recompress). */
+export const MAX_CMS_SITE_IMAGE_BYTES = 12 * 1024 * 1024
+
+/** Maximalbreite des serverseitig komprimierten Endbildes. */
+const MAX_OUTPUT_WIDTH = 2400
+
+/** Zielwerte für die jeweilige Ausgabe-Codec-Familie. */
+const JPEG_QUALITY = 82
+const WEBP_QUALITY = 82
+const PNG_COMPRESSION = 9
+
+const ALLOWED_INPUT_MIME = new Set<SiteImageMime>([
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+])
+
+export type SaveCmsSiteImageInput = {
+  slotKey: string
+  file: File
 }
 
-/** Max. Größe pro CMS-Website-Bild (Upload). */
-export const MAX_CMS_SITE_IMAGE_BYTES = 6 * 1024 * 1024
+export type SaveCmsSiteImageResult = {
+  /** Sofort gültige, public URL des neu gespeicherten Bildes. */
+  publicPath: string
+  /** Effektiver MIME-Typ nach Re-Encoding. */
+  mime: SiteImageMime
+  /** Größe in Bytes nach Re-Encoding. */
+  size: number
+}
+
+function ensureSlotKey(slotKey: string): string {
+  const trimmed = (slotKey ?? '').trim()
+  if (!trimmed) throw new Error('Kein Bild-Slot angegeben')
+  if (!/^[a-zA-Z0-9_-]{1,64}$/.test(trimmed)) {
+    throw new Error('Ungültiger Bild-Slot')
+  }
+  return trimmed
+}
+
+function detectInputMime(file: File): SiteImageMime {
+  const mime = (file.type || '').toLowerCase()
+  if (mime === 'image/jpg') return 'image/jpeg'
+  if (ALLOWED_INPUT_MIME.has(mime as SiteImageMime)) {
+    return mime as SiteImageMime
+  }
+  throw new Error('Nur JPEG, PNG oder WebP erlaubt')
+}
 
 /**
- * Speichert ein Bild unter public/uploads/site/ und liefert die öffentliche URL (/uploads/site/…).
- * Funktioniert auf Umgebungen mit beschreibbarem Dateisystem (lokal, Docker mit Volume).
+ * Re-encodiert das Bild mit `sharp`:
+ *  - rotiert nach EXIF, entfernt Metadaten
+ *  - skaliert auf max. {@link MAX_OUTPUT_WIDTH} Breite (nur „withinside")
+ *  - schreibt JPEG-Input als progressives JPEG, PNG als komprimiertes PNG,
+ *    WebP als WebP – also stets im gleichen Codec wie der Input
+ *
+ * Dadurch sind die persistierten Blobs deterministisch klein, EXIF-bereinigt
+ * und bilden eine vorhersehbare Quelle für `next/image`.
  */
-export async function saveCmsSiteImageFile(file: File): Promise<{ publicPath: string }> {
+async function recompress(
+  buffer: Buffer,
+  mime: SiteImageMime,
+): Promise<{ buffer: Buffer; mime: SiteImageMime }> {
+  const pipeline = sharp(buffer, { failOn: 'truncated' })
+    .rotate()
+    .resize({
+      width: MAX_OUTPUT_WIDTH,
+      withoutEnlargement: true,
+      fit: 'inside',
+    })
+
+  if (mime === 'image/png') {
+    return {
+      buffer: await pipeline
+        .png({ compressionLevel: PNG_COMPRESSION, palette: true })
+        .toBuffer(),
+      mime: 'image/png',
+    }
+  }
+  if (mime === 'image/webp') {
+    return {
+      buffer: await pipeline.webp({ quality: WEBP_QUALITY }).toBuffer(),
+      mime: 'image/webp',
+    }
+  }
+  return {
+    buffer: await pipeline
+      .jpeg({ quality: JPEG_QUALITY, mozjpeg: true, progressive: true })
+      .toBuffer(),
+    mime: 'image/jpeg',
+  }
+}
+
+/**
+ * Speichert ein vom Admin hochgeladenes Website-Foto und liefert eine
+ * sofort gültige, dauerhaft persistierte URL zurück.
+ */
+export async function saveCmsSiteImageFile(
+  input: SaveCmsSiteImageInput,
+): Promise<SaveCmsSiteImageResult> {
+  const slotKey = ensureSlotKey(input.slotKey)
+  const file = input.file
+
+  if (!(file instanceof File)) {
+    throw new Error('Keine Datei übergeben')
+  }
+  if (file.size <= 0) {
+    throw new Error('Leere Datei')
+  }
   if (file.size > MAX_CMS_SITE_IMAGE_BYTES) {
-    throw new Error(`Bild zu groß (max. ${Math.round(MAX_CMS_SITE_IMAGE_BYTES / 1024 / 1024)} MB)`)
-  }
-  if (!ALLOWED_IMAGE_MIME.has(file.type)) {
-    throw new Error('Nur JPEG, PNG oder WebP erlaubt')
-  }
-
-  const ext = EXT_BY_MIME[file.type] ?? path.extname(file.name).toLowerCase()
-  if (!['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
-    throw new Error('Ungültige Dateiendung')
+    throw new Error(
+      `Bild zu groß (max. ${Math.round(MAX_CMS_SITE_IMAGE_BYTES / 1024 / 1024)} MB)`,
+    )
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer())
-  const name = `${Date.now()}-${crypto.randomBytes(10).toString('hex')}${ext === '.jpeg' ? '.jpg' : ext}`
-  await mkdir(UPLOAD_DIR, { recursive: true })
-  const filePath = path.join(UPLOAD_DIR, name)
-  await writeFile(filePath, buffer)
+  const inputMime = detectInputMime(file)
+  const inputBuffer = Buffer.from(await file.arrayBuffer())
 
-  return { publicPath: `/uploads/site/${name}` }
+  const { buffer: outputBuffer, mime: outputMime } = await recompress(
+    inputBuffer,
+    inputMime,
+  )
+
+  await writeSiteImageBlob(slotKey, {
+    mime: outputMime,
+    data: outputBuffer.toString('base64'),
+    size: outputBuffer.byteLength,
+    updatedAt: new Date().toISOString(),
+  })
+
+  // Cache-Buster: erzwingt sofortige Aktualisierung im `next/image`-Cache und
+  // im Browser, ohne dass der gespeicherte Pfad raten muss.
+  const version = Date.now().toString(36)
+  return {
+    publicPath: `/api/site-image/${encodeURIComponent(slotKey)}?v=${version}`,
+    mime: outputMime,
+    size: outputBuffer.byteLength,
+  }
 }

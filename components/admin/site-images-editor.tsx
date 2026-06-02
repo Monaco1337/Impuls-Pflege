@@ -84,6 +84,7 @@ export function SiteImagesEditor({ block }: { block: Block }) {
           return (
             <CmsImageEditor
               key={slot.key}
+              slotKey={slot.key}
               label={slot.label}
               entry={entry}
               defaultSrc={slot.defaultSrc}
