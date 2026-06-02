@@ -31,15 +31,19 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData()
     const file = formData.get('file')
-    const slotKey = String(formData.get('slotKey') ?? '').trim()
+    const rawSlot = formData.get('slotKey')
+    const slotKey =
+      typeof rawSlot === 'string' && rawSlot.trim() ? rawSlot.trim() : undefined
 
     if (!(file instanceof File)) {
       return NextResponse.json({ error: 'Keine Datei' }, { status: 400 })
     }
-    if (!slotKey) {
-      return NextResponse.json({ error: 'Bild-Slot fehlt' }, { status: 400 })
-    }
 
+    // slotKey ist OPTIONAL:
+    //  - feste Slots aus SITE_IMAGE_SLOTS schicken einen konstanten Key
+    //    → identische Slots werden beim erneuten Upload überschrieben
+    //  - dynamische Uploads (Team-Mitglieder, Galerien) lassen den Slot
+    //    weg → der Server generiert eine kollisionsfreie ID
     const result = await saveCmsSiteImageFile({ slotKey, file })
 
     return NextResponse.json({

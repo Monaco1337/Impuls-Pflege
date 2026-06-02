@@ -6,6 +6,14 @@ import { cn } from '@/lib/utils'
 
 type CmsImageDropzoneProps = {
   src: string
+  /**
+   * Optionaler, semantisch stabiler Slot-Schlüssel. Wenn gesetzt, wird
+   * derselbe Slot beim nächsten Upload überschrieben (statt einen neuen
+   * Blob anzulegen). Für dynamische Stellen (z. B. Team-Karten) kann der
+   * Slot weggelassen werden – der Server vergibt dann automatisch eine
+   * kollisionsfreie ID.
+   */
+  slotKey?: string
   className?: string
   frameClassName?: string
   aspectClassName?: string
@@ -15,6 +23,7 @@ type CmsImageDropzoneProps = {
 
 export function CmsImageDropzone({
   src,
+  slotKey,
   className,
   frameClassName,
   aspectClassName = 'aspect-[4/3]',
@@ -34,6 +43,7 @@ export function CmsImageDropzone({
       try {
         const fd = new FormData()
         fd.append('file', file)
+        if (slotKey) fd.append('slotKey', slotKey)
         const res = await fetch('/api/admin/site-image', { method: 'POST', body: fd })
         const json = (await res.json().catch(() => ({}))) as { error?: string; data?: { publicPath?: string } }
         if (!res.ok) throw new Error(json.error || 'Upload fehlgeschlagen')
@@ -46,7 +56,7 @@ export function CmsImageDropzone({
         setBusy(false)
       }
     },
-    [disabled, busy, onPathChange],
+    [disabled, busy, onPathChange, slotKey],
   )
 
   const onDrop = useCallback(

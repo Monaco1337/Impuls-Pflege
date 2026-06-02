@@ -11,6 +11,7 @@
  * mit beschreibbarem Volume und in der lokalen Entwicklung gleichermaßen.
  */
 
+import crypto from 'crypto'
 import sharp from 'sharp'
 import {
   writeSiteImageBlob,
@@ -35,7 +36,15 @@ const ALLOWED_INPUT_MIME = new Set<SiteImageMime>([
 ])
 
 export type SaveCmsSiteImageInput = {
-  slotKey: string
+  /**
+   * Stabiler Slot-Schlüssel (z. B. `heroDesktop`, `team-featured`).
+   * Wenn weggelassen, generiert der Server automatisch eine neue ID
+   * (`auto-<random>`). Damit funktioniert das System sowohl für feste
+   * Slots aus `SITE_IMAGE_SLOTS` als auch für dynamische Upload-Stellen
+   * (z. B. Team-Mitgliederfotos), bei denen es keine semantische
+   * Konstante gibt.
+   */
+  slotKey?: string
   file: File
 }
 
@@ -48,9 +57,15 @@ export type SaveCmsSiteImageResult = {
   size: number
 }
 
-function ensureSlotKey(slotKey: string): string {
+function ensureSlotKey(slotKey: string | undefined): string {
   const trimmed = (slotKey ?? '').trim()
-  if (!trimmed) throw new Error('Kein Bild-Slot angegeben')
+  if (!trimmed) {
+    // Dynamische Uploads (Team-Member-Foto, Galerien, …) haben keinen
+    // semantisch festen Slot. Wir generieren eine kollisionsfreie ID,
+    // sodass jede Datei einen eigenen Blob bekommt und nicht versehentlich
+    // ein anderes Bild überschreibt.
+    return `auto-${Date.now().toString(36)}-${crypto.randomBytes(6).toString('hex')}`
+  }
   if (!/^[a-zA-Z0-9_-]{1,64}$/.test(trimmed)) {
     throw new Error('Ungültiger Bild-Slot')
   }

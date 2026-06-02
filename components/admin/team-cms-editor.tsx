@@ -117,6 +117,7 @@ export function TeamCmsEditor({ block }: { block: Block }) {
           <p className="text-center text-[11px] font-medium text-warm-500">Profil · groß</p>
           <CmsImageDropzone
             src={featured.image || '/images/team-elena-tschupina.jpg'}
+            slotKey="team-featured"
             aspectClassName="aspect-[4/5]"
             disabled={pending}
             onPathChange={(p) => {
