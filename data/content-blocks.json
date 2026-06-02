@@ -75,9 +75,9 @@
         "focusY": 50
       },
       "aboutHero": {
-        "src": "/images/about-hero.jpg",
-        "focusX": 50,
-        "focusY": 50
+        "src": "/api/site-image/aboutHero?v=mpx3cy6q",
+        "focusX": 35.8,
+        "focusY": 52.6
       },
       "ueberTogether": {
         "src": "/images/care-together.jpg",
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-02T20:06:10.073Z"
+    "updatedAt": "2026-06-02T20:30:15.957Z"
   },
   {
     "id": "blk_team",
