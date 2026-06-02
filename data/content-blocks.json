@@ -35,9 +35,9 @@
     "title": "Website-Fotos (Startseite)",
     "content": {
       "heroDesktop": {
-        "src": "/images/hero-care.jpg",
-        "focusX": 60.4,
-        "focusY": 56.5
+        "src": "/api/site-image/heroDesktop?v=mpx2hzgz",
+        "focusX": 52.5,
+        "focusY": 39.8
       },
       "heroMobile": {
         "src": "/api/site-image/heroMobile?v=mpx29skx",
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-02T19:59:56.397Z"
+    "updatedAt": "2026-06-02T20:06:10.073Z"
   },
   {
     "id": "blk_team",
