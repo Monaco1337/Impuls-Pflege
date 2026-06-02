@@ -34,9 +34,20 @@ type GitHubFileResponse = {
   encoding?: string
   content?: string
   sha?: string
+  size?: number
+  download_url?: string | null
   message?: string
 }
 
+/**
+ * Liefert Inhalt und aktuelle SHA einer Datei aus dem Repo.
+ *
+ * Robust gegen das 1-MB-Limit der GitHub Contents API: Wenn GitHub die
+ * Metadaten ohne `content` zurückgibt (große Dateien), laden wir den
+ * Inhalt über das `download_url` (raw.githubusercontent.com) nach. Damit
+ * bleibt die SHA in jedem Fall verfügbar, sodass anschließende PUTs nicht
+ * mit „sha wasn't supplied" abbrechen.
+ */
 export async function githubGetFile(repoPath: string): Promise<{ text: string; sha: string } | null> {
   const url = `${API}/repos/${owner()}/${repo()}/contents/${encodeRepoPath(repoPath)}`
   const res = await fetch(url, {
@@ -55,11 +66,50 @@ export async function githubGetFile(repoPath: string): Promise<{ text: string; s
   }
 
   const data = (await res.json()) as GitHubFileResponse
-  if (data.type !== 'file' || !data.content || !data.sha) {
+  if (data.type !== 'file' || !data.sha) {
     throw new Error(`GitHub GET ${repoPath}: unexpected payload`)
   }
 
-  const text = Buffer.from(data.content.replace(/\n/g, ''), 'base64').toString('utf8')
+  if (data.content) {
+    const text = Buffer.from(data.content.replace(/\n/g, ''), 'base64').toString('utf8')
+    return { text, sha: data.sha }
+  }
+
+  // Großes File (>1 MB): Contents API liefert nur Metadaten. Inhalt über
+  // den signierten Raw-Download nachladen, damit alle Konsumenten – auch
+  // der reine Sha-Bedarf bei Updates – konsistent funktionieren.
+  if (data.download_url) {
+    const raw = await fetch(data.download_url, {
+      headers: { Authorization: `Bearer ${token()}` },
+      cache: 'no-store',
+    })
+    if (!raw.ok) {
+      throw new Error(`GitHub raw GET ${repoPath}: ${raw.status}`)
+    }
+    const text = await raw.text()
+    return { text, sha: data.sha }
+  }
+
+  // Letzter Ausweg: Git Data API direkt anfragen.
+  const blob = await fetch(
+    `${API}/repos/${owner()}/${repo()}/git/blobs/${encodeURIComponent(data.sha)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      cache: 'no-store',
+    },
+  )
+  if (!blob.ok) {
+    throw new Error(`GitHub blob GET ${repoPath}: ${blob.status}`)
+  }
+  const blobJson = (await blob.json()) as { content?: string; encoding?: string }
+  if (!blobJson.content) {
+    throw new Error(`GitHub blob GET ${repoPath}: empty content`)
+  }
+  const text = Buffer.from(blobJson.content.replace(/\n/g, ''), 'base64').toString('utf8')
   return { text, sha: data.sha }
 }
 

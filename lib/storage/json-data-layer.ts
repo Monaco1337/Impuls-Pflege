@@ -60,19 +60,18 @@ async function readTmpFile(fileName: string): Promise<string | null> {
 }
 
 async function writeTmpFile(fileName: string, text: string): Promise<void> {
-  const dir = tmpDir()
-  if (!existsSync(dir)) {
-    await mkdir(dir, { recursive: true })
-  }
-  await writeFile(path.join(dir, fileName), text, 'utf8')
+  const target = path.join(tmpDir(), fileName)
+  // `fileName` darf Unterordner enthalten (z. B. `site-image-blobs/<slot>.json`).
+  // Wir legen daher den vollständigen Parent-Pfad rekursiv an, nicht nur
+  // den Top-Level `tmp/data/`-Ordner.
+  await mkdir(path.dirname(target), { recursive: true })
+  await writeFile(target, text, 'utf8')
 }
 
 async function writeLocalDataFile(fileName: string, text: string): Promise<void> {
-  const dir = dataDir()
-  if (!existsSync(dir)) {
-    await mkdir(dir, { recursive: true })
-  }
-  await writeFile(path.join(dir, fileName), text, 'utf8')
+  const target = path.join(dataDir(), fileName)
+  await mkdir(path.dirname(target), { recursive: true })
+  await writeFile(target, text, 'utf8')
 }
 
 function runLocked<T>(fileName: string, fn: () => Promise<T>): Promise<T> {

@@ -85,8 +85,11 @@ function detectInputMime(file: File): SiteImageMime {
  * Re-encodiert das Bild mit `sharp`:
  *  - rotiert nach EXIF, entfernt Metadaten
  *  - skaliert auf max. {@link MAX_OUTPUT_WIDTH} Breite (nur „withinside")
- *  - schreibt JPEG-Input als progressives JPEG, PNG als komprimiertes PNG,
- *    WebP als WebP – also stets im gleichen Codec wie der Input
+ *  - wählt den Ausgabecodec ergebnisorientiert: Bilder ohne Alphakanal
+ *    werden immer als progressives mozjpeg ausgeliefert – auch wenn der
+ *    Input ein PNG war (Photo-PNGs sind sonst um Größenordnungen größer
+ *    und überschreiten schnell das 1-MB-Limit der GitHub Contents API).
+ *    Echte transparente PNGs bleiben PNG, transparente WebPs bleiben WebP.
  *
  * Dadurch sind die persistierten Blobs deterministisch klein, EXIF-bereinigt
  * und bilden eine vorhersehbare Quelle für `next/image`.
@@ -95,28 +98,34 @@ async function recompress(
   buffer: Buffer,
   mime: SiteImageMime,
 ): Promise<{ buffer: Buffer; mime: SiteImageMime }> {
-  const pipeline = sharp(buffer, { failOn: 'truncated' })
-    .rotate()
-    .resize({
-      width: MAX_OUTPUT_WIDTH,
-      withoutEnlargement: true,
-      fit: 'inside',
-    })
+  const base = sharp(buffer, { failOn: 'truncated' }).rotate()
+  const metadata = await base.metadata()
+  const hasAlpha = Boolean(metadata.hasAlpha)
 
-  if (mime === 'image/png') {
-    return {
-      buffer: await pipeline
-        .png({ compressionLevel: PNG_COMPRESSION, palette: true })
-        .toBuffer(),
-      mime: 'image/png',
-    }
-  }
-  if (mime === 'image/webp') {
+  const pipeline = base.resize({
+    width: MAX_OUTPUT_WIDTH,
+    withoutEnlargement: true,
+    fit: 'inside',
+  })
+
+  // Transparente Bilder müssen ihren Alphakanal behalten.
+  if (hasAlpha && mime === 'image/webp') {
     return {
       buffer: await pipeline.webp({ quality: WEBP_QUALITY }).toBuffer(),
       mime: 'image/webp',
     }
   }
+  if (hasAlpha) {
+    return {
+      buffer: await pipeline
+        .png({ compressionLevel: PNG_COMPRESSION, palette: false })
+        .toBuffer(),
+      mime: 'image/png',
+    }
+  }
+
+  // Photos ohne Alpha: in allen Fällen JPEG, das Format komprimiert
+  // dramatisch besser als PNG und ist für `next/image` ideal.
   return {
     buffer: await pipeline
       .jpeg({ quality: JPEG_QUALITY, mozjpeg: true, progressive: true })
