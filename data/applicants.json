@@ -51,11 +51,11 @@
       "experience": "10",
       "motivation": "Sehr geehrte Damen und Herrn,\r\n\r\nich möchte in Ihr Team, weil mich Ihre Internetseite und der Aufgabenbereich \"Hauswirtschaft\" angesprochen haben.\r\nIch Liebe die Arbeit in einem super Team, und ich arbeite  unheimlich gerne mit älteren Menschen zusammen.\r\nIch freue mich immer sehr, ihnen den Alltag im Haushalt zu erleichtern.\r\nDas, was Sie einem geben, gibt mir soviel zurück. \r\n\r\nAus diesem Grund hoffe ich auf eine positve Reaktion von Ihrer Seite, und eine Einladung zu einem persönlichen Gespräch.  \r\n\r\nMit freundlichen Grüßen \r\n\r\nSchumacher ",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_hauswirtschaftskraft",
       "createdAt": "2026-06-07T18:16:29.682Z",
-      "updatedAt": "2026-06-07T18:16:29.682Z"
+      "updatedAt": "2026-06-07T18:47:33.273Z"
     }
   ],
   "notes": [],
@@ -77,6 +77,15 @@
       "changedById": "usr_admin",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-06-03T17:44:41.412Z"
+    },
+    {
+      "id": "559a9ab2-3854-445b-ad49-bbcb7992d205",
+      "applicantId": "ee6e06cb-e82b-43db-b2f3-51f57ddc2763",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_management",
+      "note": "Automatisch: Detailansicht geöffnet",
+      "changedAt": "2026-06-07T18:47:33.274Z"
     }
   ],
   "documents": [
