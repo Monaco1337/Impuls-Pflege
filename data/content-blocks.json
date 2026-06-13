@@ -174,30 +174,6 @@
       },
       "members": [
         {
-          "name": "Natalia Tschupina",
-          "position": "Pflegedienstleiterin",
-          "description": "Mit Herz, Fachwissen und einem offenen Ohr koordiniert Natalia den täglichen Pflegeeinsatz und sorgt dafür, dass jeder Klient die Betreuung bekommt, die er verdient.",
-          "image": "/images/care-smile.jpg"
-        },
-        {
-          "name": "Teammitglied",
-          "position": "Pflegefachkraft",
-          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
-          "image": null
-        },
-        {
-          "name": "Teammitglied",
-          "position": "Pflegehilfskraft",
-          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
-          "image": null
-        },
-        {
-          "name": "Teammitglied",
-          "position": "Betreuungsassistenz",
-          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
-          "image": null
-        },
-        {
           "name": "Teammitglied",
           "position": "Pflegefachkraft",
           "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
@@ -207,8 +183,8 @@
     },
     "imageUrl": null,
     "sortOrder": 4,
-    "updatedById": null,
-    "updatedAt": "2026-01-01T00:00:00.000Z"
+    "updatedById": "usr_admin",
+    "updatedAt": "2026-06-13T09:27:18.992Z"
   },
   {
     "id": "blk_contact",
