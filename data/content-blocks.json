@@ -176,15 +176,21 @@
         {
           "name": "Marina Frei",
           "position": "Stellvertreterin von Pflegedienstleitung , Verwaltung",
-          "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
+          "description": "",
           "image": "/api/site-image/auto-mqksarrm-155d8b88b6d3?v=mqksaskv"
+        },
+        {
+          "name": "Larisa Korotev",
+          "position": "Praxisanleiterin , Pflegefachkraft",
+          "description": "",
+          "image": "/api/site-image/auto-mqksesr0-f2e19df4e8ed?v=mqksetgy"
         }
       ]
     },
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:26:48.125Z"
+    "updatedAt": "2026-06-19T10:29:55.921Z"
   },
   {
     "id": "blk_contact",
