@@ -186,17 +186,23 @@
           "image": "/api/site-image/auto-mqksk10p-e0a5b4121022?v=mqksk1od"
         },
         {
-          "name": "",
+          "name": "Lidia Genze",
           "position": "",
           "description": "",
           "image": "/api/site-image/auto-mqksoli9-020ba145c4b0?v=mqksomac"
+        },
+        {
+          "name": "Lidia Genze",
+          "position": "Pflegekraft",
+          "description": "",
+          "image": "/api/site-image/auto-mqksqwj6-815c490c17a2?v=mqksqx8y"
         }
       ]
     },
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:37:33.172Z"
+    "updatedAt": "2026-06-19T10:39:20.664Z"
   },
   {
     "id": "blk_contact",
