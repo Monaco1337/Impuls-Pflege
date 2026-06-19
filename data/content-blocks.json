@@ -35,7 +35,7 @@
     "title": "Website-Fotos (Startseite)",
     "content": {
       "heroDesktop": {
-        "src": "/api/site-image/heroDesktop?v=mqku5zp4",
+        "src": "/api/site-image/heroDesktop?v=mqku6gth",
         "focusX": 50,
         "focusY": 50
       },
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T11:19:05.257Z"
+    "updatedAt": "2026-06-19T11:19:30.134Z"
   },
   {
     "id": "blk_team",
