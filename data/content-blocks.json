@@ -174,8 +174,8 @@
       },
       "members": [
         {
-          "name": "Teammitglied",
-          "position": "Pflegefachkraft",
+          "name": "Marina Frei",
+          "position": "Stellvertreterin von Pflegedienstleitung , Verwaltung",
           "description": "Bald stellen wir Ihnen hier ein weiteres Mitglied unseres engagierten Teams vor.",
           "image": null
         }
@@ -184,7 +184,7 @@
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:22:37.705Z"
+    "updatedAt": "2026-06-19T10:25:33.763Z"
   },
   {
     "id": "blk_contact",
