@@ -204,7 +204,7 @@
           "image": "/api/site-image/auto-mqksqwj6-815c490c17a2?v=mqksqx8y"
         },
         {
-          "name": "Natalie Hofmann",
+          "name": "Mikhail Levin",
           "position": "Pflegekraft",
           "description": "",
           "image": "/api/site-image/auto-mqkt5cib-3fc1d2d03135?v=mqkt5ddy"
@@ -214,13 +214,19 @@
           "position": "Pflegekraft",
           "description": "",
           "image": "/api/site-image/auto-mqkt3pr2-97d793c1bb7c?v=mqkt3qfn"
+        },
+        {
+          "name": "",
+          "position": "",
+          "description": "",
+          "image": "/api/site-image/auto-mqkt72en-3b24a6639766?v=mqkt73a7"
         }
       ]
     },
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:50:35.017Z"
+    "updatedAt": "2026-06-19T10:51:54.695Z"
   },
   {
     "id": "blk_contact",
