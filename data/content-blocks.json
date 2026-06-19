@@ -85,9 +85,9 @@
         "focusY": 40.8
       },
       "ueberValues": {
-        "src": "/images/care-values.jpg",
-        "focusX": 50,
-        "focusY": 50
+        "src": "/api/site-image/ueberValues?v=mqku1781",
+        "focusX": 50.7,
+        "focusY": 38.5
       },
       "ueberPortrait": {
         "src": "/api/site-image/ueberPortrait?v=mqktm4ua",
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T11:11:26.594Z"
+    "updatedAt": "2026-06-19T11:15:25.446Z"
   },
   {
     "id": "blk_team",
