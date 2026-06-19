@@ -90,9 +90,9 @@
         "focusY": 50
       },
       "ueberPortrait": {
-        "src": "/api/site-image/ueberPortrait?v=mqktbinr",
-        "focusX": 50,
-        "focusY": 50
+        "src": "/api/site-image/ueberPortrait?v=mqktfrgu",
+        "focusX": 51.7,
+        "focusY": 30.9
       },
       "ueberTeamGroup": {
         "src": "/api/site-image/ueberTeamGroup?v=mqktdj56",
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:57:19.045Z"
+    "updatedAt": "2026-06-19T10:58:49.537Z"
   },
   {
     "id": "blk_team",
