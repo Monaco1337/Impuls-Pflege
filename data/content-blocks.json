@@ -202,13 +202,19 @@
           "position": "Pflegekraft",
           "description": "",
           "image": "/api/site-image/auto-mqksqwj6-815c490c17a2?v=mqksqx8y"
+        },
+        {
+          "name": "",
+          "position": "",
+          "description": "",
+          "image": "/api/site-image/auto-mqksz5b5-4f75d22d5184?v=mqksz603"
         }
       ]
     },
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:44:25.545Z"
+    "updatedAt": "2026-06-19T10:45:45.550Z"
   },
   {
     "id": "blk_contact",
