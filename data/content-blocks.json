@@ -145,15 +145,15 @@
         "focusY": 50
       },
       "karriereSmile": {
-        "src": "/images/care-smile.jpg",
-        "focusX": 50,
-        "focusY": 50
+        "src": "/api/site-image/karriereSmile?v=mqkto9o3",
+        "focusX": 56.2,
+        "focusY": 46
       }
     },
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T11:03:40.876Z"
+    "updatedAt": "2026-06-19T11:05:42.839Z"
   },
   {
     "id": "blk_team",
