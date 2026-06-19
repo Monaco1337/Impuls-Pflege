@@ -100,7 +100,7 @@
         "focusY": 43.9
       },
       "ueberRegional": {
-        "src": "/images/care-regional.jpg",
+        "src": "/api/site-image/ueberRegional?v=mqktuqug",
         "focusX": 50,
         "focusY": 50
       },
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T11:08:17.483Z"
+    "updatedAt": "2026-06-19T11:10:22.225Z"
   },
   {
     "id": "blk_team",
