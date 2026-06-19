@@ -208,13 +208,19 @@
           "position": "Pflegekraft",
           "description": "",
           "image": "/api/site-image/auto-mqksz5b5-4f75d22d5184?v=mqksz603"
+        },
+        {
+          "name": "Natalie Hofmann",
+          "position": "Pflegekraft",
+          "description": "",
+          "image": "/api/site-image/auto-mqkt1ont-c10990a78105?v=mqkt1phg"
         }
       ]
     },
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:46:03.754Z"
+    "updatedAt": "2026-06-19T10:47:43.789Z"
   },
   {
     "id": "blk_contact",
