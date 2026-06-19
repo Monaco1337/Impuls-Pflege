@@ -186,10 +186,10 @@
           "image": "/api/site-image/auto-mqksk10p-e0a5b4121022?v=mqksk1od"
         },
         {
-          "name": "Lidia Genze",
-          "position": "",
-          "description": "",
-          "image": "/api/site-image/auto-mqksoli9-020ba145c4b0?v=mqksomac"
+          "name": "Oksana Mihaelis-Fur",
+          "position": "Auszubildende für Pflegefachkraft",
+          "description": "2tes Ausbildungsjahr",
+          "image": "/api/site-image/auto-mqkstm2m-40983c993154?v=mqkstmu5"
         },
         {
           "name": "Lidia Genze",
@@ -202,7 +202,7 @@
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:39:20.664Z"
+    "updatedAt": "2026-06-19T10:41:27.154Z"
   },
   {
     "id": "blk_contact",
