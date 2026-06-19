@@ -220,13 +220,19 @@
           "position": "Pflegekraft",
           "description": "",
           "image": "/api/site-image/auto-mqkt72en-3b24a6639766?v=mqkt73a7"
+        },
+        {
+          "name": "Swetlana Awil",
+          "position": "Hauswirtschaftskraft",
+          "description": "",
+          "image": "/api/site-image/auto-mqkv8iv7-19127e5bc1e7?v=mqkv8jl7"
         }
       ]
     },
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:52:56.976Z"
+    "updatedAt": "2026-06-19T11:49:01.740Z"
   },
   {
     "id": "blk_contact",
