@@ -165,7 +165,7 @@
         "role": "Geschäftsführerin, Inhaberin, Pflegefachkraft",
         "quote": "„Pflege bedeutet für mich, Menschen in ihrer schwersten Zeit mit Würde und echter Fürsorge zu begleiten.\"",
         "bio": "Als Gründerin und Geschäftsführerin von IMPULS trägt Elena die Verantwortung für die Qualität jedes einzelnen Pflegeeinsatzes. Ihre Überzeugung: Gute Pflege beginnt mit Zuhören und wird getragen von Menschen, die ihren Beruf wirklich lieben.",
-        "image": "/api/site-image/team-featured?v=mqks5b20",
+        "image": "/api/site-image/team-featured?v=mqldief5",
         "tags": [
           "Examinierte Pflegefachkraft",
           "Langjährige Führungserfahrung",
@@ -232,7 +232,7 @@
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T12:25:46.864Z"
+    "updatedAt": "2026-06-19T20:20:34.705Z"
   },
   {
     "id": "blk_contact",
