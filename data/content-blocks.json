@@ -175,7 +175,7 @@
       "members": [
         {
           "name": "Marina Frei",
-          "position": "Stellvertreterin von Pflegedienstleitung , Verwaltung",
+          "position": "Stellvertreterin von Pflegedienstleitung , Verwaltung, Pflegefachkraft",
           "description": "",
           "image": "/api/site-image/auto-mqksarrm-155d8b88b6d3?v=mqksaskv"
         },
@@ -232,7 +232,7 @@
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T12:18:15.328Z"
+    "updatedAt": "2026-06-19T12:18:35.061Z"
   },
   {
     "id": "blk_contact",
