@@ -192,6 +192,12 @@
           "image": "/api/site-image/auto-mqkstm2m-40983c993154?v=mqkstmu5"
         },
         {
+          "name": "Natalie Miller",
+          "position": "Auszubildende für Pflegefachkraft",
+          "description": "1tes Ausbildungsjahr",
+          "image": "/api/site-image/auto-mqksxfqd-9fe174281c17?v=mqksxghc"
+        },
+        {
           "name": "Lidia Genze",
           "position": "Pflegekraft",
           "description": "",
@@ -202,7 +208,7 @@
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-19T10:41:27.154Z"
+    "updatedAt": "2026-06-19T10:44:25.545Z"
   },
   {
     "id": "blk_contact",
