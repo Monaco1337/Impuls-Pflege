@@ -90,7 +90,7 @@
         "focusY": 50
       },
       "ueberPortrait": {
-        "src": "/images/team-elena-tschupina.jpg",
+        "src": "/api/site-image/ueberPortrait?v=mqktbinr",
         "focusX": 50,
         "focusY": 50
       },
@@ -153,7 +153,7 @@
     "imageUrl": null,
     "sortOrder": 3,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-13T13:45:18.884Z"
+    "updatedAt": "2026-06-19T10:55:28.630Z"
   },
   {
     "id": "blk_team",
