@@ -165,7 +165,7 @@
         "role": "Geschäftsführerin",
         "quote": "„Pflege bedeutet für mich, Menschen in ihrer schwersten Zeit mit Würde und echter Fürsorge zu begleiten.\"",
         "bio": "Als Gründerin und Geschäftsführerin von IMPULS trägt Elena die Verantwortung für die Qualität jedes einzelnen Pflegeeinsatzes. Ihre Überzeugung: Gute Pflege beginnt mit Zuhören und wird getragen von Menschen, die ihren Beruf wirklich lieben.",
-        "image": "/images/team-elena-tschupina.jpg",
+        "image": "/api/site-image/team-featured?v=mqks5b20",
         "tags": [
           "Examinierte Pflegefachkraft",
           "Langjährige Führungserfahrung",
@@ -184,7 +184,7 @@
     "imageUrl": null,
     "sortOrder": 4,
     "updatedById": "usr_admin",
-    "updatedAt": "2026-06-13T09:28:02.190Z"
+    "updatedAt": "2026-06-19T10:22:31.847Z"
   },
   {
     "id": "blk_contact",
