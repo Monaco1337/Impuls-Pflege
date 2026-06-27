@@ -70,11 +70,11 @@
       "experience": "8",
       "motivation": "Ich möchte gerne in ein Team mit langer Erfahrung.\r\nArbeite sehr gerne mit Menschen zusammen\r\nMöchte gerne weiter lernen, hab 2025  mein Wundexpertenschein absolviert",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-06-25T11:51:14.352Z",
-      "updatedAt": "2026-06-25T11:51:14.352Z"
+      "updatedAt": "2026-06-27T17:10:48.303Z"
     }
   ],
   "notes": [],
@@ -105,6 +105,15 @@
       "changedById": "usr_management",
       "note": "Automatisch: Detailansicht geöffnet",
       "changedAt": "2026-06-07T18:47:33.274Z"
+    },
+    {
+      "id": "a54ab0bc-60e3-4f09-a65e-93a07c2c88a3",
+      "applicantId": "965d568f-9be7-45f1-ad9a-023db64dd173",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch: Detailansicht geöffnet",
+      "changedAt": "2026-06-27T17:10:48.303Z"
     }
   ],
   "documents": [
