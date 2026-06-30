@@ -1,17 +1,5 @@
 [
   {
-    "id": "c56ba3e7-2ec6-4437-a16a-30e317727b12",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:14.227Z"
-  },
-  {
     "id": "f13ef018-d98a-4fea-9c61-0e28bb12b6ee",
     "userId": "usr_elena",
     "action": "update",
@@ -6070,5 +6058,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-06-30T18:22:00.678Z"
+  },
+  {
+    "id": "8832ae6d-20af-4ccf-99ad-0727a8bfdbf6",
+    "userId": "usr_admin",
+    "action": "status_change",
+    "entityType": "applicant",
+    "entityId": "996bb1ad-3400-427b-b4c6-dc0a0b1583bb",
+    "metadata": {
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "source": "detail_open"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-06-30T18:22:04.441Z"
   }
 ]
