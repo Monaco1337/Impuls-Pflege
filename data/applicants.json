@@ -89,11 +89,11 @@
       "experience": "6 Jahre ambulante Pflege ",
       "motivation": "Sehr geehrte Damen und Herren,\r\n\r\nich bin gelernte Medizinische Fachangestellte und war sechs Jahre in der ambulanten Pflege tätig. Dort habe ich Leistungen der LG 1 und LG 2 sowie teilweise auch LG 3 übernommen und viele wertvolle Erfahrungen sammeln können.\r\n\r\nDie Pflege ist für mich nicht einfach nur ein Job – ich arbeite wirklich gerne mit Menschen und freue mich, wenn ich sie im Alltag unterstützen kann. Deshalb möchte ich sehr gerne wieder in diesem Bereich tätig sein.\r\n\r\nDa ich alleinerziehende Mama bin, bin ich auf familienfreundliche Arbeitszeiten bzw. eine „Mutti-Tour“ angewiesen. Gleichzeitig bringe ich viel Motivation, Zuverlässigkeit und Freude an der Arbeit mit.\r\n\r\nIch freue mich sehr über eine Rückmeldung und die Möglichkeit, mich persönlich vorzustellen.",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": null,
       "createdAt": "2026-06-30T17:55:47.271Z",
-      "updatedAt": "2026-06-30T17:55:47.271Z"
+      "updatedAt": "2026-06-30T18:21:58.503Z"
     }
   ],
   "notes": [],
@@ -133,6 +133,15 @@
       "changedById": "usr_admin",
       "note": "Automatisch: Detailansicht geöffnet",
       "changedAt": "2026-06-27T17:10:48.303Z"
+    },
+    {
+      "id": "19a01496-bbd3-4388-9c2f-7e407fbbb59b",
+      "applicantId": "996bb1ad-3400-427b-b4c6-dc0a0b1583bb",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-06-30T18:21:58.503Z"
     }
   ],
   "documents": [
