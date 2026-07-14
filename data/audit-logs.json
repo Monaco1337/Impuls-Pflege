@@ -1,17 +1,5 @@
 [
   {
-    "id": "f13ef018-d98a-4fea-9c61-0e28bb12b6ee",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:14.325Z"
-  },
-  {
     "id": "5a95a2db-3272-422a-b41a-7c43f09e4198",
     "userId": "usr_elena",
     "action": "update",
@@ -6072,5 +6060,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-06-30T18:22:04.441Z"
+  },
+  {
+    "id": "490618ed-a949-47d5-b221-a6d4d9926760",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "174a6cd1-f5e8-4768-ad6e-a1759df5a878",
+    "metadata": {
+      "name": "Amie  Balajo ",
+      "position": "Hauswirtschaftskraft",
+      "jobPostingId": "job_hauswirtschaftskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-07-14T20:57:22.920Z"
   }
 ]
