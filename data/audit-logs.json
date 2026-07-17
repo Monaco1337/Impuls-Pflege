@@ -1,17 +1,5 @@
 [
   {
-    "id": "5a95a2db-3272-422a-b41a-7c43f09e4198",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:14.426Z"
-  },
-  {
     "id": "53c8a0b7-859e-4919-b283-722596ca863b",
     "userId": "usr_elena",
     "action": "update",
@@ -6074,5 +6062,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-07-14T20:57:22.920Z"
+  },
+  {
+    "id": "8f27acb1-663d-49d6-9ff0-eff2fbf828e2",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "ee277c8b-ae0e-438a-98e1-a4d0246d03ad",
+    "metadata": {
+      "name": "Mohamed Mossadak",
+      "position": "Pflegefachkraft",
+      "jobPostingId": "job_pflegefachkraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-07-17T19:22:31.951Z"
   }
 ]
