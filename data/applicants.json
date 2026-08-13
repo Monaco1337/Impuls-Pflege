@@ -165,11 +165,11 @@
       "experience": "8",
       "motivation": "Hiermit möchte ich mich in Ihrem Hause als examinierte Altenpflegerin als Vollzeitkraft zum 15.09.26 bewerben.\r\n\r\nMit großem Interesse habe ich auf ihrer Homepage gelesen, dass Sie Examinierte Pflegekräfte in Vollzeit suchen.\r\n\r\nZu meiner abgeschlossenen Berufsausbildung als examinierte Altenpflegerin habe ich im März 2025 am Klinikum Do den Wundexperten erfolgreich absolviert.\r\nMenschen mit akuten oder chronischen Wunden benötigen nicht nur fachgerechte Behandlung, sondern auch Verständnis, Geduld und eine klare Perspektive. Genau diese Kombination bringe ich als ausgebildete Pflegefachkraft mit Zusatzqualifikation Wundexperte ICW® in meine Arbeit ein – und möchte sie nun in Ihrem Team einbringen.\r\nWährend meiner praktischen Erfahrungen habe ich gelernt, dass fachgerechte Behandlung, Geduld und individuelle Betreuung entscheidend sind. Genau diese Kombination bringe ich in meine Arbeit mit  ein. Einige freiwillige Praktika während meiner Weiterbildung haben mir darüber hinaus wertvolle Einblicke in unterschiedlichste Pflegesituationen und Teamstrukturen ermöglicht.\r\n\r\nBesonders schätze ich die Möglichkeit, mein Fachwissen aktiv in ein engagiertes Team einzubringen, professionelle Standards umzusetzen und gleichzeitig die Bedürfnisse der Patienten individuell zu berücksichtigen. Meine strukturierte Arbeitsweise, Teamfähigkeit und ein einfühlsames Auftreten zeichnen mich aus. \r\n\r\nIch freue mich darauf, Sie in einem persönlichen Gespräch von meinen Fähigkeiten und meiner Motivation zu überzeugen.\r\n\r\n",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-08-12T11:11:43.012Z",
-      "updatedAt": "2026-08-12T11:11:43.012Z"
+      "updatedAt": "2026-08-13T06:20:13.324Z"
     }
   ],
   "notes": [],
@@ -263,6 +263,15 @@
       "changedById": "usr_admin",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-07-23T18:34:14.097Z"
+    },
+    {
+      "id": "81cce0fd-e5b7-459c-96a0-40199ab934df",
+      "applicantId": "2039428d-08f8-48f1-93bf-f24d6e64be40",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_management",
+      "note": "Automatisch: Detailansicht geöffnet",
+      "changedAt": "2026-08-13T06:20:13.324Z"
     }
   ],
   "documents": [
