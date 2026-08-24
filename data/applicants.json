@@ -184,11 +184,11 @@
       "experience": "8",
       "motivation": "Ich heiße Lara Unger 36 Jahre alt und komme aus der ambulanten Pflege. Arbeite sehr gerne mit Menschen zusammen ",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-08-23T15:31:36.484Z",
-      "updatedAt": "2026-08-23T15:31:36.484Z"
+      "updatedAt": "2026-08-24T14:48:21.398Z"
     }
   ],
   "notes": [],
@@ -291,6 +291,15 @@
       "changedById": "usr_management",
       "note": "Automatisch: Detailansicht geöffnet",
       "changedAt": "2026-08-13T06:20:13.324Z"
+    },
+    {
+      "id": "8ca19417-4213-4377-bece-b1f9f8e665fc",
+      "applicantId": "29c5aa54-29b0-463f-a70a-84862682ec44",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-08-24T14:48:21.398Z"
     }
   ],
   "documents": [
