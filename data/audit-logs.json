@@ -1,17 +1,5 @@
 [
   {
-    "id": "5f64c781-dc9f-4490-a10a-b91d25719ed1",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:17.695Z"
-  },
-  {
     "id": "4ae728ae-4ae0-4cca-8f58-1b11478808a5",
     "userId": "usr_elena",
     "action": "update",
@@ -6109,5 +6097,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-08-24T14:48:25.701Z"
+  },
+  {
+    "id": "fd3173c2-a0f6-4aeb-9874-e0a434d73a9f",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "08ea1b77-a845-46ee-9977-a67cab7a00d6",
+    "metadata": {
+      "name": "Inna Seidov",
+      "position": "Pflegefachkraft",
+      "jobPostingId": "job_pflegefachkraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-08-25T20:34:56.321Z"
   }
 ]
