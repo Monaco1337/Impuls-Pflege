@@ -203,11 +203,11 @@
       "experience": "Über 15 Jahren ",
       "motivation": "",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-08-25T20:34:50.807Z",
-      "updatedAt": "2026-08-25T20:34:50.807Z"
+      "updatedAt": "2026-08-26T09:42:57.387Z"
     }
   ],
   "notes": [],
@@ -319,6 +319,15 @@
       "changedById": "usr_admin",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-08-24T14:48:21.398Z"
+    },
+    {
+      "id": "52fa54d1-616b-44ca-b5cb-99f72dfa9862",
+      "applicantId": "08ea1b77-a845-46ee-9977-a67cab7a00d6",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_management",
+      "note": "Automatisch: Detailansicht geöffnet",
+      "changedAt": "2026-08-26T09:42:57.387Z"
     }
   ],
   "documents": [
