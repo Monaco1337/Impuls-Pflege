@@ -1,4 +1,19 @@
 {
-  "inquiries": [],
+  "inquiries": [
+    {
+      "id": "e64f1aca-45ab-4773-94cd-daa5f70dc400",
+      "fullName": "Susanne Albig",
+      "phone": "01624858131",
+      "email": "albigsusanne@gmail.de",
+      "inquiryType": "Leistungsanfrage",
+      "message": "Anfrage zur Übernahme Grundpflege mit Stomawechsel bei meiner 84 jährigen Mutter. ",
+      "preferredCallback": "Gerne mittags zwischen 11.30h und 12.30h.",
+      "status": "NEU",
+      "priority": "NORMAL",
+      "assignedToId": null,
+      "createdAt": "2026-08-29T05:28:35.808Z",
+      "updatedAt": "2026-08-29T05:28:35.808Z"
+    }
+  ],
   "notes": []
 }
