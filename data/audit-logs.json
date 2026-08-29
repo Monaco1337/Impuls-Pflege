@@ -1,17 +1,5 @@
 [
   {
-    "id": "3de50b86-bd00-43d0-8d5d-65d54134e86e",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:18.082Z"
-  },
-  {
     "id": "9e3335a3-f4ee-4fe3-b011-b2cc54f79791",
     "userId": "usr_elena",
     "action": "update",
@@ -6113,5 +6101,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-08-26T09:43:00.796Z"
+  },
+  {
+    "id": "d9ce9256-d9c8-4786-9b99-550051c860ca",
+    "userId": null,
+    "action": "create",
+    "entityType": "inquiry",
+    "entityId": "e64f1aca-45ab-4773-94cd-daa5f70dc400",
+    "metadata": {
+      "fullName": "Susanne Albig",
+      "inquiryType": "Leistungsanfrage"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-08-29T05:28:36.628Z"
   }
 ]
