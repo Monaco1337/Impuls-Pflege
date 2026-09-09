@@ -222,11 +222,11 @@
       "experience": "1 Jahr in Altenheim ",
       "motivation": "Ich arbeite sehr gerne mit Ältere Menschen, Hilfe gerne und brauche eine Minijob. Ich mache meine 1 Jährige Ausbildung in AWO Pflegeschule Kamen. ",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegehilfskraft",
       "createdAt": "2026-09-07T14:49:42.823Z",
-      "updatedAt": "2026-09-07T14:49:42.823Z"
+      "updatedAt": "2026-09-09T15:40:44.380Z"
     }
   ],
   "notes": [],
@@ -347,6 +347,15 @@
       "changedById": "usr_management",
       "note": "Automatisch: Detailansicht geöffnet",
       "changedAt": "2026-08-26T09:42:57.387Z"
+    },
+    {
+      "id": "9a4f9e44-7322-4840-a51a-01b739f3c9c0",
+      "applicantId": "d5c148fc-3a2f-4fa4-a913-85c462e172e5",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_management",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-09-09T15:40:44.380Z"
     }
   ],
   "documents": [
