@@ -1,17 +1,5 @@
 [
   {
-    "id": "e5acfbe8-3c32-409a-b27c-5c75bf89e4c3",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:18.448Z"
-  },
-  {
     "id": "37e9dbd9-fcf4-4ee2-ab28-f52a2986fdf7",
     "userId": "usr_elena",
     "action": "update",
@@ -6124,5 +6112,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-09-09T15:40:50.761Z"
+  },
+  {
+    "id": "ffdaaea8-8586-42e6-8de1-261da470c83a",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "4361272b-456d-4c8d-90d6-6b76d65c89c2",
+    "metadata": {
+      "name": "Unger Lara",
+      "position": "Pflegefachkraft",
+      "jobPostingId": "job_pflegefachkraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-09-21T18:54:16.243Z"
   }
 ]
