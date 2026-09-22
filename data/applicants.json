@@ -241,11 +241,11 @@
       "experience": "8jahre",
       "motivation": "Ich arbeite sehr gerne mit Menschen zusammen , bin geduldig und helfe auch sehr gerne und bin bereit auch auf was neueres zu Lernen.",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-09-21T18:54:08.858Z",
-      "updatedAt": "2026-09-21T18:54:08.858Z"
+      "updatedAt": "2026-09-22T11:18:55.020Z"
     }
   ],
   "notes": [],
@@ -375,6 +375,15 @@
       "changedById": "usr_management",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-09-09T15:40:44.380Z"
+    },
+    {
+      "id": "df2f59dd-6248-4df6-afd5-11175859f940",
+      "applicantId": "4361272b-456d-4c8d-90d6-6b76d65c89c2",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-09-22T11:18:55.020Z"
     }
   ],
   "documents": [
