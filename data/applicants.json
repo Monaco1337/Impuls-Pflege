@@ -260,11 +260,11 @@
       "experience": "",
       "motivation": "",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-09-24T12:16:53.926Z",
-      "updatedAt": "2026-09-24T12:16:53.926Z"
+      "updatedAt": "2026-09-25T15:54:13.166Z"
     }
   ],
   "notes": [],
@@ -403,6 +403,15 @@
       "changedById": "usr_admin",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-09-22T11:18:55.020Z"
+    },
+    {
+      "id": "10395765-01db-40d8-9f28-4015cf34f10d",
+      "applicantId": "690f96ba-79d1-49e6-946b-af07ec3ca5ba",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-09-25T15:54:13.166Z"
     }
   ],
   "documents": [
