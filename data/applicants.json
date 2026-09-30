@@ -265,6 +265,25 @@
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-09-24T12:16:53.926Z",
       "updatedAt": "2026-09-25T15:54:13.166Z"
+    },
+    {
+      "id": "6496dad7-2aae-4f2d-be5b-4a5ddd273638",
+      "firstName": "Anass",
+      "lastName": "Chliyah",
+      "email": "Chliyahanass12@gmail.com",
+      "phone": "0651833840",
+      "address": "Casabalnca 752",
+      "positionApplied": "Pflegefachkraft",
+      "availability": "01.04.2027",
+      "qualification": "Pflegefachmann",
+      "experience": "Schulung",
+      "motivation": "Die Pflege interessiert mich sehr, weil ich gerne Menschen helfe und Verantwortung übernehme. Durch meine Erfahrungen in der Ersten Hilfe habe ich mein Interesse an diesem Beruf weiterentwickelt. Deshalb möchte ich eine Ausbildung zum Pflegefachmann absolvieren und mich fachlich sowie persönlich weiterentwickeln.",
+      "source": "website",
+      "status": "NEU_EINGEGANGEN",
+      "assignedToId": null,
+      "jobPostingId": "job_pflegefachkraft",
+      "createdAt": "2026-09-30T14:10:06.138Z",
+      "updatedAt": "2026-09-30T14:10:06.138Z"
     }
   ],
   "notes": [],
