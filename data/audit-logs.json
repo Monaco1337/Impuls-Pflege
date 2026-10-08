@@ -1,17 +1,5 @@
 [
   {
-    "id": "08f6a466-be09-45e0-86a6-a1fdd81b2354",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:18.953Z"
-  },
-  {
     "id": "32e2c934-ebbe-4c0a-b9d4-d386ac1905ab",
     "userId": "usr_elena",
     "action": "update",
@@ -6138,5 +6126,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-09-30T14:10:15.613Z"
+  },
+  {
+    "id": "ab786bfb-f8f2-4be5-aadf-8944b333e72e",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "5843294e-7b8c-4c0f-8bb1-a583b1b5c732",
+    "metadata": {
+      "name": "Unger unger",
+      "position": "Pflegefachkraft",
+      "jobPostingId": "job_pflegefachkraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-10-08T14:42:29.451Z"
   }
 ]
