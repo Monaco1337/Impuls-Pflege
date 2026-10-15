@@ -283,7 +283,7 @@
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-09-30T14:10:06.138Z",
-      "updatedAt": "2026-10-15T12:06:31.706Z"
+      "updatedAt": "2026-10-15T12:06:57.291Z"
     },
     {
       "id": "5843294e-7b8c-4c0f-8bb1-a583b1b5c732",
@@ -302,7 +302,7 @@
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-10-08T14:42:20.341Z",
-      "updatedAt": "2026-10-15T12:06:31.706Z"
+      "updatedAt": "2026-10-15T12:06:57.291Z"
     }
   ],
   "notes": [],
@@ -452,22 +452,22 @@
       "changedAt": "2026-09-25T15:54:13.166Z"
     },
     {
-      "id": "c0723c17-59d8-4eb9-9426-825da2ad42aa",
+      "id": "e57d7fc5-6ec1-4260-871a-d6882b3d2073",
       "applicantId": "6496dad7-2aae-4f2d-be5b-4a5ddd273638",
       "fromStatus": "NEU_EINGEGANGEN",
       "toStatus": "GESICHTET",
       "changedById": "usr_management",
       "note": "Automatisch quittiert (Eingang angeklickt)",
-      "changedAt": "2026-10-15T12:06:31.706Z"
+      "changedAt": "2026-10-15T12:06:57.291Z"
     },
     {
-      "id": "3823ed27-d199-4089-836a-82b65a7b136c",
+      "id": "a21565c5-c340-4317-acb6-8d03776d6425",
       "applicantId": "5843294e-7b8c-4c0f-8bb1-a583b1b5c732",
       "fromStatus": "NEU_EINGEGANGEN",
       "toStatus": "GESICHTET",
       "changedById": "usr_management",
       "note": "Automatisch quittiert (Eingang angeklickt)",
-      "changedAt": "2026-10-15T12:06:31.706Z"
+      "changedAt": "2026-10-15T12:06:57.291Z"
     }
   ],
   "documents": [
