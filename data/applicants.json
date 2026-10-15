@@ -279,11 +279,11 @@
       "experience": "Schulung",
       "motivation": "Die Pflege interessiert mich sehr, weil ich gerne Menschen helfe und Verantwortung übernehme. Durch meine Erfahrungen in der Ersten Hilfe habe ich mein Interesse an diesem Beruf weiterentwickelt. Deshalb möchte ich eine Ausbildung zum Pflegefachmann absolvieren und mich fachlich sowie persönlich weiterentwickeln.",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-09-30T14:10:06.138Z",
-      "updatedAt": "2026-09-30T14:10:06.138Z"
+      "updatedAt": "2026-10-15T12:06:31.706Z"
     },
     {
       "id": "5843294e-7b8c-4c0f-8bb1-a583b1b5c732",
@@ -298,11 +298,11 @@
       "experience": "8",
       "motivation": "Ich arbeite sehr gerne mit Kollegen und bringe Schülern sehr gerne was bei",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-10-08T14:42:20.341Z",
-      "updatedAt": "2026-10-08T14:42:20.341Z"
+      "updatedAt": "2026-10-15T12:06:31.706Z"
     }
   ],
   "notes": [],
@@ -450,6 +450,24 @@
       "changedById": "usr_admin",
       "note": "Automatisch quittiert (Eingang angeklickt)",
       "changedAt": "2026-09-25T15:54:13.166Z"
+    },
+    {
+      "id": "c0723c17-59d8-4eb9-9426-825da2ad42aa",
+      "applicantId": "6496dad7-2aae-4f2d-be5b-4a5ddd273638",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_management",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-10-15T12:06:31.706Z"
+    },
+    {
+      "id": "3823ed27-d199-4089-836a-82b65a7b136c",
+      "applicantId": "5843294e-7b8c-4c0f-8bb1-a583b1b5c732",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_management",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-10-15T12:06:31.706Z"
     }
   ],
   "documents": [
