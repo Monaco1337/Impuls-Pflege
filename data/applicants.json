@@ -279,11 +279,11 @@
       "experience": "Schulung",
       "motivation": "Die Pflege interessiert mich sehr, weil ich gerne Menschen helfe und Verantwortung übernehme. Durch meine Erfahrungen in der Ersten Hilfe habe ich mein Interesse an diesem Beruf weiterentwickelt. Deshalb möchte ich eine Ausbildung zum Pflegefachmann absolvieren und mich fachlich sowie persönlich weiterentwickeln.",
       "source": "website",
-      "status": "GESICHTET",
+      "status": "NEU_EINGEGANGEN",
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-09-30T14:10:06.138Z",
-      "updatedAt": "2026-10-15T12:06:57.291Z"
+      "updatedAt": "2026-09-30T14:10:06.138Z"
     },
     {
       "id": "5843294e-7b8c-4c0f-8bb1-a583b1b5c732",
@@ -302,7 +302,7 @@
       "assignedToId": null,
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-10-08T14:42:20.341Z",
-      "updatedAt": "2026-10-15T12:06:57.291Z"
+      "updatedAt": "2026-10-15T12:07:11.663Z"
     }
   ],
   "notes": [],
@@ -452,22 +452,13 @@
       "changedAt": "2026-09-25T15:54:13.166Z"
     },
     {
-      "id": "e57d7fc5-6ec1-4260-871a-d6882b3d2073",
-      "applicantId": "6496dad7-2aae-4f2d-be5b-4a5ddd273638",
-      "fromStatus": "NEU_EINGEGANGEN",
-      "toStatus": "GESICHTET",
-      "changedById": "usr_management",
-      "note": "Automatisch quittiert (Eingang angeklickt)",
-      "changedAt": "2026-10-15T12:06:57.291Z"
-    },
-    {
-      "id": "a21565c5-c340-4317-acb6-8d03776d6425",
+      "id": "b6a3d296-0a14-4dd6-9847-5117cc2d987a",
       "applicantId": "5843294e-7b8c-4c0f-8bb1-a583b1b5c732",
       "fromStatus": "NEU_EINGEGANGEN",
       "toStatus": "GESICHTET",
       "changedById": "usr_management",
-      "note": "Automatisch quittiert (Eingang angeklickt)",
-      "changedAt": "2026-10-15T12:06:57.291Z"
+      "note": "Automatisch: Detailansicht geöffnet",
+      "changedAt": "2026-10-15T12:07:11.663Z"
     }
   ],
   "documents": [
