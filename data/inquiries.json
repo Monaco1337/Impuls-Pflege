@@ -13,6 +13,20 @@
       "assignedToId": null,
       "createdAt": "2026-08-29T05:28:35.808Z",
       "updatedAt": "2026-08-29T20:49:13.457Z"
+    },
+    {
+      "id": "a063c88b-0f03-4a28-8a5a-4bdbd6846eb7",
+      "fullName": "Lara unger",
+      "phone": "01732350215",
+      "email": "laraungermein@gmx.de",
+      "inquiryType": "Sonstiges",
+      "message": "Ich wollte fragen ob Ich Ihnen meine Bewerbungsmappe zukommen lassen kann\nOb sie Examinierte Altenpflegerin und Wundexpertin mit Wundexpertenschein für nächstes Jahr suchen\n\nSchon jetzt freue ich mich über Ihre Nachricht.\n\nMfg lara unger",
+      "preferredCallback": "",
+      "status": "NEU",
+      "priority": "NORMAL",
+      "assignedToId": null,
+      "createdAt": "2026-10-16T10:46:36.168Z",
+      "updatedAt": "2026-10-16T10:46:36.168Z"
     }
   ],
   "notes": []
