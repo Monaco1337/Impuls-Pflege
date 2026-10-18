@@ -303,6 +303,25 @@
       "jobPostingId": "job_pflegefachkraft",
       "createdAt": "2026-10-08T14:42:20.341Z",
       "updatedAt": "2026-10-15T12:08:40.859Z"
+    },
+    {
+      "id": "d2a0511d-b9a4-4714-a91e-ce7a090ee417",
+      "firstName": "Sophie ",
+      "lastName": "Röhle",
+      "email": "sophieroehle@web.de",
+      "phone": "015146566856",
+      "address": "Friedhofstr. 10",
+      "positionApplied": "Initiativbewerbung",
+      "availability": "Ab 01.12.2026",
+      "qualification": "Examinierte Gesundheits- und Krankenpflegerin ",
+      "experience": "Examiniert seit 2027",
+      "motivation": "Sehr geehrte Damen und Herren,\r\n\r\nmit großem Interesse habe ich über Ihren Ambulanten Pflegedienst Impuls in\r\nUnna gelesen. Sehr gerne möchte ich Ihr Team als Pflegefachkraft im\r\nmobilen Pflegedienst auf Minijob-Basis unterstützen – vorzugsweise in der\r\nBehandlungspflege.\r\n\r\nIch bin seit 2017 staatlich anerkannte Gesundheits- und Krankenpflegerin und\r\nverfüge zusätzlich über die Qualifikation als Praxisanleiterin. Erste wertvolle\r\nPraxiserfahrungen im Bereich der ambulanten Pflege konnte ich unter anderem 2017 bei der Caritas sammeln.\r\nDurch meine Qualifikationen bringe ich das nötige medizinische Fachwissen für\r\ndie Behandlungspflege sowie die erforderliche Handlungssicherheit für den\r\nmobilen Dienst mit. Eine selbstständige, gewissenhafte Arbeitsweise und ein\r\neinfühlsamer Umgang mit den Klienten sind für mich selbstverständlich.\r\n\r\nDa ich mich derzeit in einem Hauptarbeitsverhältnis befinde, suche ich eine flexible Nebentätigkeit. Die Einsatzzeiten für den Minijob müssten daher mit den Schichten meiner Hauptbeschäftigung abgestimmt werden.\r\n\r\nÜber die Gelegenheit, mich Ihnen in einem persönlichen Gespräch vorzustellen,\r\nfreue ich mich sehr.\r\n\r\nMit freundlichen Grüße\r\n\r\nSophie Röhle \r\n\r\n",
+      "source": "website",
+      "status": "NEU_EINGEGANGEN",
+      "assignedToId": null,
+      "jobPostingId": null,
+      "createdAt": "2026-10-18T20:02:46.203Z",
+      "updatedAt": "2026-10-18T20:02:46.203Z"
     }
   ],
   "notes": [],
