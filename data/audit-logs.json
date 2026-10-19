@@ -1,17 +1,5 @@
 [
   {
-    "id": "e8e7f7ec-6a62-4bbe-9273-b578932334af",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:19.811Z"
-  },
-  {
     "id": "8bd72cbe-9725-4d4e-abe8-a958136eab4f",
     "userId": "usr_elena",
     "action": "update",
@@ -6161,5 +6149,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-10-18T20:02:53.241Z"
+  },
+  {
+    "id": "83ebd0eb-e81d-4a33-be6f-1aab9941f8bf",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "b97fac08-c3e0-41da-8bf5-6b49c4c93d26",
+    "metadata": {
+      "name": "Abdelfattah Arsaoui",
+      "position": "Initiativbewerbung",
+      "jobPostingId": null
+    },
+    "ipAddress": null,
+    "createdAt": "2026-10-19T15:40:33.072Z"
   }
 ]
