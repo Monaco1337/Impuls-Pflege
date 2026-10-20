@@ -321,7 +321,7 @@
       "assignedToId": null,
       "jobPostingId": null,
       "createdAt": "2026-10-18T20:02:46.203Z",
-      "updatedAt": "2026-10-20T17:01:22.845Z"
+      "updatedAt": "2026-10-20T17:02:42.236Z"
     },
     {
       "id": "b97fac08-c3e0-41da-8bf5-6b49c4c93d26",
@@ -340,7 +340,7 @@
       "assignedToId": null,
       "jobPostingId": null,
       "createdAt": "2026-10-19T15:40:24.603Z",
-      "updatedAt": "2026-10-20T17:01:22.845Z"
+      "updatedAt": "2026-10-20T17:02:42.236Z"
     }
   ],
   "notes": [],
@@ -508,22 +508,22 @@
       "changedAt": "2026-10-15T12:08:40.859Z"
     },
     {
-      "id": "68df379c-04c3-47f3-b292-522f2ae35d7b",
+      "id": "8ba7cc41-2e5a-4079-9c4d-520ba395c2b0",
       "applicantId": "d2a0511d-b9a4-4714-a91e-ce7a090ee417",
       "fromStatus": "NEU_EINGEGANGEN",
       "toStatus": "GESICHTET",
       "changedById": "usr_management",
       "note": "Automatisch quittiert (Eingang angeklickt)",
-      "changedAt": "2026-10-20T17:01:22.845Z"
+      "changedAt": "2026-10-20T17:02:42.236Z"
     },
     {
-      "id": "4da886a8-19a0-496f-95d9-f189367c9ecf",
+      "id": "d546e4b7-1ba6-4fbd-89d1-17ac9358544e",
       "applicantId": "b97fac08-c3e0-41da-8bf5-6b49c4c93d26",
       "fromStatus": "NEU_EINGEGANGEN",
       "toStatus": "GESICHTET",
       "changedById": "usr_management",
       "note": "Automatisch quittiert (Eingang angeklickt)",
-      "changedAt": "2026-10-20T17:01:22.845Z"
+      "changedAt": "2026-10-20T17:02:42.236Z"
     }
   ],
   "documents": [
