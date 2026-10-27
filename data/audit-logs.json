@@ -1,17 +1,5 @@
 [
   {
-    "id": "62b78d9f-64b1-433b-9db2-b0929a582ae5",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:20.180Z"
-  },
-  {
     "id": "60fecb1b-9acb-415d-a7f1-8b1dcd682f52",
     "userId": "usr_elena",
     "action": "update",
@@ -6171,5 +6159,18 @@
     },
     "ipAddress": null,
     "createdAt": "2026-10-20T17:02:50.201Z"
+  },
+  {
+    "id": "54e97c97-52b1-4232-8602-f1f68f7e0931",
+    "userId": null,
+    "action": "create",
+    "entityType": "inquiry",
+    "entityId": "171656f9-dd65-408a-b276-ab93b62b6afb",
+    "metadata": {
+      "fullName": "Padun Oleksandr",
+      "inquiryType": "Pflegeberatung"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-10-27T14:39:19.662Z"
   }
 ]
