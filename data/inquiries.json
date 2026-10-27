@@ -27,6 +27,20 @@
       "assignedToId": null,
       "createdAt": "2026-10-16T10:46:36.168Z",
       "updatedAt": "2026-10-16T14:09:04.308Z"
+    },
+    {
+      "id": "171656f9-dd65-408a-b276-ab93b62b6afb",
+      "fullName": "Padun Oleksandr",
+      "phone": "015751229487",
+      "email": "oleksa224@icloud.com",
+      "inquiryType": "Pflegeberatung",
+      "message": "Guten Tag,\n\nich möchte mich erkundigen, welche Unterstützung Ihr ambulanter Pflegedienst meiner Mutter, Frau Olena Padun, anbieten kann.\n\nMeine Mutter hat Herzprobleme und war kürzlich im Krankenhaus. Sie benötigt möglicherweise Unterstützung im Alltag und bei der häuslichen Versorgung.\n\nWir kommen aus der Ukraine und sprechen Russisch und Ukrainisch. Leider sprechen wir noch nicht ausreichend Deutsch. Deshalb wäre es für uns sehr hilfreich, wenn eine Beratung auf Russisch oder Ukrainisch möglich wäre.\n\nWir möchten gerne wissen, welche Leistungen Sie anbieten und ob eine persönliche Beratung möglich ist.\n\nBitte kontaktieren Sie mich, damit wir die Einzelheiten besprechen können.\n\nVielen Dank im Voraus.\n\nMit freundlichen Grüßen",
+      "preferredCallback": "",
+      "status": "NEU",
+      "priority": "NORMAL",
+      "assignedToId": null,
+      "createdAt": "2026-10-27T14:39:17.924Z",
+      "updatedAt": "2026-10-27T14:39:17.924Z"
     }
   ],
   "notes": []
