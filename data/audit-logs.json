@@ -1,17 +1,5 @@
 [
   {
-    "id": "60fecb1b-9acb-415d-a7f1-8b1dcd682f52",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:20.274Z"
-  },
-  {
     "id": "7d1484bb-bcaa-4694-955f-34d978071363",
     "userId": "usr_elena",
     "action": "update",
@@ -6172,5 +6160,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-10-27T14:39:19.662Z"
+  },
+  {
+    "id": "a42f16ad-3511-437c-ae01-9320432f8451",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "e15459bd-8cf6-4a5e-b2b0-807035090f1e",
+    "metadata": {
+      "name": "Gladisse Merveille  Tchuenmogne Waffo ",
+      "position": "Hauswirtschaftskraft",
+      "jobPostingId": "job_hauswirtschaftskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-11-02T11:18:51.783Z"
   }
 ]
