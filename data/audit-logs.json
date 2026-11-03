@@ -1,17 +1,5 @@
 [
   {
-    "id": "9c396730-24a2-4a30-96ea-d4fe468125d7",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:20.682Z"
-  },
-  {
     "id": "f23f423f-fb59-4d2e-9f85-91623a29d333",
     "userId": "usr_elena",
     "action": "update",
@@ -6184,5 +6172,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-11-03T13:28:20.827Z"
+  },
+  {
+    "id": "9da30bf5-9511-43cf-a489-265bfdb8d45c",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "a1302974-1570-4b0f-a623-4bed28102557",
+    "metadata": {
+      "name": "Julia B",
+      "position": "Pflegehilfskraft",
+      "jobPostingId": "job_pflegehilfskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-11-03T21:02:03.634Z"
   }
 ]
