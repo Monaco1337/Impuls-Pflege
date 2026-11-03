@@ -1,17 +1,5 @@
 [
   {
-    "id": "f23f423f-fb59-4d2e-9f85-91623a29d333",
-    "userId": "usr_elena",
-    "action": "update",
-    "entityType": "content_block",
-    "entityId": "blk_site_images",
-    "metadata": {
-      "key": "site-images"
-    },
-    "ipAddress": null,
-    "createdAt": "2026-04-26T21:21:20.790Z"
-  },
-  {
     "id": "e4e5bf3a-f13d-4bc9-9f65-a89407e526b6",
     "userId": "usr_elena",
     "action": "update",
@@ -6186,5 +6174,19 @@
     },
     "ipAddress": null,
     "createdAt": "2026-11-03T21:02:03.634Z"
+  },
+  {
+    "id": "922c26dd-1507-46eb-82ec-6e941719de8e",
+    "userId": null,
+    "action": "create",
+    "entityType": "applicant",
+    "entityId": "850c7543-cc98-48ef-ac81-9fb3a4a78dea",
+    "metadata": {
+      "name": "Ann-Christine Yurtdas",
+      "position": "Betreuungskraft",
+      "jobPostingId": "job_betreuungskraft"
+    },
+    "ipAddress": null,
+    "createdAt": "2026-11-03T23:16:27.720Z"
   }
 ]
