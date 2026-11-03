@@ -359,7 +359,7 @@
       "assignedToId": null,
       "jobPostingId": "job_hauswirtschaftskraft",
       "createdAt": "2026-11-02T11:18:40.359Z",
-      "updatedAt": "2026-11-03T13:27:07.042Z"
+      "updatedAt": "2026-11-03T13:27:16.965Z"
     }
   ],
   "notes": [],
@@ -545,13 +545,13 @@
       "changedAt": "2026-10-20T17:02:42.236Z"
     },
     {
-      "id": "2720d0e1-9378-451e-8463-7c8832db80cf",
+      "id": "588e1c51-6334-4199-b688-f7fe95167e13",
       "applicantId": "e15459bd-8cf6-4a5e-b2b0-807035090f1e",
       "fromStatus": "NEU_EINGEGANGEN",
       "toStatus": "GESICHTET",
       "changedById": "usr_management",
-      "note": "Automatisch quittiert (Eingang angeklickt)",
-      "changedAt": "2026-11-03T13:27:07.042Z"
+      "note": "Automatisch: Detailansicht geöffnet",
+      "changedAt": "2026-11-03T13:27:16.965Z"
     }
   ],
   "documents": [
