@@ -36,11 +36,11 @@
       "inquiryType": "Pflegeberatung",
       "message": "Guten Tag,\n\nich möchte mich erkundigen, welche Unterstützung Ihr ambulanter Pflegedienst meiner Mutter, Frau Olena Padun, anbieten kann.\n\nMeine Mutter hat Herzprobleme und war kürzlich im Krankenhaus. Sie benötigt möglicherweise Unterstützung im Alltag und bei der häuslichen Versorgung.\n\nWir kommen aus der Ukraine und sprechen Russisch und Ukrainisch. Leider sprechen wir noch nicht ausreichend Deutsch. Deshalb wäre es für uns sehr hilfreich, wenn eine Beratung auf Russisch oder Ukrainisch möglich wäre.\n\nWir möchten gerne wissen, welche Leistungen Sie anbieten und ob eine persönliche Beratung möglich ist.\n\nBitte kontaktieren Sie mich, damit wir die Einzelheiten besprechen können.\n\nVielen Dank im Voraus.\n\nMit freundlichen Grüßen",
       "preferredCallback": "",
-      "status": "NEU",
+      "status": "IN_BEARBEITUNG",
       "priority": "NORMAL",
       "assignedToId": null,
       "createdAt": "2026-10-27T14:39:17.924Z",
-      "updatedAt": "2026-10-27T14:39:17.924Z"
+      "updatedAt": "2026-11-03T13:28:19.465Z"
     }
   ],
   "notes": []
