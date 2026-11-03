@@ -379,6 +379,25 @@
       "jobPostingId": "job_pflegehilfskraft",
       "createdAt": "2026-11-03T21:01:53.076Z",
       "updatedAt": "2026-11-03T21:01:53.076Z"
+    },
+    {
+      "id": "850c7543-cc98-48ef-ac81-9fb3a4a78dea",
+      "firstName": "Ann-Christine",
+      "lastName": "Yurtdas",
+      "email": "a.yurtdas@yahoo.com",
+      "phone": "015901383198",
+      "address": "Sonja-Weis-Weg3, 59425 Unna ",
+      "positionApplied": "Betreuungskraft",
+      "availability": "Ab sofort ",
+      "qualification": "Quereinsteiger ",
+      "experience": "Quereinsteiger ",
+      "motivation": "Bewerbung als Betreuungskraft / Quereinsteigerin\r\n\r\nSehr geehrtes IMPULS-Team,\r\n\r\nmit großem Interesse möchte ich mich bei Ihnen als Betreuungskraft bewerben. Nach einer längeren Familienphase möchte ich nun beruflich neu durchstarten und suche eine Tätigkeit, die für mich nicht nur ein Beruf, sondern auch eine sinnvolle und erfüllende Aufgabe ist.\r\n\r\nBesonders die Arbeit mit älteren und hilfsbedürftigen Menschen spricht mich an. Es ist mir wichtig, Menschen im Alltag zu begleiten, ihnen zuzuhören, Zeit zu schenken und ihnen das Gefühl zu geben, wertgeschätzt und gut aufgehoben zu sein.\r\n\r\nDurch meine bisherigen Tätigkeiten im Einzelhandel, im Bäckereibereich und im Service konnte ich viele Erfahrungen im Umgang mit unterschiedlichen Menschen sammeln. Ein freundliches Auftreten, Geduld, Zuverlässigkeit und ein respektvoller Umgang sind für mich selbstverständlich.\r\n\r\nIn den vergangenen neun Jahren habe ich mich hauptsächlich meiner Familie und meinen drei Kindern gewidmet. Diese Zeit hat mich persönlich geprägt und mir noch einmal gezeigt, wie wichtig Einfühlungsvermögen, Geduld, Organisation und Verantwortungsbewusstsein sind.\r\n\r\nAuch wenn ich bisher keine berufliche Erfahrung im Betreuungsbereich sammeln konnte, bringe ich große Motivation und Lernbereitschaft mit. Ich bin offen für neue Herausforderungen und bereit, mich entsprechend einarbeiten und weiterqualifizieren zu lassen.\r\n\r\nIch wünsche mir eine berufliche Aufgabe, bei der ich Menschen unterstützen, ihnen den Alltag erleichtern und mit meiner Arbeit etwas Positives bewirken kann.\r\n\r\nÜber die Möglichkeit, mich persönlich bei Ihnen vorzustellen und mehr über die Tätigkeit in Ihrem Team zu erfahren, würde ich mich sehr freuen.\r\n\r\nMit freundlichen Grüßen\r\n\r\nAnn-Christine Yurtdsd ",
+      "source": "website",
+      "status": "NEU_EINGEGANGEN",
+      "assignedToId": null,
+      "jobPostingId": "job_betreuungskraft",
+      "createdAt": "2026-11-03T23:16:18.652Z",
+      "updatedAt": "2026-11-03T23:16:18.652Z"
     }
   ],
   "notes": [],
