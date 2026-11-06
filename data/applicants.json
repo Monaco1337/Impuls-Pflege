@@ -374,11 +374,11 @@
       "experience": "",
       "motivation": "Sehr geehrte Damen und Herren,\r\n\r\nmit großem Interesse möchte ich mich bei Ihnen als Pflegehelferin bewerben.\r\n\r\nMein Name ist Julia Schichor, ich bin 36 Jahre alt und wohne in Unna. Die Pflege und Betreuung von Menschen liegt mir besonders am Herzen.\r\n\r\nDurch die intensive Pflege meines schwerkranken Sohnes, der leider im Jahr 2023 verstorben ist, durfte ich wertvolle Erfahrungen sammeln. Diese Zeit hat mich nicht nur persönlich geprägt, sondern mir auch gezeigt, wie wichtig Einfühlungsvermögen, Geduld, Fürsorge und Menschlichkeit im Umgang mit pflegebedürftigen Menschen sind.\r\n\r\nZusätzlich konnte ich zwischen 2024 und 2026 praktische Erfahrungen in einem Pflegeheim sammeln. Dort habe ich meine Kenntnisse im Pflegealltag weiter vertieft und gelernt, wie wichtig es ist, jedem Menschen mit Respekt, Würde und Verständnis zu begegnen.\r\n\r\nNach einer kurzen Pause möchte ich nun wieder mit voller Motivation in die Pflege zurückkehren. Ich wünsche mir, meine bisherigen Erfahrungen einzubringen, mich fachlich und persönlich weiterzuentwickeln und Menschen im Alltag liebevoll und zuverlässig zu unterstützen.\r\n\r\nFür mich ist die Pflege nicht einfach nur ein Beruf, sondern eine Herzensangelegenheit. Ich würde mich sehr freuen, Teil Ihres Teams zu werden und Sie mit meiner Motivation, meiner Empathie und meinem Engagement zu unterstützen.\r\n\r\nÜber eine Einladung zu einem persönlichen Gespräch würde ich mich sehr freuen.\r\n\r\nMit freundlichen Grüßen\r\n\r\nJulia Schichor",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_pflegehilfskraft",
       "createdAt": "2026-11-03T21:01:53.076Z",
-      "updatedAt": "2026-11-03T21:01:53.076Z"
+      "updatedAt": "2026-11-06T10:45:42.409Z"
     },
     {
       "id": "a9f275c0-1f7e-4b3c-ac60-db4b5597c9bd",
@@ -393,11 +393,11 @@
       "experience": "Quereinsteiger ",
       "motivation": "Bewerbung als Hauswirtschaftskraft (m/w/d)\r\n\r\nSehr geehrtes IMPULS-Team,\r\n\r\nmit großem Interesse habe ich Ihre Stellenanzeige als Hauswirtschaftskraft gelesen. Da ich nach einer längeren Familienphase gerne wieder beruflich einsteigen möchte, sehe ich in dieser Tätigkeit eine schöne Möglichkeit, mich beruflich neu zu orientieren und Ihr Team tatkräftig zu unterstützen.\r\n\r\nIch bin ein zuverlässiger, ordentlicher und verantwortungsbewusster Mensch. Sorgfalt und Sauberkeit sind für mich selbstverständlich. Besonders wichtig ist mir, meine Aufgaben gewissenhaft zu erledigen und Menschen in ihrem Alltag eine angenehme und gepflegte Umgebung zu ermöglichen.\r\n\r\nDurch meine bisherigen Tätigkeiten im Einzelhandel, im Bäckereibereich und im Service konnte ich bereits wertvolle Erfahrungen sammeln. Dabei waren Freundlichkeit, Hilfsbereitschaft, selbstständiges Arbeiten und ein respektvoller Umgang mit Menschen stets wichtige Bestandteile meines Arbeitsalltags.\r\n\r\nIn den vergangenen neun Jahren habe ich mich überwiegend meiner Familie und meinen drei Kindern gewidmet. Nun ist für mich der richtige Zeitpunkt gekommen, beruflich wieder durchzustarten und mich einer neuen Aufgabe mit Motivation und Engagement zu widmen.\r\n\r\nAuch wenn ich bisher keine direkte Berufserfahrung in der professionellen Hauswirtschaft mitbringe, bin ich sehr lernbereit, arbeite mich gerne in neue Aufgaben ein und freue mich darauf, neue Erfahrungen zu sammeln.\r\n\r\nBesonders ansprechend finde ich die Möglichkeit, durch meine Arbeit Menschen direkt im Alltag zu unterstützen und ihnen ein Stück Lebensqualität zu schenken.\r\n\r\nÜber eine Einladung zu einem persönlichen Gespräch würde ich mich sehr freuen.\r\n\r\nMit freundlichen Grüßen\r\n\r\nAnn-Christine Yurtdas",
       "source": "website",
-      "status": "NEU_EINGEGANGEN",
+      "status": "GESICHTET",
       "assignedToId": null,
       "jobPostingId": "job_hauswirtschaftskraft",
       "createdAt": "2026-11-03T23:19:16.999Z",
-      "updatedAt": "2026-11-03T23:19:16.999Z"
+      "updatedAt": "2026-11-06T10:45:42.409Z"
     }
   ],
   "notes": [],
@@ -590,6 +590,24 @@
       "changedById": "usr_management",
       "note": "Automatisch: Detailansicht geöffnet",
       "changedAt": "2026-11-03T13:27:16.965Z"
+    },
+    {
+      "id": "48259033-442f-4a83-9e66-33dca7d102fe",
+      "applicantId": "a1302974-1570-4b0f-a623-4bed28102557",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-11-06T10:45:42.409Z"
+    },
+    {
+      "id": "47dac6a9-caa6-404f-b387-173e68ea6a43",
+      "applicantId": "a9f275c0-1f7e-4b3c-ac60-db4b5597c9bd",
+      "fromStatus": "NEU_EINGEGANGEN",
+      "toStatus": "GESICHTET",
+      "changedById": "usr_admin",
+      "note": "Automatisch quittiert (Eingang angeklickt)",
+      "changedAt": "2026-11-06T10:45:42.409Z"
     }
   ],
   "documents": [
